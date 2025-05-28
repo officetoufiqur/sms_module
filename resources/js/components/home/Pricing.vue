@@ -2,7 +2,7 @@
 
 </script>
 <template>
-    <section class="max-w-7xl mx-auto mt-24">
+    <section id="pricing" class="max-w-7xl mx-auto mt-24">
             <div class="text-center">
                 <h1 class="text-4xl leading-12 font-semibold text-[#0f79bc]">Our Pricing Plan</h1>
                 <p class="mt-3 text-xl">We have developed a flexible pricing policy <br> Choose the plan that suits you
@@ -34,7 +34,7 @@
                                 Plugins</p>
                         </div>
                     </div>
-                    <button class="bg-[#0f79bc] text-white px-5 py-2 rounded-lg mt-10">Buy Now</button>
+                    <button class="bg-[#0f79bc] text-white px-5 py-2 rounded-lg mt-10 cursor-pointer">Buy Now</button>
                 </div>
 
                 <div
@@ -62,7 +62,7 @@
                                 Plugins</p>
                         </div>
                     </div>
-                    <button class="bg-[#0f79bc] text-white px-5 py-2 rounded-lg mt-10">Buy Now</button>
+                    <button class="bg-[#0f79bc] text-white px-5 py-2 rounded-lg mt-10 cursor-pointer">Buy Now</button>
                 </div>
 
                 <div
@@ -90,7 +90,7 @@
                                 Plugins</p>
                         </div>
                     </div>
-                    <button class="bg-[#0f79bc] text-white px-5 py-2 rounded-lg mt-10">Buy Now</button>
+                    <button class="bg-[#0f79bc] text-white px-5 py-2 rounded-lg mt-10 cursor-pointer">Buy Now</button>
                 </div>
 
             </div>

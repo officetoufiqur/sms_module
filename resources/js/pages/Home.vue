@@ -5,6 +5,9 @@ import Pricing from '@/components/home/Pricing.vue';
 import Accordion from '@/components/home/Accordion.vue';
 import Footer from '@/components/home/Footer.vue';
 
+
+
+
 </script>
 
 <template>
@@ -17,7 +20,7 @@ import Footer from '@/components/home/Footer.vue';
     <NavBar />
 
     <main>
-        <section>
+        <section id="home">
             <div class="mx-auto px-4 py-8 w-full h-[80vh] bg-[#0f79bc] flex flex-col justify-center items-center">
                 <div class="mt-[-13rem]">
                     <h1 class="text-6xl text-white font-bold text-center mb-4 leading-18">Best Bulk SMS <br> Service for
@@ -34,7 +37,7 @@ import Footer from '@/components/home/Footer.vue';
             </div>
         </section>
 
-        <section class="mt-20 max-w-7xl mx-auto">
+        <section id="" class="mt-20 max-w-7xl mx-auto">
             <div class="text-center">
                 <h1 class="text-4xl leading-12 font-semibold text-[#0f79bc]">Send SMS Campaigns to 1,000+ <br> Mobile
                     Network
@@ -84,7 +87,7 @@ import Footer from '@/components/home/Footer.vue';
             </div>
         </section>
 
-        <section class="max-w-7xl mx-auto mt-24">
+        <section id="about" class="max-w-7xl mx-auto mt-24">
             <!-- about us -->
             <div class="text-center">
                 <h1 class="text-4xl leading-12 font-semibold text-[#0f79bc]">About Us</h1>
@@ -126,10 +129,13 @@ import Footer from '@/components/home/Footer.vue';
 
         
 
+
         <Footer />
     </main>
 
 
 </template>
 
-<style scoped></style>
+<style scoped>
+
+</style>

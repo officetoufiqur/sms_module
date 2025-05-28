@@ -27,7 +27,7 @@ const toggle = (index: number) => {
 </script>
 
 <template>
-  <section class="relative max-w-4xl mx-auto mt-20">
+  <section id="faqs" class="relative max-w-4xl mx-auto mt-20">
     <div class="py-10 px-5 lg:px-0 md:px-0">
       <div class="flex flex-col">
         <h1 class="text-4xl items-center justify-center flex font-semibold text-[#0f79bc]">
