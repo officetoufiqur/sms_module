@@ -8,9 +8,9 @@
                 <p class="mt-3 text-xl">We have developed a flexible pricing policy <br> Choose the plan that suits you
                     best.</p>
             </div>
-            <div class="mt-16 grid grid-cols-3 gap-10">
+            <div class="mt-16 grid lg:grid-cols-3 gap-10 lg:gap-5 mx-10 lg:mx-16 xl:mx-0 space-y-5 lg:space-y-0">
                 <div
-                    class="max-w-sm mx-auto bg-white px-10 pt-20 pb-14 rounded-lg border border-gray-200 relative overflow-hidden">
+                    class="bg-white px-10 pt-20 pb-14 rounded-lg border border-gray-200 relative overflow-hidden">
                     <h2
                         class="bg-[#0f79bc] w-[80%] py-3 px-10 text-white absolute top-0 left-0 text-xl font-semibold rounded-br-lg">
                         Basic</h2>
@@ -38,7 +38,7 @@
                 </div>
 
                 <div
-                    class="max-w-sm mx-auto bg-white px-10 pt-20 pb-14 rounded-lg border border-gray-200 relative overflow-hidden">
+                    class="bg-white px-10 pt-20 pb-14 rounded-lg border border-gray-200 relative overflow-hidden">
                     <h2
                         class="bg-[#0f79bc] w-[80%] py-3 px-10 text-white absolute top-0 left-0 text-xl font-semibold rounded-br-lg">
                         Standard</h2>
@@ -66,7 +66,7 @@
                 </div>
 
                 <div
-                    class="max-w-sm mx-auto bg-white px-10 pt-20 pb-14 rounded-lg border border-gray-200 relative overflow-hidden">
+                    class="bg-white px-10 pt-20 pb-14 rounded-lg border border-gray-200 relative overflow-hidden">
                     <h2
                         class="bg-[#0f79bc] w-[80%] py-3 px-10 text-white absolute top-0 left-0 text-xl font-semibold rounded-br-lg">
                         Premium</h2>

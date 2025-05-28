@@ -3,11 +3,63 @@ import { Head } from '@inertiajs/vue3';
 import NavBar from '@/components/home/NavBar.vue';
 import Pricing from '@/components/home/Pricing.vue';
 import Accordion from '@/components/home/Accordion.vue';
+import Slider from '@/components/home/Slider.vue';
+import Blog from '@/components/home/Blog.vue';
+import Home from '@/components/home/Home.vue';
+import About from '@/components/home/About.vue';
+import Contact from '@/components/home/Contact.vue';
 import Footer from '@/components/home/Footer.vue';
 
 
-
-
+const testimonials = [
+    {
+        text: "Acnoo gives a great support. I am a newbie on Flutter and Firebase...",
+        name: "Bestomall",
+        date: "25 Jan, 2024",
+        bg: "bg-blue-100"
+    },
+    {
+        text: "Acnoo gives a great support. I am a newbie on Flutter and Firebase...",
+        name: "Bestomall",
+        date: "25 Jan, 2024",
+        bg: "bg-orange-100"
+    },
+    {
+        text: "Acnoo gives a great support. I am a newbie on Flutter and Firebase...",
+        name: "Bestomall",
+        date: "25 Jan, 2024",
+        bg: "bg-purple-200"
+    },
+    {
+        text: "Acnoo gives a great support. I am a newbie on Flutter and Firebase...",
+        name: "Bestomall",
+        date: "25 Jan, 2024",
+        bg: "bg-pink-100"
+    }, {
+        text: "Acnoo gives a great support. I am a newbie on Flutter and Firebase...",
+        name: "Bestomall",
+        date: "25 Jan, 2024",
+        bg: "bg-blue-100"
+    },
+    {
+        text: "Acnoo gives a great support. I am a newbie on Flutter and Firebase...",
+        name: "Bestomall",
+        date: "25 Jan, 2024",
+        bg: "bg-orange-100"
+    },
+    {
+        text: "Acnoo gives a great support. I am a newbie on Flutter and Firebase...",
+        name: "Bestomall",
+        date: "25 Jan, 2024",
+        bg: "bg-purple-200"
+    },
+    {
+        text: "Acnoo gives a great support. I am a newbie on Flutter and Firebase...",
+        name: "Bestomall",
+        date: "25 Jan, 2024",
+        bg: "bg-pink-100"
+    }
+]
 </script>
 
 <template>
@@ -20,25 +72,10 @@ import Footer from '@/components/home/Footer.vue';
     <NavBar />
 
     <main>
-        <section id="home">
-            <div class="mx-auto px-4 py-8 w-full h-[80vh] bg-[#0f79bc] flex flex-col justify-center items-center">
-                <div class="mt-[-13rem]">
-                    <h1 class="text-6xl text-white font-bold text-center mb-4 leading-18">Best Bulk SMS <br> Service for
-                        Your Business</h1>
-                    <p class="text-center text-white mt-3 leading-6">Reliable, fast, and affordable bulk SMS solutions
-                        for
-                        businesses, organizations, and individuals.<br> Reach your audience instantly with our masking
-                        and
-                        non-masking SMS services.</p>
-                </div>
-            </div>
-            <div class="flex justify-center items-center mt-[-20rem]">
-                <img src="/assets/img/bashboard.jpg" alt="Logo" class="w-[45rem] mr-2 shadow-xl rounded-3xl">
-            </div>
-        </section>
+        <Home />
 
         <section id="" class="mt-20 max-w-7xl mx-auto">
-            <div class="text-center">
+            <div class="text-center sms">
                 <h1 class="text-4xl leading-12 font-semibold text-[#0f79bc]">Send SMS Campaigns to 1,000+ <br> Mobile
                     Network
                     Operators
@@ -46,11 +83,11 @@ import Footer from '@/components/home/Footer.vue';
                 <p class="mt-3 text-xl">You can reach your customer from anywherein the world with an SMS service
                 </p>
             </div>
-            <div class="mt-20 flex justify-between gap-20">
-                <div class="w-1/2">
-                    <img src="/assets/img/Screenshot_1.png" alt="">
+            <div class="mt-20 lg:flex justify-between gap-20 mx-10 lg:mx-16 xl:mx-0 space-y-12 lg:space-y-0">
+                <div class="lg:w-1/2 flex justify-center items-center">
+                    <img  src="/assets/img/Screenshot_1.png" alt="">
                 </div>
-                <div class="w-1/2 space-y-5">
+                <div class="lg:w-1/2 space-y-5">
                     <div class="flex justify-center items-center gap-5">
                         <div class="bg-white py-5 px-10 rounded-lg border border-gray-200 space-y-2">
                             <h2 class="text-[#0f79bc] text-xl font-semibold">Complete Language Support</h2>
@@ -87,55 +124,26 @@ import Footer from '@/components/home/Footer.vue';
             </div>
         </section>
 
-        <section id="about" class="max-w-7xl mx-auto mt-24">
-            <!-- about us -->
-            <div class="text-center">
-                <h1 class="text-4xl leading-12 font-semibold text-[#0f79bc]">About Us</h1>
-                <p class="mt-3 text-xl">We are a leading provider of bulk SMS services, offering reliable and
-                    <br> cost-effective solutions for businesses and individuals.
-                </p>
-            </div>
-            <div class="mt-12 flex justify-between gap-20">
-                <div class="w-1/2 flex justify-center items-center">
-                    <img src="/assets/img/about_us.jpg" class="bg-white rounded-lg border border-gray-200" alt="">
-                </div>
-                <div class="w-1/2 text-justify">
-                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ab inventore ut dignissimos quidem nemo
-                        earum eos expedita fuga. Et nisi distinctio, similique recusandae aspernatur, ea saepe,
-                        inventore velit quidem ipsam nobis exercitationem corrupti id debitis autem delectus fugiat.
-                        Asperiores et fugiat a quisquam repellendus? Veniam, possimus, omnis distinctio corporis nisi
-                        corrupti impedit magni consectetur, consequatur odio quo eos ratione odit totam quasi repellat
-                        quas eveniet? Ea earum deserunt corrupti. Excepturi corrupti unde consequatur vitae rem
-                        temporibus culpa soluta aut. Id saepe nihil, reprehenderit veniam inventore rerum deleniti neque
-                        reiciendis dolores recusandae assumenda odio modi et nostrum, quas officiis accusamus possimus?
-                        Magnam soluta officia a consectetur veritatis earum ut illo sed neque dolorum eaque repellat,
-                        reiciendis sint quas voluptate iste impedit laboriosam debitis cumque. Laborum nemo quas animi
-                        exercitationem voluptates error, nesciunt fugiat ducimus perferendis in cum eum quae, velit
-                        voluptas repellendus blanditiis saepe quos at illo hic aspernatur autem. Recusandae, quas nemo
-                        pariatur, totam mollitia odit esse aspernatur porro molestiae delectus, laborum debitis? Ad
-                        illo, reprehenderit praesentium exercitationem voluptatibus recusandae atque. Necessitatibus,
-                        ullam, voluptatibus aspernatur sint enim reiciendis possimus ipsa quae consequuntur sapiente
-                        quo, quam obcaecati cum? Itaque recusandae reiciendis, repellendus saepe iusto dicta suscipit
-                        molestiae, qui et blanditiis quaerat.</p>
-                </div>
-            </div>
-
-        </section>
-
-
-
+        <About />
         <Pricing />
         <Accordion />
+        
+        <div class="max-w-7xl mx-auto mt-14">
+            <h1 class="text-4xl font-bold mb-4 text-center text-[#0f79bc]">What Our Client Say</h1>
+            <Slider :testimonials="testimonials" />
+        </div>
 
         
 
+        <Blog />
+        <Contact />
 
+        
         <Footer />
     </main>
 
 
+
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

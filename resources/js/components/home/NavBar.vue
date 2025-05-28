@@ -96,7 +96,7 @@ const scrollToSection = (id: string) => {
     </div>
 
     <!-- Mobile Menu -->
-    <div v-if="mobileMenuOpen" class="lg:hidden pb-4 space-y-3 px-10 mt-5 lg:px-0 bg-white">
+    <div v-if="mobileMenuOpen" class="lg:hidden space-y-3 px-10 mt-5 lg:px-0 bg-white py-10">
       <a
         v-for="id in sections"
         :key="id"
