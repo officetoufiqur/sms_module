@@ -5,7 +5,7 @@ import NavUser from '@/components/NavUser.vue';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/vue3';
-import { BookOpen, Folder, LayoutGrid } from 'lucide-vue-next';
+import { BookOpen, Folder, LayoutGrid, Cable, BadgeDollarSign, ChartArea, MessageCircle } from 'lucide-vue-next';
 import AppLogo from './AppLogo.vue';
 
 const mainNavItems: NavItem[] = [
@@ -13,6 +13,26 @@ const mainNavItems: NavItem[] = [
         title: 'Dashboard',
         href: '/dashboard',
         icon: LayoutGrid,
+    },
+    {
+        title: 'Balance Recharge',
+        href: '/recharge',
+        icon: Cable,
+    },
+    {
+        title: 'Transections',
+        href: '/transections',
+        icon: BadgeDollarSign,
+    },
+    {
+        title: 'Plan Rate',
+        href: '/rate-plan',
+        icon: ChartArea,
+    },
+    {
+        title: 'Send Sms',
+        href: '/send-sms',
+        icon: MessageCircle,
     },
 ];
 
@@ -37,7 +57,7 @@ const footerNavItems: NavItem[] = [
                 <SidebarMenuItem>
                     <SidebarMenuButton size="lg" as-child>
                         <Link :href="route('dashboard')">
-                            <AppLogo />
+                        <AppLogo />
                         </Link>
                     </SidebarMenuButton>
                 </SidebarMenuItem>
