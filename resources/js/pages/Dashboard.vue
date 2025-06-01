@@ -2,7 +2,7 @@
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/vue3';
-import PlaceholderPattern from '../components/PlaceholderPattern.vue';
+import ChartDemo from '@/components/home/Chart.vue';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -78,9 +78,10 @@ const breadcrumbs: BreadcrumbItem[] = [
                 </div>
             </div>
 
-            <div class="relative flex-1 rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                <PlaceholderPattern />
+            <div class="relative flex-1 p-10 rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
+                <ChartDemo />
             </div>
+
         </div>
     </AppLayout>
 </template>
