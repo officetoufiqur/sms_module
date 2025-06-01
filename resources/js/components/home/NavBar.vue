@@ -63,8 +63,8 @@ const scrollToSection = (id: string) => {
             :href="'#' + id"
             @click.prevent="scrollToSection(id)"
             :class="[
-              activeSection === id ? 'text-[#0f79bc] font-semibold' : isScrolled ? 'text-[#4a4745]' : 'text-white',
-              'hover:text-[#0f79bc] transition'
+              activeSection === id ? 'text-gray-800 font-semibold' : isScrolled ? 'text-[#4a4745]' : 'text-white',
+              'hover:text-gray-800 transition'
             ]"
           >
             {{ id.charAt(0).toUpperCase() + id.slice(1).replace('-', ' ') }}
@@ -81,8 +81,8 @@ const scrollToSection = (id: string) => {
             Dashboard
           </Link>
           <template v-else>
-            <Link :href="route('login')" :class="[isScrolled ? 'text-[#4a4745]' : 'text-white', 'hover:text-[#0f79bc] transition']">Login</Link>
-            <Link :href="route('register')" class="border px-4 py-1.5 rounded hover:border-gray-500" :class="[isScrolled ? 'text-[#4a4745]' : 'text-white']">
+            <Link :href="route('login')" :class="[isScrolled ? 'text-[#4a4745]' : 'text-white', 'hover:text-gray-800 transition']">Login</Link>
+            <Link :href="route('register')" class="border px-4 py-1.5 rounded hover:border-gray-500 hover:text-gray-800 transition" :class="[isScrolled ? 'text-[#4a4745]' : 'text-white']">
               Register
             </Link>
           </template>

@@ -5,7 +5,7 @@ import NavUser from '@/components/NavUser.vue';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/vue3';
-import { BookOpen, Folder, LayoutGrid, Cable, BadgeDollarSign, ChartArea, MessageCircle } from 'lucide-vue-next';
+import { BookOpen, Folder, LayoutGrid, Cable, ChartArea, MessageCircle } from 'lucide-vue-next';
 import AppLogo from './AppLogo.vue';
 
 const mainNavItems: NavItem[] = [
@@ -15,14 +15,19 @@ const mainNavItems: NavItem[] = [
         icon: LayoutGrid,
     },
     {
-        title: 'Balance Recharge',
+        title: 'Recharge',
         href: '/recharge',
         icon: Cable,
-    },
-    {
-        title: 'Transections',
-        href: '/transections',
-        icon: BadgeDollarSign,
+        subItems: [
+            {
+                title: 'Balance Recharge',
+                href: '/recharge'
+            },
+            {
+                title: 'Transections',
+                href: '/transections'
+            },
+        ]
     },
     {
         title: 'Plan Rate',
