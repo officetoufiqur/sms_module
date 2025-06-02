@@ -6,6 +6,9 @@ import { type BreadcrumbItem } from '@/types';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import TextArea from '@/components/my-components/textarea/TextArea.vue';
+import Option from '@/components/my-components/Select.vue';
+import { ref } from 'vue'
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -18,6 +21,14 @@ const form = useForm({
     amount: "",
 });
 
+const selectedCountry = ref('')
+const countryOptions = [
+  { value: 'us', label: 'United States' },
+  { value: 'ca', label: 'Canada' },
+  { value: 'uk', label: 'United Kingdom' },
+  { value: 'fr', label: 'France' },
+]
+
 </script>
 
 <template>
@@ -25,47 +36,48 @@ const form = useForm({
 
         <Head title="Send Sms" />
 
-        <div class="flex flex-col space-y-6 mt-[5rem] mx-[5rem]">
+        <div class="mt-[5rem] lg:mx-[5rem] mx-[3rem]">
             <h1 class="text-2xl font-semibold text-gray-700">Send Sms</h1>
 
-            <form class="space-y-6 bg-gray-50 p-10">
-                <div class="grid gap-2">
-                    <Label for="amount">Amount</Label>
-                    <Input id="amount" class="mt-1 block w-[50rem]" v-model="form.amount" required autocomplete="amount"
-                        placeholder="Full amount" />
-                    <InputError class="mt-2" :message="form.errors.amount" />
+            <div class="lg:flex justify-between gap-5 mt-5 space-y-10 lg:space-y-0">
+                <div class="lg:w-2/3">
+                    <form class="space-y-6 bg-gray-50 p-10 rounded-lg border border-gray-200">
+                        <div class="grid gap-2">
+                            <Label for="amount">Recipient</Label>
+                            <Input id="amount" class="mt-1 block w-full" v-model="form.amount" required
+                                autocomplete="amount" placeholder="Full amount" />
+                            <InputError class="mt-2" :message="form.errors.amount" />
+                        </div>
+
+
+                        <div class="">
+                            <Label for="sender_id">Sender Id</Label>
+                            <Option v-model:value="selectedCountry" :options="countryOptions"
+                                placeholder="Choose a country" />
+                        </div>
+
+                        <Label for="message">Body</Label>
+                        <TextArea placeholder="Write your thoughts here..." />
+
+                        <div class="flex items-center gap-4">
+                            <Button :disabled="form.processing" class="cursor-pointer">Save</Button>
+
+                            <Transition enter-active-class="transition ease-in-out" enter-from-class="opacity-0"
+                                leave-active-class="transition ease-in-out" leave-to-class="opacity-0">
+                                <p v-show="form.recentlySuccessful" class="text-sm text-neutral-600">Saved.</p>
+                            </Transition>
+                        </div>
+                    </form>
                 </div>
+                <div class="lg:w-1/3 space-y-5">
+                    <h1 class="bg-gray-50 p-10 rounded-lg border border-gray-200 text-center text-xl font-semibold text-gray-700">Blance: $200</h1>
 
-
-                <div class="">
-                    <Label for="sender_id">Sender Id</Label>
-                    <select id="countries"
-                        class="bg-gray-50 border w-[50rem] mt-3 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        <option selected>Choose a country</option>
-                        <option value="US">United States</option>
-                        <option value="CA">Canada</option>
-                        <option value="FR">France</option>
-                        <option value="DE">Germany</option>
-                    </select>
+                    <div class="bg-gray-50 rounded-lg border border-gray-200">
+                        <h1 class="py-5 text-center text-xl bg-gray-100 font-semibold text-gray-700 border-b border-gray-200">SMS Count</h1>
+                        <p class="px-10 py-5 text-justify">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed, saepe? Nam est fugit maxime quis. Reiciendis voluptatibus vel consequatur, libero id et nulla nisi at temporibus sequi soluta, nihil molestiae placeat pariatur saepe dolorum. Mollitia quis voluptates hic laboriosam temporibus.</p>
+                    </div>
                 </div>
-
-                <div>
-                    <Label for="sender_id">Body</Label>
-                    <textarea id="message" rows="4"
-                        class="block p-2.5 mt-3 w-[53.5%] text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="Write your thoughts here...">
-                    </textarea>
-                </div>
-
-                <div class="flex items-center gap-4">
-                    <Button :disabled="form.processing" class="cursor-pointer">Save</Button>
-
-                    <Transition enter-active-class="transition ease-in-out" enter-from-class="opacity-0"
-                        leave-active-class="transition ease-in-out" leave-to-class="opacity-0">
-                        <p v-show="form.recentlySuccessful" class="text-sm text-neutral-600">Saved.</p>
-                    </Transition>
-                </div>
-            </form>
+            </div>
 
         </div>
     </AppLayout>

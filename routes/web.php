@@ -27,5 +27,13 @@ Route::get('send-sms', function () {
     return Inertia::render('user_dashboard/SendSms');
 })->middleware(['auth', 'verified'])->name('send-sms');
 
+Route::get('sender_id', function () {
+    return Inertia::render('user_dashboard/SendId');
+})->middleware(['auth', 'verified'])->name('sender_id');
+
+Route::get('sms_logs', function () {
+    return Inertia::render('user_dashboard/SmsLogs');
+})->middleware(['auth', 'verified'])->name('sms_logs');
+
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';

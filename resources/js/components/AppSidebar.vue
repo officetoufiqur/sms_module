@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import NavMain from '@/components/NavMain.vue';
-import NavUser from '@/components/NavUser.vue';
-import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
+import { Sidebar, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/vue3';
-import { LayoutGrid, Cable, ChartArea, MessageCircle } from 'lucide-vue-next';
+import { LayoutGrid, Cable, ChartArea, MessageCircle, Phone, History } from 'lucide-vue-next';
 import AppLogo from './AppLogo.vue';
 
 const mainNavItems: NavItem[] = [
@@ -34,9 +33,29 @@ const mainNavItems: NavItem[] = [
         icon: ChartArea,
     },
     {
-        title: 'Send Sms',
+        title: 'SMS',
         href: '/send-sms',
         icon: MessageCircle,
+        subItems: [
+            {
+                title: 'Send Sms',
+                href: '/send-sms'
+            },
+            {
+                title: 'Send From File',
+                href: '/send-file'
+            },
+        ]
+    },
+    {
+        title: 'Sender Id',
+        href: '/sender_id',
+        icon: Phone,
+    },
+    {
+        title: 'SMS Logs',
+        href: '/sms_logs',
+        icon: History,
     },
 ];
 
@@ -60,9 +79,6 @@ const mainNavItems: NavItem[] = [
             <NavMain :items="mainNavItems" />
         </SidebarContent>
 
-        <SidebarFooter>
-            <NavUser />
-        </SidebarFooter>
     </Sidebar>
     <slot />
 </template>

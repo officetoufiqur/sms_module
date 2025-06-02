@@ -1,65 +1,34 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, watch, defineProps } from 'vue';
 
-interface RatePlan {
+interface TableData {
+    [key: string]: any;
     id: number;
-    operator: string;
-    logo: string;
-    country: string;
-    nonMasking: string;
-    masking: string;
 }
 
-const allData = ref<RatePlan[]>([
-    {
-        id: 1,
-        operator: 'Grameenphone',
-        logo: 'https://portal.smsorbis.com/assets/images/operator/1.png',
-        country: 'Bangladesh',
-        nonMasking: '0.35',
-        masking: '0.65',
-    },
-    {
-        id: 2,
-        operator: 'Banglalink',
-        logo: 'https://portal.smsorbis.com/assets/images/operator/1.png',
-        country: 'Bangladesh',
-        nonMasking: '0.35',
-        masking: '0.65',
-    },
-    {
-        id: 3,
-        operator: 'Robi',
-        logo: 'https://portal.smsorbis.com/assets/images/operator/1.png',
-        country: 'Bangladesh',
-        nonMasking: '0.35',
-        masking: '0.65',
-    },
-    {
-        id: 4,
-        operator: 'Airtel',
-        logo: 'https://portal.smsorbis.com/assets/images/operator/1.png',
-        country: 'Bangladesh',
-        nonMasking: '0.35',
-        masking: '0.65',
-    },
-    {
-        id: 5,
-        operator: 'Teletalk',
-        logo: 'https://portal.smsorbis.com/assets/images/operator/1.png',
-        country: 'Bangladesh',
-        nonMasking: '0.35',
-        masking: '0.65',
-    },
-]);
+interface TableColumn {
+    key: string;
+    label: string;
+    icon?: any;
+}
+
+const props = defineProps<{
+    plans: TableData[];
+    columns: TableColumn[];
+    title?: string;
+}>();
+
 
 const entriesPerPage = ref(10);
 const currentPage = ref(1);
 const search = ref('');
 
 const filteredData = computed(() =>
-    allData.value.filter((item) =>
-        item.operator.toLowerCase().includes(search.value.toLowerCase())
+    props.plans.filter((item) =>
+        Object.values(item)
+            .join(' ')
+            .toLowerCase()
+            .includes(search.value.toLowerCase())
     )
 );
 
@@ -71,11 +40,15 @@ const paginatedData = computed(() => {
     const start = (currentPage.value - 1) * entriesPerPage.value;
     return filteredData.value.slice(start, start + entriesPerPage.value);
 });
+
+watch([search, entriesPerPage], () => {
+    currentPage.value = 1;
+});
 </script>
 
 <template>
-    <div class="p-14">
-        <h2 class="text-2xl font-semibold mb-4">Rate Plan</h2>
+    <div class="lg:p-14 sm:p-14 p-7">
+        <h2 class="text-2xl font-semibold mb-4">{{ title }}</h2>
 
         <div class="flex items-center justify-between mb-3 mt-8">
             <div class="flex items-center gap-2">
@@ -92,27 +65,27 @@ const paginatedData = computed(() => {
             </div>
         </div>
 
-        <table class="min-w-full bg-white border relative overflow-x-auto">
+        <div class="overflow-x-auto">
+        <table class="min-w-full bg-white border relative">
             <thead class="bg-gray-100 text-sm text-gray-700">
                 <tr>
-                    <th class="px-4 py-2 text-left">Operator</th>
-                    <th class="px-4 py-2 text-left">Country</th>
-                    <th class="px-4 py-2 text-left">Non Masking</th>
-                    <th class="px-4 py-2 text-left">Masking</th>
+                    <th v-for="col in columns" :key="col.key" class="px-4 py-2 text-left">
+                        {{ col.label }}
+                        <component :is="col.icon" v-if="col.icon" class="inline w-4 h-4 ml-1" />
+                    </th>
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="item in paginatedData" :key="item.id" class="">
-                    <td class="border border-gray-200 px-4 py-2 flex items-center gap-2">
-                        <img :src="item.logo" alt="logo" class="h-5 w-5" />
-                        {{ item.operator }}
+                <tr v-for="item in paginatedData" :key="item.id">
+                    <td v-for="col in columns" :key="col.key" class="border border-gray-200 px-4 py-2">
+                        <slot :name="col.key" :item="item">
+                            {{ item[col.key] }}
+                        </slot>
                     </td>
-                    <td class="border border-gray-200 px-4 py-2">{{ item.country }}</td>
-                    <td class="border border-gray-200 px-4 py-2">{{ item.nonMasking }} BDT</td>
-                    <td class="border border-gray-200 px-4 py-2">{{ item.masking }} BDT</td>
                 </tr>
             </tbody>
         </table>
+        </div>
 
         <div class="flex items-center justify-between mt-4 text-sm text-gray-600">
             <div>
@@ -138,5 +111,3 @@ const paginatedData = computed(() => {
         </div>
     </div>
 </template>
-
-

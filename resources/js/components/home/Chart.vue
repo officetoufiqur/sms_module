@@ -12,8 +12,8 @@ const data = {
     datasets: [
         {
             label: 'My First dataset',
-            backgroundColor: 'rgb(255, 99, 132)',
-            borderColor: 'rgb(255, 99, 132)',
+            backgroundColor: '#0f79bc',
+            borderColor: '#0f79bc',
             data: [0, 10, 5, 2, 20, 30, 45],
         },
     ],
@@ -22,7 +22,10 @@ const data = {
 const config = {
     type: 'bar' as const,
     data: data,
-    options: {},
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+    },
 };
 
 onMounted(() => {
@@ -39,7 +42,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-    <div style="width: 100%; max-width: none;">
-        <canvas ref="chart" width="1494" height="500"></canvas>
+    <div style="width: 100%; max-width: none; height: 500px;">
+        <canvas ref="chart"></canvas>
     </div>
 </template>
