@@ -3,49 +3,29 @@ import NavMain from '@/components/NavMain.vue';
 import { Sidebar, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/vue3';
-import { LayoutGrid, Cable, ChartArea, MessageCircle, Phone, History, ArrowRightLeft, File } from 'lucide-vue-next';
+import { LayoutGrid, ListTodo, User2, Users2 } from 'lucide-vue-next';
 import AppLogo from './AppLogo.vue';
 
 const mainNavItems: NavItem[] = [
     {
         title: 'Dashboard',
-        href: '/dashboard',
+        href: '/admin/dashboard',
         icon: LayoutGrid,
     },
     {
-        title: 'Balance Recharge',
-        href: '/recharge',
-        icon: Cable,
+        title: 'Create Customer',
+        href: '/admin/create/customer',
+        icon: User2,
     },
     {
-        title: 'Transections',
-        href: '/transections',
-        icon: ArrowRightLeft,
+        title: 'Manage Customers',
+        href: '/admin/manage/customers',
+        icon: Users2,
     },
     {
-        title: 'Plan Rate',
-        href: '/rate-plan',
-        icon: ChartArea,
-    },
-    {
-        title: 'Send Sms',
-        href: '/send-sms',
-        icon: MessageCircle,
-    },
-    {
-        title: 'Send From File',
-        href: '/send-file',
-        icon: File,
-    },
-    {
-        title: 'Sender Id',
-        href: '/sender_id',
-        icon: Phone,
-    },
-    {
-        title: 'SMS Logs',
-        href: '/sms_logs',
-        icon: History,
+        title: 'Pending KYC',
+        href: '/admin/pending/kyc',
+        icon: ListTodo,
     },
 ];
 
