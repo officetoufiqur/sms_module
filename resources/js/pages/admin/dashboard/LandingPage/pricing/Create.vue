@@ -24,6 +24,12 @@ function addField() {
     fields.value.push('');
 }
 
+function removeField() {
+    if (fields.value.length > 0) {
+        fields.value.pop();
+    }
+}
+
 </script>
 
 <template>
@@ -80,6 +86,12 @@ function addField() {
                             class="bg-green-600 cursor-pointer hover:bg-green-700 text-white px-4 py-2 rounded-md"
                             @click="addField">
                             Add Feature
+                        </Button>
+                        <Button
+                            type="button"
+                            class="bg-green-600 cursor-pointer hover:bg-green-700 text-white px-4 py-2 rounded-md"
+                            @click="removeField">
+                            Remove Feature
                         </Button>
                     </div>
                     <div class="grid gap-2">
