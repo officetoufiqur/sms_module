@@ -47,10 +47,10 @@ watch([search, entriesPerPage], () => {
 </script>
 
 <template>
-    <div class="lg:p-14 sm:p-14 p-7">
+    <div class="">
         <h2 class="text-2xl font-semibold mb-4">{{ title }}</h2>
 
-        <div class="flex items-center justify-between mb-3 mt-8">
+        <div class="flex items-center justify-between mb-3">
             <div class="flex items-center gap-2">
                 <select v-model="entriesPerPage" class="border px-2 py-1 rounded text-sm border-gray-300">
                     <option :value="5">5</option>

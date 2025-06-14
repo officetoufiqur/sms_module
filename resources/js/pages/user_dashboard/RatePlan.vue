@@ -69,15 +69,16 @@ const data = [
 
         <Head title="My Plan Rate" />
 
-        <FilterTable :plans="data" :columns="columns" :title="'My Plan Rate'">
-            <template #operator="{ item }">
-                <div class="flex items-center space-x-2">
-                    <img :src="item.logo" alt="`${item.operator} logo`" class="h-6" />
-                    <span>{{ item.operator }}</span>
-                </div>
-            </template>
-        </FilterTable>
-
+        <div class="mt-20 mx-14">
+            <FilterTable :plans="data" :columns="columns" :title="'My Plan Rate'">
+                <template #operator="{ item }">
+                    <div class="flex items-center space-x-2">
+                        <img :src="item.logo" alt="`${item.operator} logo`" class="h-6" />
+                        <span>{{ item.operator }}</span>
+                    </div>
+                </template>
+            </FilterTable>
+        </div>
         <!-- <FilterTable :plans="data" :columns="columns"  /> -->
 
     </AppLayout>

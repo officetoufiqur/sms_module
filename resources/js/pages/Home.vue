@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Head } from '@inertiajs/vue3';
 import NavBar from '@/components/home/NavBar.vue';
-import Pricing from '@/components/home/Pricing.vue';
+import Pricing from '@/components/home/HomePricing.vue';
 import Accordion from '@/components/home/Accordion.vue';
 import Slider from '@/components/home/Slider.vue';
 import Blog from '@/components/home/Blog.vue';

@@ -40,11 +40,13 @@ const data = [
 
         <Head title="Transections" />
 
-        <FilterTable :plans="data" :columns="columns" :title="'Transections'">
+         <div class="mt-20 mx-14">
+            <FilterTable :plans="data" :columns="columns" :title="'Transections'">
             <template #action="{  }">
                 <button  class="text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center cursor-pointer"><EyeIcon class="w-5 h-5" /></button>
             </template>
         </FilterTable>
+        </div>
 
     </AppLayout>
 </template>

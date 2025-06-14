@@ -3,7 +3,7 @@ import NavMain from '@/components/NavMain.vue';
 import { Sidebar, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/vue3';
-import { LayoutGrid, ListTodo, User2, Users2 } from 'lucide-vue-next';
+import { Contact2Icon, FilePenLine, FlagTriangleRight, HeartHandshake, InfoIcon, LayoutGrid, ListTodo, MessageCircleQuestion, SendIcon, User2, Users2 } from 'lucide-vue-next';
 import AppLogo from './AppLogo.vue';
 
 const mainNavItems: NavItem[] = [
@@ -26,6 +26,41 @@ const mainNavItems: NavItem[] = [
         title: 'Pending KYC',
         href: '/admin/pending/kyc',
         icon: ListTodo,
+    },
+     {
+        title: 'Banner',
+        href: '/admin/banner',
+        icon: FlagTriangleRight,
+    },
+    {
+        title: 'About',
+        href: '/admin/about',
+        icon: InfoIcon,
+    },
+    {
+        title: 'Pricing',
+        href: '/admin/pricing',
+        icon: SendIcon,
+    },
+    {
+        title: 'Faqs',
+        href: '/admin/faqs',
+        icon: MessageCircleQuestion,
+    },
+    {
+        title: 'Blog',
+        href: '/admin/blog',
+        icon: FilePenLine,
+    },
+    {
+        title: 'Contact',
+        href: '/admin/contact',
+        icon: Contact2Icon,
+    },
+    {
+        title: 'ClientSays',
+        href: '/admin/client-says',
+        icon: HeartHandshake,
     },
 ];
 
