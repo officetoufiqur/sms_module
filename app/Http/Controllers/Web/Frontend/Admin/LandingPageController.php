@@ -95,7 +95,7 @@ class LandingPageController extends Controller
 
         $about->save();
 
-        return redirect()->route('admin.about')->with('success', 'About section updated successfully.');
+        return redirect()->route('admin.about')->with('message', 'About section updated successfully.');
     }
 
     // pricing section
