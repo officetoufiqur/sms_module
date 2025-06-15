@@ -5,6 +5,7 @@ import AdminAppLayout from '@/layouts/AdminAppLayout.vue';
 import FilterTable from '@/components/home/FilterTable.vue';
 import { EyeIcon } from 'lucide-vue-next';
 import { type BreadcrumbItem } from '@/types';
+import FlashMessage from '@/components/my-components/FlashMessage.vue';
 
 // Receive props from Inertia
 const props = defineProps<{
@@ -14,6 +15,9 @@ const props = defineProps<{
         sub_title: string;
         image: string;
     }
+    flash: {
+        message?: string;
+    };
 }>();
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -36,6 +40,7 @@ const data = [props.banner];
 function viewCustomer(id: number) {
     router.visit(`/admin/banner/edit/${id}`);
 }
+
 </script>
 
 <template>
@@ -43,6 +48,7 @@ function viewCustomer(id: number) {
 
         <Head title="Banner" />
         <div class="mt-20 mx-14">
+             <FlashMessage :message="props.flash.message" />
             <FilterTable :plans="data" :columns="columns" :title="'Banner'">
                 <template #sub_title="{ item }">
                     {{ item.sub_title.length > 20 ? item.sub_title.slice(0, 50) + '...' : item.sub_title }}

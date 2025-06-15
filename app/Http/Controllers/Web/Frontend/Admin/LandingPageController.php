@@ -50,7 +50,7 @@ class LandingPageController extends Controller
 
         $banner->save();
 
-        return redirect()->route('admin.banner')->with('success', 'Banner updated successfully.');
+        return redirect()->route('admin.banner')->with('message', 'Banner updated successfully.');
     }
 
 

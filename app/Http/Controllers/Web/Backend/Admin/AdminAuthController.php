@@ -23,7 +23,7 @@ class AdminAuthController extends Controller
         if ($user) {
             $request->authenticate();
             $request->session()->regenerate();
-            return redirect()->intended(route('admin.dashboard', absolute: false));
+            return redirect()->intended(route('admin.dashboard', absolute: false))->with('message', 'Admin Login successful');
         }
 
         return redirect()->back();

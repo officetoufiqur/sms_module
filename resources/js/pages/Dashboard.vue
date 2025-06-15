@@ -1,4 +1,6 @@
 <script setup lang="ts">
+
+import FlashMessage from '@/components/my-components/FlashMessage.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/vue3';
@@ -12,6 +14,12 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: '/dashboard',
     },
 ];
+
+const props = defineProps<{
+    flash: {
+        message?: string;
+    };
+}>();
 </script>
 
 <template>
@@ -19,6 +27,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     <Head title="Dashboard" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
+        <FlashMessage :message="props.flash.message" />
         <div class="flex gap-8 h-screen flex-1 flex-col rounded-xl p-10">
             <div class="grid auto-rows-min gap-8 md:grid-cols-3">
                 <Card title="Recharge Now" value="200">
