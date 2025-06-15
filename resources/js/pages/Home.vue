@@ -5,7 +5,6 @@ import Pricing from '@/components/home/HomePricing.vue';
 import Accordion from '@/components/home/Accordion.vue';
 import Slider from '@/components/home/Slider.vue';
 import Blog from '@/components/home/Blog.vue';
-import Home from '@/components/home/Home.vue';
 import About from '@/components/home/About.vue';
 import Contact from '@/components/home/Contact.vue';
 import Footer from '@/components/home/Footer.vue';
@@ -60,6 +59,15 @@ const testimonials = [
         bg: "bg-pink-100"
     }
 ]
+
+defineProps<{
+    banner: {
+        id: number;
+        title: string;
+        sub_title: string;
+        image: string;
+    };
+}>();
 </script>
 
 <template>
@@ -72,7 +80,17 @@ const testimonials = [
     <NavBar />
 
     <main>
-        <Home />
+        <section id="home">
+            <div class="home lg:mx-auto px-4 py-8 xl:h-[85vh] lg:h-[100vh] h-[50vh] bg-[#0f79bc] flex flex-col justify-center items-center">
+                <div class="lg:mt-[-13rem]">
+                    <h1 class="lg:text-6xl max-w-2xl mx-auto text-5xl text-white font-bold text-center mb-4 lg:leading-18 leading-12">{{ banner.title }}</h1>
+                    <p class="text-center max-w-2xl mx-auto text-white mt-3 leading-6 px-5 lg:px-0">{{ banner.sub_title }}.</p>
+                </div>
+            </div>
+            <div class="flex justify-center items-center lg:mt-[-20rem] mt-[-10rem]">
+                <img :src="banner.image" alt="banner image" class="lg:w-[45rem] w-[25rem] mr-2 shadow-xl rounded-3xl">
+            </div>
+        </section>
 
         <section id="" class="mt-20 max-w-7xl mx-auto">
             <div class="text-center sms">

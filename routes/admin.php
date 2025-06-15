@@ -23,7 +23,7 @@ Route::get('/customers/tnx', [CustomerController::class, 'tnx'])->name('customer
 // Landing Page Banner
 Route::get('/admin/banner', [LandingPageController::class, 'banner'])->name('admin.banner');
 Route::get('/admin/banner/edit/{id}', [LandingPageController::class, 'bannerEdit'])->name('admin.banner.edit');
-Route::post('/admin/banner/update/{id}', [LandingPageController::class, 'update'])->name('admin.banner.update');
+Route::post('/admin/banner/update/{id}', [LandingPageController::class, 'bannerUpdate'])->name('admin.banner.update');
 
 // Landing Page About
 Route::get('/admin/about', [LandingPageController::class, 'about'])->name('admin.about');
