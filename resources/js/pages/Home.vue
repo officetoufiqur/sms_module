@@ -10,56 +10,6 @@ import Contact from '@/components/home/Contact.vue';
 import Footer from '@/components/home/Footer.vue';
 
 
-const testimonials = [
-    {
-        text: "Acnoo gives a great support. I am a newbie on Flutter and Firebase...",
-        name: "Bestomall",
-        date: "25 Jan, 2024",
-        bg: "bg-blue-100"
-    },
-    {
-        text: "Acnoo gives a great support. I am a newbie on Flutter and Firebase...",
-        name: "Bestomall",
-        date: "25 Jan, 2024",
-        bg: "bg-orange-100"
-    },
-    {
-        text: "Acnoo gives a great support. I am a newbie on Flutter and Firebase...",
-        name: "Bestomall",
-        date: "25 Jan, 2024",
-        bg: "bg-purple-200"
-    },
-    {
-        text: "Acnoo gives a great support. I am a newbie on Flutter and Firebase...",
-        name: "Bestomall",
-        date: "25 Jan, 2024",
-        bg: "bg-pink-100"
-    }, {
-        text: "Acnoo gives a great support. I am a newbie on Flutter and Firebase...",
-        name: "Bestomall",
-        date: "25 Jan, 2024",
-        bg: "bg-blue-100"
-    },
-    {
-        text: "Acnoo gives a great support. I am a newbie on Flutter and Firebase...",
-        name: "Bestomall",
-        date: "25 Jan, 2024",
-        bg: "bg-orange-100"
-    },
-    {
-        text: "Acnoo gives a great support. I am a newbie on Flutter and Firebase...",
-        name: "Bestomall",
-        date: "25 Jan, 2024",
-        bg: "bg-purple-200"
-    },
-    {
-        text: "Acnoo gives a great support. I am a newbie on Flutter and Firebase...",
-        name: "Bestomall",
-        date: "25 Jan, 2024",
-        bg: "bg-pink-100"
-    }
-]
-
 defineProps<{
     banner: {
         id: number;
@@ -67,6 +17,13 @@ defineProps<{
         sub_title: string;
         image: string;
     };
+    testimonial: {
+        title: string;
+        name: string;
+        image: string | null;
+        star: string;
+        date: string;
+    }[];
 }>();
 </script>
 
@@ -81,10 +38,14 @@ defineProps<{
 
     <main>
         <section id="home">
-            <div class="home lg:mx-auto px-4 py-8 xl:h-[85vh] lg:h-[100vh] h-[50vh] bg-[#0f79bc] flex flex-col justify-center items-center">
+            <div
+                class="home lg:mx-auto px-4 py-8 xl:h-[85vh] lg:h-[100vh] h-[50vh] bg-[#0f79bc] flex flex-col justify-center items-center">
                 <div class="lg:mt-[-13rem]">
-                    <h1 class="lg:text-6xl max-w-2xl mx-auto text-5xl text-white font-bold text-center mb-4 lg:leading-18 leading-12">{{ banner.title }}</h1>
-                    <p class="text-center max-w-2xl mx-auto text-white mt-3 leading-6 px-5 lg:px-0">{{ banner.sub_title }}.</p>
+                    <h1
+                        class="lg:text-6xl max-w-2xl mx-auto text-5xl text-white font-bold text-center mb-4 lg:leading-18 leading-12">
+                        {{ banner.title }}</h1>
+                    <p class="text-center max-w-2xl mx-auto text-white mt-3 leading-6 px-5 lg:px-0">{{ banner.sub_title
+                    }}.</p>
                 </div>
             </div>
             <div class="flex justify-center items-center lg:mt-[-20rem] mt-[-10rem]">
@@ -103,7 +64,7 @@ defineProps<{
             </div>
             <div class="mt-20 lg:flex justify-between gap-20 mx-10 lg:mx-16 xl:mx-0 space-y-12 lg:space-y-0">
                 <div class="lg:w-1/2 flex justify-center items-center">
-                    <img  src="/assets/img/Screenshot_1.png" alt="">
+                    <img src="/assets/img/Screenshot_1.png" alt="">
                 </div>
                 <div class="lg:w-1/2 space-y-5">
                     <div class="flex justify-center items-center gap-5">
@@ -145,18 +106,18 @@ defineProps<{
         <About />
         <Pricing />
         <Accordion />
-        
-        <div class="max-w-7xl mx-auto mt-14">
-            <h1 class="text-4xl font-bold mb-4 text-center text-[#0f79bc]">What Our Client Say</h1>
-            <Slider :testimonials="testimonials" />
-        </div>
 
-        
+        <section class="mt-20 max-w-7xl mx-auto px-5">
+            <h2 class="text-4xl font-bold mb-6 text-center text-[#0f79bc]">What Our Clients Say</h2>
+            <Slider :testimonials="testimonial" />
+        </section>
+
+
 
         <Blog />
         <Contact />
 
-        
+
         <Footer />
     </main>
 
