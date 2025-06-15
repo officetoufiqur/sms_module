@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Link } from '@inertiajs/vue3';
 import TextArea from '@/components/my-components/textarea/TextArea.vue';
+import { Trash2Icon } from 'lucide-vue-next';
 import { ref } from 'vue'
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -24,6 +25,9 @@ function addField() {
     fields.value.push('');
 }
 
+function removeField(index: number) {
+    fields.value.splice(index, 1);
+}
 </script>
 
 <template>
@@ -94,13 +98,17 @@ function addField() {
                     </div>
 
                     <!-- Dynamic Inputs -->
-                    <div v-for="(field, index) in fields" :key="index" class="grid gap-2">
+                    <div v-for="(field, index) in fields" :key="index" class="grid gap-2 relative">
                         <Input
                             :id="'feature_' + index"
                             v-model="fields[index]"
                             type="text"
-                            class="mt-1 block w-full"
+                            class="mt-1 block w-full pr-10"
                             :placeholder="`Enter feature`"
+                        />
+                        <Trash2Icon
+                            class="w-6 h-6 text-red-500 cursor-pointer absolute right-2 top-3.5"
+                            @click="removeField(index)"
                         />
                     </div>
 

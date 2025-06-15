@@ -9,6 +9,7 @@ import { Label } from '@/components/ui/label';
 import { Link } from '@inertiajs/vue3';
 import TextArea from '@/components/my-components/textarea/TextArea.vue';
 import { ref } from 'vue'
+import { Trash2Icon } from 'lucide-vue-next';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -24,10 +25,8 @@ function addField() {
     fields.value.push('');
 }
 
-function removeField() {
-    if (fields.value.length > 0) {
-        fields.value.pop();
-    }
+function removeField(index: number) {
+    fields.value.splice(index, 1);
 }
 
 </script>
@@ -87,12 +86,6 @@ function removeField() {
                             @click="addField">
                             Add Feature
                         </Button>
-                        <Button
-                            type="button"
-                            class="bg-green-600 cursor-pointer hover:bg-green-700 text-white px-4 py-2 rounded-md"
-                            @click="removeField">
-                            Remove Feature
-                        </Button>
                     </div>
                     <div class="grid gap-2">
                         <Input
@@ -105,19 +98,19 @@ function removeField() {
                         <!-- <InputError :message="form.errors.plan_feature" /> -->
                     </div>
 
-                    <!-- Dynamic Inputs -->
-                    <div v-for="(field, index) in fields" :key="index" class="grid gap-2">
+                    <div v-for="(field, index) in fields" :key="index" class="grid gap-2 relative">
                         <Input
                             :id="'feature_' + index"
                             v-model="fields[index]"
                             type="text"
-                            class="mt-1 block w-full"
+                            class="mt-1 block w-full pr-10"
                             :placeholder="`Enter feature`"
                         />
+                        <Trash2Icon
+                            class="w-6 h-6 text-red-500 cursor-pointer absolute right-2 top-3.5"
+                            @click="removeField(index)"
+                        />
                     </div>
-
-                    
-                    
 
                     <div class="flex items-center gap-4">
                         <Button class="bg-[#0f79bc] hover:bg-[#4a4745] cursor-pointer">Update</Button>
