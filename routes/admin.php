@@ -27,8 +27,8 @@ Route::post('/admin/banner/update/{id}', [LandingPageController::class, 'bannerU
 
 // Landing Page About
 Route::get('/admin/about', [LandingPageController::class, 'about'])->name('admin.about');
-Route::get('/admin/about/edit/{id}', [LandingPageController::class, 'aboutEdit'])->name('admin.about.edit');
-Route::post('/admin/about/update/{id}', [LandingPageController::class, 'update'])->name('admin.about.update');
+Route::get('/admin/about/edit', [LandingPageController::class, 'aboutEdit'])->name('admin.about.edit');
+Route::post('/admin/about/update', [LandingPageController::class, 'aboutUpdate'])->name('admin.about.update');
 
 // Landing Page Pricing
 Route::get('/admin/pricing', [LandingPageController::class, 'pricing'])->name('admin.pricing');

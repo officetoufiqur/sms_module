@@ -24,6 +24,11 @@ defineProps<{
         star: string;
         date: string;
     }[];
+    about: {
+        title: string;
+        description: string;
+        image: string;
+    };
 }>();
 </script>
 
@@ -44,8 +49,7 @@ defineProps<{
                     <h1
                         class="lg:text-6xl max-w-2xl mx-auto text-5xl text-white font-bold text-center mb-4 lg:leading-18 leading-12">
                         {{ banner.title }}</h1>
-                    <p class="text-center max-w-2xl mx-auto text-white mt-3 leading-6 px-5 lg:px-0">{{ banner.sub_title
-                    }}.</p>
+                    <p class="text-center max-w-2xl mx-auto text-white mt-3 leading-6 px-5 lg:px-0">{{ banner.sub_title }}</p>
                 </div>
             </div>
             <div class="flex justify-center items-center lg:mt-[-20rem] mt-[-10rem]">
@@ -103,7 +107,7 @@ defineProps<{
             </div>
         </section>
 
-        <About />
+        <About :about="about"/>
         <Pricing />
         <Accordion />
 

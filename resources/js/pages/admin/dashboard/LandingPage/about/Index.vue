@@ -14,25 +14,27 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
+const props = defineProps<{
+    about: {
+        id: number;
+        title: string;
+        description: string;
+        image: string;
+    };
+}>();
+
 const columns = [
     { key: 'id', label: 'ID' },
     { key: 'title', label: 'Title' },
-    { key: 'bio', label: 'Bio' },
+    { key: 'description', label: 'Description' },
     { key: 'image', label: 'Image' },
     { key: 'action', label: 'Action' },
 ];
 
-const data = [
-    {
-        id: 1,
-        title: 'About Us',
-        bio: '01712345678',
-        image: 'https://picsum.photos/200/300',
-    }
-]
+const data = [props.about];
 
-function viewCustomer(id: number) {
-    router.visit(`/admin/about/edit/${id}`);
+function viewCustomer() {
+    router.visit(`/admin/about/edit`);
 }
 
 
@@ -45,7 +47,10 @@ function viewCustomer(id: number) {
         <!-- About Table -->
         <div class="mt-20 mx-14">
             <FilterTable :plans="data" :columns="columns" :title="'About'">
-                <template #image="{ item }">
+                <template #description="{ item }">
+                    {{ item.description.length > 50 ? item.description.slice(0, 100) + '...' : item.description }}
+                </template>
+                 <template #image="{ item }">
                     <img
                         :src="item.image"
                         alt="Banner Image"
@@ -54,7 +59,7 @@ function viewCustomer(id: number) {
                 </template>
                 <template #action="{ }">
                     <div class="space-x-2.5">
-                        <button @click="viewCustomer(1)"
+                        <button @click="viewCustomer()"
                             class="text-white bg-blue-500 hover:bg-blue-600 font-medium rounded-lg text-sm px-5 py-2.5 text-center cursor-pointer">
                             <EyeIcon class="w-5 h-5" />
                         </button>

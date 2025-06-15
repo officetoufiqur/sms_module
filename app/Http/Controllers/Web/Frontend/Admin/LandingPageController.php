@@ -57,12 +57,45 @@ class LandingPageController extends Controller
     // about section
     public function about()
     {
-        return Inertia::render('admin/dashboard/LandingPage/about/Index');
+        $about = CMS::where('section', 'about')->first();
+        return Inertia::render('admin/dashboard/LandingPage/about/Index', compact('about'));
     }
 
-    public function aboutEdit($id)
+    public function aboutEdit()
     {
-        return Inertia::render('admin/dashboard/LandingPage/about/Edit', ['id' => $id]);
+        $about = CMS::where('section', 'about')->first();
+        return Inertia::render('admin/dashboard/LandingPage/about/Edit', compact('about'));
+    }
+
+    public function aboutUpdate(Request $request)
+    {
+        $about = CMS::where('section', 'about')->first();
+
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        $about->title = $request->input('title');
+        $about->description = $request->input('description');
+
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $extension = $file->getClientOriginalExtension();
+            $filename = time() . '.' . $extension;
+            $filePath = $file->storeAs('uploads/about', $filename, 'public');
+            // Delete old image if it exists
+            if ($about->image && file_exists(public_path($about->image))) {
+                unlink(public_path($about->image));
+            }
+            // Store the new image path
+            $about->image = '/storage/' . $filePath;
+        }
+
+        $about->save();
+
+        return redirect()->route('admin.about')->with('success', 'About section updated successfully.');
     }
 
     // pricing section
