@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Web\Frontend\Admin;
 
 use App\Models\CMS;
+use App\Models\Blog;
 use App\Models\Plan;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class LandingPageController extends Controller
 {
@@ -226,15 +228,85 @@ class LandingPageController extends Controller
     // blog section
     public function blog()
     {
-        return Inertia::render('admin/dashboard/LandingPage/blog/Index');
+        $blogs = Blog::all();
+        return Inertia::render('admin/dashboard/LandingPage/blog/Index', compact('blogs'));
     }
     public function blogCreate()
     {
         return Inertia::render('admin/dashboard/LandingPage/blog/Create');
     }
+
+    public function blogStore(Request $request){
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'sub_title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        $blog = new Blog();
+        $blog->name = Auth::user()->name;
+        $blog->title = $request->input('title');
+        $blog->sub_title = $request->input('sub_title');
+        $blog->description = $request->input('description');
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $extension = $file->getClientOriginalExtension();
+            $filename = time() . '.' . $extension;
+            $filePath = $file->storeAs('uploads/blog', $filename, 'public');
+            $blog->image = '/storage/' . $filePath;
+        }
+        $blog->save();
+        return redirect()->route('admin.blog')->with('message', 'Blog created successfully.');
+    }
+
     public function blogEdit($id)
     {
-        return Inertia::render('admin/dashboard/LandingPage/blog/Edit', ['id' => $id]);
+        $blog = Blog::findOrFail($id);
+        return Inertia::render('admin/dashboard/LandingPage/blog/Edit', compact('blog'));
+    }
+
+    public function blogUpdate(Request $request, $id)
+    {
+        $blog = Blog::findOrFail($id);
+
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'sub_title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        $blog->title = $request->input('title');
+        $blog->sub_title = $request->input('sub_title');
+        $blog->description = $request->input('description');
+
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $extension = $file->getClientOriginalExtension();
+            $filename = time() . '.' . $extension;
+            $filePath = $file->storeAs('uploads/blog', $filename, 'public');
+            // Delete old image if it exists
+            if ($blog->image && file_exists(public_path($blog->image))) {
+                unlink(public_path($blog->image));
+            }
+            // Store the new image path
+            $blog->image = '/storage/' . $filePath;
+        }
+
+        $blog->save();
+
+        return redirect()->route('admin.blog')->with('message', 'Blog updated successfully.');
+    }
+    public function blogDelete($id)
+    {
+        $blog = Blog::findOrFail($id);
+        // Delete the image if it exists
+        if ($blog->image && file_exists(public_path($blog->image))) {
+            unlink(public_path($blog->image));
+        }
+        $blog->delete();
+        return redirect()->route('admin.blog')->with('message', 'Blog deleted successfully.');
     }
 
     // contact section

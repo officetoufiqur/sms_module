@@ -49,8 +49,10 @@ Route::delete('/admin/faqs/delete/{id}', [LandingPageController::class, 'faqsDel
 // Landing Page Blog
 Route::get('/admin/blog', [LandingPageController::class, 'blog'])->name('admin.blog');
 Route::get('/admin/blog/create', [LandingPageController::class, 'blogCreate'])->name('admin.blog.create');
+Route::post('/admin/blog/store', [LandingPageController::class, 'blogStore'])->name('admin.blog.store');
 Route::get('/admin/blog/edit/{id}', [LandingPageController::class, 'blogEdit'])->name('admin.blog.edit');
 Route::post('/admin/blog/update/{id}', [LandingPageController::class, 'blogUpdate'])->name('admin.blog.update');
+Route::delete('/admin/blog/delete/{id}', [LandingPageController::class, 'blogDelete'])->name('admin.blog.delete');
 
 // Landing Page Contact
 Route::get('/admin/contact', [LandingPageController::class, 'contact'])->name('admin.contact');

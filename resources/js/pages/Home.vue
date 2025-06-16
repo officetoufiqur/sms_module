@@ -41,6 +41,15 @@ defineProps<{
         question: string;
         answer: string;
     }[];
+    blogs: {
+        id: number;
+        name: string;
+        created_at: string;
+        title: string;
+        sub_title: string;
+        description: string;
+        image: string;
+    }[];
 }>();
 </script>
 
@@ -130,7 +139,7 @@ defineProps<{
 
 
 
-        <Blog />
+        <Blog :blogs="blogs" />
         <Contact />
 
 

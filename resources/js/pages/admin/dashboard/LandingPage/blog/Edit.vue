@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Head } from '@inertiajs/vue3';
+import { Head, useForm } from '@inertiajs/vue3';
 
 import AdminAppLayout from '@/layouts/AdminAppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
@@ -16,6 +16,27 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
+const props = defineProps<{
+    blog: {
+        id: number;
+        title: string;
+        sub_title: string;
+        description: string;
+        image: string;
+    };
+}>();
+
+const form = useForm({
+    title: props.blog.title,
+    sub_title: props.blog.sub_title,
+    description: props.blog.description,
+    image: null,
+});
+
+function submit() {
+    form.post(`/admin/blog/update/${props.blog.id}`);
+}
+
 </script>
 
 <template>
@@ -28,17 +49,18 @@ const breadcrumbs: BreadcrumbItem[] = [
                 <Link href="/admin/blog" class=" bg-[#0f79bc] hover:bg-[#4a4745] px-6 py-2 text-white rounded-md">Back</Link>
             </div>
             <div class="bg-gray-50 border border-gray-200 p-6 rounded-lg">
-                <form class="mt-8 space-y-4">
+                <form @submit.prevent="submit" class="mt-8 space-y-4">
                     <div class="grid gap-2">
                         <Label for="title">Title</Label>
                         <Input
                             id="title"
                             name="title"
                             type="text"
+                            v-model="form.title"
                             class="mt-1 block w-full"
                             placeholder="Enter title"
                         />
-                        <!-- <InputError :message="form.errors.title" /> -->
+                        <div class="text-red-500 text-sm" v-if="form.errors.title">{{ form.errors.title }}</div>
                     </div>
                     <div class="grid gap-2">
                         <Label for="sub_title">Sub Title</Label>
@@ -46,10 +68,11 @@ const breadcrumbs: BreadcrumbItem[] = [
                             id="sub_title"
                             name="sub_title"
                             type="text"
+                            v-model="form.sub_title"
                             class="mt-1 block w-full"
                             placeholder="Enter sub_title"
                         />
-                        <!-- <InputError :message="form.errors.sub_title" /> -->
+                        <div class="text-red-500 text-sm" v-if="form.errors.sub_title">{{ form.errors.sub_title }}</div>
                     </div>
                     <div class="grid gap-2">
                         <Label for="description">Description</Label>
@@ -57,10 +80,11 @@ const breadcrumbs: BreadcrumbItem[] = [
                             id="description"
                             name="description"
                             type="text"
+                            v-model="form.description"
                             class="mt-1 block w-full"
                             placeholder="Enter description"
                         />
-                        <!-- <InputError :message="form.errors.description" /> -->
+                        <div class="text-red-500 text-sm" v-if="form.errors.description">{{ form.errors.description }}</div>
                     </div>
                     <div class="grid gap-2">
                         <Label for="image">Image</Label>
@@ -68,9 +92,11 @@ const breadcrumbs: BreadcrumbItem[] = [
                             id="image"
                             name="image"
                             type="file"
+                            @input="form.image = $event.target.files[0]"
                             class="mt-1 block w-full cursor-pointer"
                         />
-                        <!-- <InputError :message="form.errors.current_password" /> -->
+                        <div class="text-red-500 text-sm" v-if="form.errors.image">{{ form.errors.image }}</div>
+                        <img :src="props.blog.image" alt="about image" class="h-12 w-32 mt-2" />
                     </div>
 
                     <div class="flex items-center gap-4">

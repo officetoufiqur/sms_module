@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Head } from '@inertiajs/vue3';
+import { Head, useForm } from '@inertiajs/vue3';
 
 import AdminAppLayout from '@/layouts/AdminAppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
@@ -16,6 +16,17 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
+const from = useForm({
+    title: '',
+    sub_title: '',
+    description: '',
+    image: null,
+});
+
+function submit() {
+    from.post('/admin/blog/store');
+}
+
 </script>
 
 <template>
@@ -28,17 +39,18 @@ const breadcrumbs: BreadcrumbItem[] = [
                 <Link href="/admin/blog" class=" bg-[#0f79bc] hover:bg-[#4a4745] px-6 py-2 text-white rounded-md">Back</Link>
             </div>
             <div class="bg-gray-50 border border-gray-200 p-6 rounded-lg">
-                <form class="mt-8 space-y-4">
+                <form @submit.prevent="submit" class="mt-8 space-y-4">
                     <div class="grid gap-2">
                         <Label for="title">Title</Label>
                         <Input
                             id="title"
                             name="title"
                             type="text"
+                            v-model="from.title"
                             class="mt-1 block w-full"
                             placeholder="Enter title"
                         />
-                        <!-- <InputError :message="form.errors.title" /> -->
+                        <div class="text-red-500 text-sm" v-if="from.errors.title">{{ from.errors.title }}</div>
                     </div>
                     <div class="grid gap-2">
                         <Label for="sub_title">Sub Title</Label>
@@ -46,10 +58,11 @@ const breadcrumbs: BreadcrumbItem[] = [
                             id="sub_title"
                             name="sub_title"
                             type="text"
+                            v-model="from.sub_title"
                             class="mt-1 block w-full"
                             placeholder="Enter sub_title"
                         />
-                        <!-- <InputError :message="form.errors.sub_title" /> -->
+                        <div class="text-red-500 text-sm" v-if="from.errors.sub_title">{{ from.errors.sub_title }}</div>
                     </div>
                     <div class="grid gap-2">
                         <Label for="description">Description</Label>
@@ -57,10 +70,11 @@ const breadcrumbs: BreadcrumbItem[] = [
                             id="description"
                             name="description"
                             type="text"
+                            v-model="from.description"
                             class="mt-1 block w-full"
                             placeholder="Enter description"
                         />
-                        <!-- <InputError :message="form.errors.description" /> -->
+                        <div class="text-red-500 text-sm" v-if="from.errors.description">{{ from.errors.description }}</div>
                     </div>
                     <div class="grid gap-2">
                         <Label for="image">Image</Label>
@@ -68,9 +82,10 @@ const breadcrumbs: BreadcrumbItem[] = [
                             id="image"
                             name="image"
                             type="file"
+                            @input="from.image = $event.target.files[0]"
                             class="mt-1 block w-full cursor-pointer"
                         />
-                        <!-- <InputError :message="form.errors.current_password" /> -->
+                        <div class="text-red-500 text-sm" v-if="from.errors.image">{{ from.errors.image }}</div>
                     </div>
 
                     <div class="flex items-center gap-4">
