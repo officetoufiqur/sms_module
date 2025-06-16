@@ -22,9 +22,25 @@ Route::get('rate-plan', function () {
     return Inertia::render('user_dashboard/RatePlan');
 })->middleware(['auth', 'verified'])->name('rate-plan');
 
+Route::get('group', function () {
+    return Inertia::render('user_dashboard/Group/Index');
+})->middleware(['auth', 'verified'])->name('group');
+
+Route::get('group/contact/{id}', function () {
+    return Inertia::render('user_dashboard/Group/GroupContact');
+})->middleware(['auth', 'verified'])->name('group.contact');
+
+Route::get('group/contact/edit/{id}', function () {
+    return Inertia::render('user_dashboard/Group/Edit');
+})->middleware(['auth', 'verified'])->name('group.contact.edit');
+
 Route::get('send-sms', function () {
     return Inertia::render('user_dashboard/SendSms');
 })->middleware(['auth', 'verified'])->name('send-sms');
+
+Route::get('send-sms-file', function () {
+    return Inertia::render('user_dashboard/SendSmsFile');
+})->middleware(['auth', 'verified'])->name('send-sms-file');
 
 Route::get('sender_id', function () {
     return Inertia::render('user_dashboard/SendId');

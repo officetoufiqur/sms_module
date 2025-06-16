@@ -3,7 +3,7 @@ import NavMain from '@/components/NavMain.vue';
 import { Sidebar, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/vue3';
-import { LayoutGrid, Cable, ChartArea, MessageCircle, Phone, History, ArrowRightLeft, File } from 'lucide-vue-next';
+import { LayoutGrid, Cable, ChartArea, MessageCircle, Phone, History, ArrowRightLeft, File, GroupIcon } from 'lucide-vue-next';
 import AppLogo from './AppLogo.vue';
 
 const mainNavItems: NavItem[] = [
@@ -28,13 +28,18 @@ const mainNavItems: NavItem[] = [
         icon: ChartArea,
     },
     {
+        title: 'Group',
+        href: '/group',
+        icon: GroupIcon,
+    },
+    {
         title: 'Send Sms',
         href: '/send-sms',
         icon: MessageCircle,
     },
     {
-        title: 'Send From File',
-        href: '/send-file',
+        title: 'Send SMS From File',
+        href: '/send-sms-file',
         icon: File,
     },
     {

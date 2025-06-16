@@ -21,7 +21,7 @@ defineProps<{
   <div>
     <select
       :value="value"
-      class="bg-white border cursor-pointer w-full mt-3 border-gray-200 text-gray-900 text-sm rounded-lg block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+      class="bg-white border cursor-pointer w-full border-gray-200 text-gray-900 text-sm rounded-lg block p-3"
     >
       <option disabled value="">{{ placeholder || 'Select an option' }}</option>
       <option

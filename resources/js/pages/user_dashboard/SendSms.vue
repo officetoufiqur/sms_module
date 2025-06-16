@@ -23,10 +23,10 @@ const form = useForm({
 
 const selectedCountry = ref('')
 const countryOptions = [
-  { value: 'us', label: 'United States' },
-  { value: 'ca', label: 'Canada' },
-  { value: 'uk', label: 'United Kingdom' },
-  { value: 'fr', label: 'France' },
+    { value: 'us', label: 'United States' },
+    { value: 'ca', label: 'Canada' },
+    { value: 'uk', label: 'United Kingdom' },
+    { value: 'fr', label: 'France' },
 ]
 
 </script>
@@ -59,8 +59,11 @@ const countryOptions = [
                         <Label for="message">Body</Label>
                         <TextArea placeholder="Write your thoughts here..." />
 
-                        <div class="flex items-center gap-4">
-                            <Button :disabled="form.processing" class="cursor-pointer">Save</Button>
+                        <span class="text-sm text-gray-600">0 SMS</span>
+
+                        <div class="flex items-center gap-4 mt-2">
+                            <Button :disabled="form.processing"
+                                class="inline-flex cursor-pointer w-full justify-center rounded-md bg-[#0f79bc] px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-[#4a4745] sm:w-auto">Submit</Button>
 
                             <Transition enter-active-class="transition ease-in-out" enter-from-class="opacity-0"
                                 leave-active-class="transition ease-in-out" leave-to-class="opacity-0">
@@ -70,11 +73,18 @@ const countryOptions = [
                     </form>
                 </div>
                 <div class="lg:w-1/3 space-y-5">
-                    <h1 class="bg-gray-50 p-10 rounded-lg border border-gray-200 text-center text-xl font-semibold text-gray-700">Blance: $200</h1>
+                    <h1
+                        class="bg-gray-50 p-10 rounded-lg border border-gray-200 text-center text-xl font-semibold text-gray-700">
+                        Blance: $200</h1>
 
                     <div class="bg-gray-50 rounded-lg border border-gray-200">
-                        <h1 class="py-5 text-center text-xl bg-gray-100 font-semibold text-gray-700 border-b border-gray-200">SMS Count</h1>
-                        <p class="px-10 py-5 text-justify">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed, saepe? Nam est fugit maxime quis. Reiciendis voluptatibus vel consequatur, libero id et nulla nisi at temporibus sequi soluta, nihil molestiae placeat pariatur saepe dolorum. Mollitia quis voluptates hic laboriosam temporibus.</p>
+                        <h1
+                            class="py-5 text-center text-xl bg-gray-100 font-semibold text-gray-700 border-b border-gray-200">
+                            SMS Count</h1>
+                        <p class="px-10 py-5 text-justify">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed,
+                            saepe? Nam est fugit maxime quis. Reiciendis voluptatibus vel consequatur, libero id et
+                            nulla nisi at temporibus sequi soluta, nihil molestiae placeat pariatur saepe dolorum.
+                            Mollitia quis voluptates hic laboriosam temporibus.</p>
                     </div>
                 </div>
             </div>

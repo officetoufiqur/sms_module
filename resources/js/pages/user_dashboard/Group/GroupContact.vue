@@ -1,0 +1,168 @@
+<script setup lang="ts">
+import { Head, router, Link } from '@inertiajs/vue3';
+
+import AppLayout from '@/layouts/AppLayout.vue';
+import { type BreadcrumbItem } from '@/types';
+import FilterTable from '@/components/home/FilterTable.vue';
+import { EyeIcon, TrashIcon } from 'lucide-vue-next';
+import { ref } from 'vue';
+import { Input } from '@/components/ui/input';
+import Select from '@/components/my-components/Select.vue';
+import Swal from 'sweetalert2';
+
+
+const breadcrumbs: BreadcrumbItem[] = [
+    {
+        title: 'Group Contact',
+        href: '/group/contact',
+    },
+];
+
+const columns = [
+    { key: 'id', label: 'ID' },
+    { key: 'name', label: 'Name' },
+    { key: 'mobile', label: 'Mobile' },
+    { key: 'email', label: 'Email' },
+    { key: 'group_name', label: 'Group Name' },
+    { key: 'action', label: 'Action' },
+];
+
+const data = [
+    {
+        id: 1,
+        name: 'test Group Contact',
+        mobile: '01712345678',
+        email: 'test@example',
+        group_name: 'test group'
+    }
+]
+
+const selectedOption = ref('')
+const selectOptions = [
+    { value: 'apple', label: 'Apple' },
+    { value: 'banana', label: 'Banana' },
+    { value: 'cherry', label: 'Cherry' }
+]
+
+const openModal = ref(false);
+
+function editContact(id: number) {
+    router.visit(`/group/contact/edit/${id}`);
+}
+
+function deleteCustomer(id: number) {
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            router.delete(`/group/contact/delete/${id}`, {
+                preserveScroll: true,
+                onSuccess: () => {
+                    Swal.fire(
+                        'Deleted!',
+                        'Your contact has been deleted.',
+                        'success'
+                    );
+                },
+                onError: () => {
+                    Swal.fire(
+                        'Error!',
+                        'There was an error deleting the contact.',
+                        'error'
+                    );
+                }
+            });
+        }
+    })
+}
+
+</script>
+
+<template>
+    <AppLayout :breadcrumbs="breadcrumbs">
+
+        <Head title="Group Contact" />
+
+        <div class="mt-20 mx-14">
+            <div class="flex items-center justify-between mb-6">
+                <h1 class="text-2xl font-semibold text-slate-900">Group Contact</h1>
+                <div class="flex items-center gap-3">
+                    <Link href="/group" class=" bg-blue-500 hover:bg-blue-600 px-6 py-2 text-white rounded-md">Back
+                    </Link>
+                    <button @click="openModal = true"
+                        class=" bg-[#0f79bc] cursor-pointer hover:bg-[#4a4745] px-6 py-2 text-white rounded-md">Add
+                        Contact</button>
+                </div>
+            </div>
+
+            <!-- create modal -->
+            <div v-if="openModal" class="relative z-10" aria-labelledby="dialog-title" role="dialog" aria-modal="true">
+                <div class="fixed inset-0 bg-gray-500/75 transition-opacity" aria-hidden="true"></div>
+
+                <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+                    <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                        <div
+                            class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-3xl pt-8 pb-4 px-5">
+                            <h1 class="text-xl font-semibold text-gray-600">Add Group Contact</h1>
+                            <hr class="mt-4" />
+                            <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                                <div class="grid gap-2">
+                                    <Label for="title">Name (optional)</Label>
+                                    <Input id="title" name="title" type="text" class="mt-1 block w-full"
+                                        placeholder="Enter name" />
+                                </div>
+                                <div class="grid gap-2 mt-2">
+                                    <Label for="title">Mobile <span class="text-red-600">*</span></Label>
+                                    <Input id="title" name="title" type="text" class="mt-1 block w-full"
+                                        placeholder="Enter mobile number" />
+                                </div>
+                                <div class="grid gap-2 mt-2">
+                                    <Label for="title">Emial (optional)</Label>
+                                    <Input id="title" name="title" type="text" class="mt-1 block w-full"
+                                        placeholder="Enter email" />
+                                </div>
+                                <div class="grid gap-2 mt-2">
+                                    <Label for="title">Select Group <span class="text-red-600">*</span></Label>
+                                    <Select v-model:value="selectedOption" :options="selectOptions"
+                                        placeholder="Select an group" />
+                                </div>
+                            </div>
+                            <hr class="mb-4" />
+                            <div class="px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                                <button type="button"
+                                    class="inline-flex cursor-pointer w-full justify-center rounded-md bg-[#0f79bc] px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-[#4a4745] sm:ml-3 sm:w-auto">Submit</button>
+                                <button @click="openModal = false" type="button"
+                                    class="inline-flex cursor-pointer w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-red-500 sm:ml-3 sm:w-auto">Cancle</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <FilterTable :plans="data" :columns="columns">
+                <template #action="{ }">
+                    <div class="space-x-2">
+                        <button @click="editContact(1)"
+                            class="text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center cursor-pointer">
+                            <EyeIcon class="w-5 h-5" />
+                        </button>
+                        <button @click="deleteCustomer(1)"
+                            class="text-white bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center cursor-pointer">
+                            <TrashIcon class="w-5 h-5" />
+                        </button>
+                    </div>
+                </template>
+
+            </FilterTable>
+
+
+        </div>
+
+    </AppLayout>
+</template>
