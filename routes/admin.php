@@ -33,8 +33,10 @@ Route::post('/admin/about/update', [LandingPageController::class, 'aboutUpdate']
 // Landing Page Pricing
 Route::get('/admin/pricing', [LandingPageController::class, 'pricing'])->name('admin.pricing');
 Route::get('/admin/pricing/create', [LandingPageController::class, 'pricingCreate'])->name('admin.pricing.create');
+Route::post('/admin/pricing/store', [LandingPageController::class, 'pricingStore'])->name('admin.pricing.store');
 Route::get('/admin/pricing/edit/{id}', [LandingPageController::class, 'pricingEdit'])->name('admin.pricing.edit');
 Route::post('/admin/pricing/update/{id}', [LandingPageController::class, 'pricingUpdate'])->name('admin.pricing.update');
+Route::delete('/admin/pricing/delete/{id}', [LandingPageController::class, 'pricingDestroy'])->name('admin.pricing.delete');
 
 // Landing Page faqs Sections
 Route::get('/admin/faqs', [LandingPageController::class, 'faqs'])->name('admin.faqs');

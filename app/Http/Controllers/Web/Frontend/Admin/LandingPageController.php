@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Web\Frontend\Admin;
 
+use App\Models\CMS;
+use App\Models\Plan;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\CMS;
 
 class LandingPageController extends Controller
 {
@@ -101,16 +102,71 @@ class LandingPageController extends Controller
     // pricing section
     public function pricing()
     {
-        return Inertia::render('admin/dashboard/LandingPage/pricing/Index');
+        $plans = Plan::all();
+        return Inertia::render('admin/dashboard/LandingPage/pricing/Index', compact('plans'));
     }
 
     public function pricingCreate()
     {
         return Inertia::render('admin/dashboard/LandingPage/pricing/Create');
     }
+
+    public function pricingStore(Request $request)
+    {
+        $validated = $request->validate([
+            'plan_name' => 'required|string|max:255',
+            'amount' => 'required|integer',
+            'sms_limit' => 'required|integer',
+            'plan_feature' => 'required|array',
+            'plan_feature.*' => 'required|string',
+        ]);
+        // return $validated; 
+
+        $plan = new Plan();
+        $plan->plan_name = $request->input('plan_name');
+        $plan->amount = $request->input('amount');
+        $plan->sms_limit = $request->input('sms_limit');
+        $plan->plan_feature = json_encode($request->input('plan_feature'));
+        $plan->save();
+
+        return redirect()->route('admin.pricing')->with('message', 'Pricing plan created successfully.');
+    }
+
     public function pricingEdit($id)
     {
-        return Inertia::render('admin/dashboard/LandingPage/pricing/Edit', ['id' => $id]);
+        $plan = Plan::findOrFail($id);
+        $plan->plan_feature = json_decode($plan->plan_feature, true);
+        return Inertia::render('admin/dashboard/LandingPage/pricing/Edit', ['plan' => $plan]);
+    }
+
+    public function pricingUpdate(Request $request, $id)
+    {
+        $plan = Plan::findOrFail($id);
+        // Validate the request data
+        $validated = $request->validate([
+            'plan_name' => 'required|string|max:255',
+            'amount' => 'required|integer',
+            'sms_limit' => 'required|integer',
+            'plan_feature' => 'nullable|array',
+            'plan_feature.*' => 'nullable|string',
+        ]);
+
+        // return $validated; 
+
+        $plan->plan_name = $request->input('plan_name');
+        $plan->amount = $request->input('amount');
+        $plan->sms_limit = $request->input('sms_limit');
+        $plan->plan_feature = json_encode($request->input('plan_feature') ?? []);
+        $plan->save();
+
+        return redirect()->route('admin.pricing')->with('message', 'Pricing plan updated successfully.');
+    }
+
+    public function pricingDestroy($id)
+    {
+        $plan = Plan::findOrFail($id);
+        $plan->delete();
+        return redirect()->route('admin.pricing')->with('message', 'Pricing plan deleted successfully.');
     }
 
     // faqs section

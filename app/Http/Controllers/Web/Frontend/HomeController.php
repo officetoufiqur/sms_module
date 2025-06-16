@@ -6,6 +6,7 @@ use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\CMS;
+use App\Models\Plan;
 use App\Models\Testimonial;
 
 class HomeController extends Controller
@@ -15,11 +16,17 @@ class HomeController extends Controller
         $banner = \App\Models\CMS::where('section', 'banner')->first();
         $testimonial = Testimonial::all();
         $about = CMS::where('section', 'about')->first();
+        $plans = Plan::all();
+        $plans->each(function ($plan) {
+            $plan->plan_feature = json_decode($plan->plan_feature, true);
+        });
 
+        // return $plans;
         return Inertia::render('Home',[
             'banner' => $banner, 
             'testimonial' => $testimonial,
-            'about' => $about
+            'about' => $about,
+            'plans' => $plans
         ]);
     }
 }

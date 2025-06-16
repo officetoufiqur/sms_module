@@ -29,6 +29,13 @@ defineProps<{
         description: string;
         image: string;
     };
+    plans: {
+        id: number;
+        plan_name: string;
+        amount: string;
+        sms_limit: string;
+        plan_feature: string[];
+    }[];
 }>();
 </script>
 
@@ -108,7 +115,7 @@ defineProps<{
         </section>
 
         <About :about="about"/>
-        <Pricing />
+        <Pricing :plans="plans"/>
         <Accordion />
 
         <section class="mt-20 max-w-7xl mx-auto px-5">
