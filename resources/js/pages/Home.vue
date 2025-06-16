@@ -36,6 +36,11 @@ defineProps<{
         sms_limit: string;
         plan_feature: string[];
     }[];
+    faqs: {
+        id: number;
+        question: string;
+        answer: string;
+    }[];
 }>();
 </script>
 
@@ -116,7 +121,7 @@ defineProps<{
 
         <About :about="about"/>
         <Pricing :plans="plans"/>
-        <Accordion />
+        <Accordion :items="faqs" />
 
         <section class="mt-20 max-w-7xl mx-auto px-5">
             <h2 class="text-4xl font-bold mb-6 text-center text-[#0f79bc]">What Our Clients Say</h2>

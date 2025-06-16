@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Head } from '@inertiajs/vue3';
+import { Head, useForm } from '@inertiajs/vue3';
 
 import AdminAppLayout from '@/layouts/AdminAppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
@@ -16,6 +16,23 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
+const props = defineProps<{
+    faq: {
+        id: number;
+        question: string;
+        answer: string;
+    };
+}>();
+
+const form = useForm({
+    question: props.faq.question,
+    answer: props.faq.answer,
+});
+
+function submit() {
+    form.post(`/admin/faqs/update/${props.faq.id}`);
+}
+
 </script>
 
 <template>
@@ -28,17 +45,18 @@ const breadcrumbs: BreadcrumbItem[] = [
                 <Link href="/admin/faqs" class=" bg-[#0f79bc] hover:bg-[#4a4745] px-6 py-2 text-white rounded-md">Back</Link>
             </div>
             <div class="bg-gray-50 border border-gray-200 p-6 rounded-lg">
-                <form class="mt-8 space-y-4">
+                <form @submit.prevent="submit" class="mt-8 space-y-4">
                     <div class="grid gap-2">
                         <Label for="question">Question</Label>
                         <Input
                             id="question"
                             name="question"
                             type="text"
+                            v-model="form.question"
                             class="mt-1 block w-full"
                             placeholder="Enter question"
                         />
-                        <!-- <InputError :message="form.errors.question" /> -->
+                        <div class="text-red-500 text-sm" v-if="form.errors.question">{{ form.errors.question }}</div>
                     </div>
                     <div class="grid gap-2">
                         <Label for="answer">Answer</Label>
@@ -46,20 +64,11 @@ const breadcrumbs: BreadcrumbItem[] = [
                             id="answer"
                             name="answer"
                             type="text"
+                            v-model="form.answer"
                             class="mt-1 block w-full"
                             placeholder="Enter answer"
                         />
-                        <!-- <InputError :message="form.errors.answer" /> -->
-                    </div>
-                    <div class="grid gap-2">
-                        <Label for="image">Image</Label>
-                        <Input
-                            id="image"
-                            name="image"
-                            type="file"
-                            class="mt-1 block w-full cursor-pointer"
-                        />
-                        <!-- <InputError :message="form.errors.current_password" /> -->
+                        <div class="text-red-500 text-sm" v-if="form.errors.answer">{{ form.errors.answer }}</div>
                     </div>
 
                     <div class="flex items-center gap-4">

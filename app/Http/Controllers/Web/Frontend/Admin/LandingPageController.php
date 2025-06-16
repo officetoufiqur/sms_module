@@ -172,15 +172,55 @@ class LandingPageController extends Controller
     // faqs section
     public function faqs()
     {
-        return Inertia::render('admin/dashboard/LandingPage/faqs/Index');
+        $faqs = CMS::where('section', 'faqs')->get();
+        return Inertia::render('admin/dashboard/LandingPage/faqs/Index', compact('faqs'));
     }
     public function faqsEdit($id)
     {
-        return Inertia::render('admin/dashboard/LandingPage/faqs/Edit', ['id' => $id]);
+        $faq = CMS::findOrFail($id);
+        return Inertia::render('admin/dashboard/LandingPage/faqs/Edit', compact('faq'));
     }
     public function faqsCreate()
     {
         return Inertia::render('admin/dashboard/LandingPage/faqs/Create');
+    }
+
+    public function faqsStore(Request $request)
+    {
+        $validated = $request->validate([
+            'question' => 'required|string|max:255',
+            'answer' => 'required|string',
+        ]);
+
+        $faq = new CMS();
+        $faq->section = 'faqs';
+        $faq->question = $request->input('question');
+        $faq->answer = $request->input('answer');
+        $faq->save();
+
+        return redirect()->route('admin.faqs')->with('message', 'FAQ created successfully.');
+    }
+
+    public function faqsUpdate(Request $request, $id)
+    {
+        $faq = CMS::findOrFail($id);
+
+        $validated = $request->validate([
+            'question' => 'required|string|max:255',
+            'answer' => 'required|string',
+        ]);
+
+        $faq->question = $request->input('question');
+        $faq->answer = $request->input('answer');
+        $faq->save();
+
+        return redirect()->route('admin.faqs')->with('message', 'FAQ updated successfully.');
+    }
+    public function faqsDelete($id)
+    {
+        $faq = CMS::findOrFail($id);
+        $faq->delete();
+        return redirect()->route('admin.faqs')->with('message', 'FAQ deleted successfully.');
     }
 
     // blog section

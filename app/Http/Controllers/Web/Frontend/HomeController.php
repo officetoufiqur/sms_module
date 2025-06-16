@@ -21,12 +21,15 @@ class HomeController extends Controller
             $plan->plan_feature = json_decode($plan->plan_feature, true);
         });
 
+        $faqs = CMS::where('section', 'faqs')->select('question', 'answer')->get();
+
         // return $plans;
         return Inertia::render('Home',[
             'banner' => $banner, 
             'testimonial' => $testimonial,
             'about' => $about,
-            'plans' => $plans
+            'plans' => $plans,
+            'faqs' => $faqs
         ]);
     }
 }
