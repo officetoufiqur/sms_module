@@ -27,6 +27,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
     Route::get('/send-sms', [UserDashboardController::class, 'sendSms'])->name('send-sms');
     Route::get('/send-sms-file', [UserDashboardController::class, 'sendSmsFile'])->name('send-sms-file');
+    Route::post('/send-sms-file', [UserDashboardController::class, 'import']);
     Route::get('/sender_id', [UserDashboardController::class, 'senderId'])->name('sender_id');
     Route::get('/sms_logs', [UserDashboardController::class, 'smsLogs'])->name('sms_logs');
 });                                                                                                                                        
