@@ -16,6 +16,7 @@ class GroupContact extends Model
         'name',
         'mobile',
         'email',
+        'block',
     ];
     public function group()
     {

@@ -11,7 +11,11 @@ const form = useForm({
 })
 
 function submit() {
-    form.post(route('contact.store'))
+    form.post(route('contact.store'),{
+        onSuccess: () => {
+            form.reset();
+        }
+    })
 }
 </script>
 
@@ -90,7 +94,7 @@ function submit() {
                     </div>
 
                     <div class="flex items-center gap-4">
-                        <Button class="bg-[#0f79bc] hover:bg-[#4a4745] cursor-pointer text-white px-5 py-2 rounded-md">Update</Button>
+                        <Button class="bg-[#0f79bc] hover:bg-[#4a4745] cursor-pointer text-white px-5 py-2 rounded-md">Submit</Button>
 
                         <Transition enter-active-class="transition ease-in-out" enter-from-class="opacity-0"
                             leave-active-class="transition ease-in-out" leave-to-class="opacity-0">

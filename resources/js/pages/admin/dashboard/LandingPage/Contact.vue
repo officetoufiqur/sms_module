@@ -14,6 +14,16 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
+const props = defineProps<{
+    contacts: {
+        id: number;
+        name: string;
+        email: string;
+        subject: string;
+        message: string;
+    }[];
+}>();
+
 const columns = [
     { key: 'id', label: 'ID' },
     { key: 'name', label: 'Name' },
@@ -23,15 +33,7 @@ const columns = [
     { key: 'action', label: 'Action' },
 ];
 
-const data = [
-    {
-        id: 1,
-        name: 'John Doe',
-        email: 'john@example.com',
-        subject: 'Inquiry',
-        message: 'I have a question about your services.',
-    }
-]
+const data = props.contacts;
 
 function viewCustomer(id: number) {
     router.visit(`/admin/contact/destroy/${id}`);
@@ -47,6 +49,9 @@ function viewCustomer(id: number) {
         <!-- Contact Table -->
         <div class="mt-20 mx-14">
             <FilterTable :plans="data" :columns="columns" :title="'Contact'">
+                <template #message="{ item }">
+                    {{ item.message.length > 50 ? item.message.slice(0, 100) + '...' : item.message }}
+                </template>
                 <template #action="{ }">
                     <div class="space-x-2.5">
                         <button @click="viewCustomer(1)"

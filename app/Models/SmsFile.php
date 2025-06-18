@@ -17,5 +17,7 @@ class SmsFile extends Model
         'sender_id',
         'gender',
         'status',
+        'block',
+        'age'
     ];
 }

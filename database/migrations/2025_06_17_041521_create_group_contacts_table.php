@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->string('mobile');
             $table->string('email')->nullable();
+            $table->boolean('block')->default(0);
             $table->timestamps();
         });
     }

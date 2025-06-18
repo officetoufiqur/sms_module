@@ -3,7 +3,7 @@ import NavMain from '@/components/NavMain.vue';
 import { Sidebar, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/vue3';
-import { LayoutGrid, Cable, ChartArea, MessageCircle, Phone, History, ArrowRightLeft, File, GroupIcon } from 'lucide-vue-next';
+import { LayoutGrid, Cable, ChartArea, MessageCircle, Phone, History, ArrowRightLeft, File, GroupIcon, UserRoundXIcon } from 'lucide-vue-next';
 import AppLogo from './AppLogo.vue';
 
 const mainNavItems: NavItem[] = [
@@ -26,6 +26,11 @@ const mainNavItems: NavItem[] = [
         title: 'Plan Rate',
         href: '/rate-plan',
         icon: ChartArea,
+    },
+    {
+        title: 'Block User',
+        href: '/block_user',
+        icon: UserRoundXIcon,
     },
     {
         title: 'Group',

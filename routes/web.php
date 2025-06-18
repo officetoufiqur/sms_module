@@ -36,6 +36,12 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
     // SMS Logs
     Route::get('/sms_logs', [UserDashboardController::class, 'smsLogs'])->name('sms_logs');
+
+    // block user
+    Route::get('/block_user', [UserDashboardController::class, 'blockUser'])->name('block_user');
+    Route::get('/block/user/create', [UserDashboardController::class, 'blockUserCreate'])->name('block.user.create');
+    Route::post('/block/user/store', [UserDashboardController::class, 'blockUserStore'])->name('block.user.store');
+    Route::delete('/block/user/update/{id}', [UserDashboardController::class, 'blockUserUpdate'])->name('block.user.update');
 });                                                                                                                                        
 
 require __DIR__.'/settings.php';

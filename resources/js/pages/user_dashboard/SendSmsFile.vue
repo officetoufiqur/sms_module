@@ -20,6 +20,7 @@ const form = useForm({
     file: '',
     message: '',
     gender: '',
+    age:'',
 });
 
 const submit = () => {
@@ -52,6 +53,11 @@ const submit = () => {
                             </select>
                             <div class="text-red-500 text-sm" v-if="form.errors.sender_id">{{ form.errors.sender_id }}
                             </div>
+                        </div>
+                        <div>
+                            <Label for="age">age</Label>
+                            <Input id="age" type="text" name="age" class="block mt-2 w-full cursor-pointer" />
+                            <div class="text-red-500 text-sm" v-if="form.errors.age">{{ form.errors.age }}</div>
                         </div>
                         <div>
                             <Label for="file">File</Label>

@@ -6,6 +6,7 @@ use App\Models\CMS;
 use App\Models\Blog;
 use App\Models\Plan;
 use Inertia\Inertia;
+use App\Models\Contact;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -312,7 +313,8 @@ class LandingPageController extends Controller
     // contact section
     public function contact()
     {
-        return Inertia::render('admin/dashboard/LandingPage/Contact');
+        $contacts = Contact::all();
+        return Inertia::render('admin/dashboard/LandingPage/Contact', compact('contacts'));
     }
 
     // client says section

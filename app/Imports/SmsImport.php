@@ -11,12 +11,14 @@ class SmsImport implements ToCollection
     protected $message;
     protected $senderId;
     protected $gender;
+    protected $age;
 
-    public function __construct($message, $senderId, $gender)
+    public function __construct($message, $senderId, $gender, $age)
     {
         $this->message = $message;
         $this->senderId = $senderId;
         $this->gender = $gender;
+        $this->age = $age;
     }
 
     public function collection(Collection $rows)
@@ -36,7 +38,8 @@ class SmsImport implements ToCollection
                 'number' => $number,
                 'message' => $this->message,
                 'sender_id' => $this->senderId,
-                'gender' => $this->gender
+                'gender' => $this->gender,
+                'age' => $this->age
             ]);
 
             

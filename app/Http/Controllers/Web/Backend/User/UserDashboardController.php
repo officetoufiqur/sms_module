@@ -45,6 +45,7 @@ class UserDashboardController extends Controller
             'message' => 'required|string',
             'sender_id' => 'required|string',
             'gender' => 'required|string',
+            'age' => 'nullable|string',
         ]);
 
         if ($request->hasFile('file')) {
@@ -55,7 +56,7 @@ class UserDashboardController extends Controller
         }
 
         Excel::import(
-            new SmsImport($request->message, $request->sender_id, $request->gender),
+            new SmsImport($request->message, $request->sender_id, $request->gender, $request->age),
             storage_path('app/public/' . $filePath)
         );
 
@@ -66,8 +67,9 @@ class UserDashboardController extends Controller
     {
         $request->validate([
             'sender_id' => 'required|string',
-            'name' => 'required|string',
-            'gender' => 'required|string',
+            'name' => 'nullable|string',
+            'gender' => 'nullable|string',
+            'age' => 'nullable|string',
             'message' => 'required|string',
             'number' => [
                 'required',
@@ -86,6 +88,7 @@ class UserDashboardController extends Controller
             'name' => $request->name,
             'number' => $request->number,
             'gender' => $request->gender,
+            'age' => $request->age,
             'message' => $request->message
         ]);
 
@@ -101,5 +104,49 @@ class UserDashboardController extends Controller
     {
         $smsLogs = SmsFile::all();
         return Inertia::render('user_dashboard/SmsLogs',compact('smsLogs'));
+    }
+
+    public function blockUser()
+    {
+        $blockUser = SmsFile::where('block', 1)->get();
+        return Inertia::render('user_dashboard/BlockUser',compact('blockUser'));
+    }
+
+    public function blockUserCreate()
+    {
+        return Inertia::render('user_dashboard/BlockUserCreate');
+    }
+
+    public function blockUserStore(Request $request)
+    {
+        $request->validate([
+            'number' => [
+                'required',
+                'regex:/^01[3-9][0-9]{8}$/', // Valid BD format
+                function ($attribute, $value, $fail) {
+                    $allowedPrefixes = ['013', '017', '014', '018']; // Example: GP + Robi
+                    $prefix = substr($value, 0, 3);
+                    if (!in_array($prefix, $allowedPrefixes)) {
+                        $fail("The $attribute must be from an allowed mobile operator.");
+                    }
+                }
+            ],
+        ]);
+
+        SmsFile::create([
+            'name' => $request->name,
+            'age' => $request->age,
+            'number' => $request->number,
+            'gender' => $request->gender,
+            'block' => 1
+        ]);
+
+        return back()->with('message', 'User Blocked Successfully!');
+    }
+
+    public function blockUserUpdate($id)
+    {
+        SmsFile::where('id', $id)->update(['block' => 0]);
+        return back()->with('message', 'User Unblocked Successfully!');
     }
 }
