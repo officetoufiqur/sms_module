@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import NavMain from '@/components/NavMain.vue';
-import { Sidebar, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
+import { Sidebar, SidebarContent} from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/vue3';
 import { LayoutGrid, Cable, ChartArea, MessageCircle, Phone, History, ArrowRightLeft, File, GroupIcon, UserRoundXIcon } from 'lucide-vue-next';
@@ -63,7 +63,7 @@ const mainNavItems: NavItem[] = [
 
 <template>
     <Sidebar collapsible="icon" variant="inset">
-        <SidebarHeader>
+        <!-- <SidebarHeader>
             <SidebarMenu>
                 <SidebarMenuItem>
                     <SidebarMenuButton size="lg" as-child>
@@ -73,7 +73,10 @@ const mainNavItems: NavItem[] = [
                     </SidebarMenuButton>
                 </SidebarMenuItem>
             </SidebarMenu>
-        </SidebarHeader>
+        </SidebarHeader> -->
+        <Link :href="route('dashboard')">
+            <AppLogo />
+        </Link>
 
         <SidebarContent>
             <NavMain :items="mainNavItems" />

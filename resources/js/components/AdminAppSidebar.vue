@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import NavMain from '@/components/NavMain.vue';
-import { Sidebar, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
+import { Sidebar, SidebarContent, } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/vue3';
 import { Contact2Icon, FilePenLine, FlagTriangleRight, HeartHandshake, InfoIcon, LayoutGrid, ListTodo, MessageCircleQuestion, SendIcon, User2, Users2 } from 'lucide-vue-next';
@@ -27,7 +27,7 @@ const mainNavItems: NavItem[] = [
         href: '/admin/pending/kyc',
         icon: ListTodo,
     },
-     {
+    {
         title: 'Banner',
         href: '/admin/banner',
         icon: FlagTriangleRight,
@@ -68,7 +68,7 @@ const mainNavItems: NavItem[] = [
 
 <template>
     <Sidebar collapsible="icon" variant="inset">
-        <SidebarHeader>
+        <!-- <SidebarHeader>
             <SidebarMenu>
                 <SidebarMenuItem>
                     <SidebarMenuButton size="lg" as-child>
@@ -78,7 +78,11 @@ const mainNavItems: NavItem[] = [
                     </SidebarMenuButton>
                 </SidebarMenuItem>
             </SidebarMenu>
-        </SidebarHeader>
+        </SidebarHeader> -->
+
+        <Link :href="route('dashboard')">
+            <AppLogo />
+        </Link>
 
         <SidebarContent>
             <NavMain :items="mainNavItems" />
