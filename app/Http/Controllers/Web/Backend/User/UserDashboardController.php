@@ -6,6 +6,7 @@ use Inertia\Inertia;
 use App\Imports\SmsImport;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\SmsFile;
 use Maatwebsite\Excel\Facades\Excel;
 
 class UserDashboardController extends Controller
@@ -37,28 +38,59 @@ class UserDashboardController extends Controller
         return Inertia::render('user_dashboard/SendSmsFile');
     }
 
-   public function import(Request $request)
-{
-    $request->validate([
-        'file' => 'required|file|mimes:xlsx,csv',
-        'message' => 'required|string',
-        'sender_id' => 'required|string',
-    ]);
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|file|mimes:xlsx,csv',
+            'message' => 'required|string',
+            'sender_id' => 'required|string',
+            'gender' => 'required|string',
+        ]);
 
-    if ($request->hasFile('file')) {
-        $file = $request->file('file');
-        $extension = $file->getClientOriginalExtension();
-        $filename = time() . '.' . $extension;
-        $filePath = $file->storeAs('uploads/sms', $filename, 'public');
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $extension = $file->getClientOriginalExtension();
+            $filename = time() . '.' . $extension;
+            $filePath = $file->storeAs('uploads/sms', $filename, 'public');
+        }
+
+        Excel::import(
+            new SmsImport($request->message, $request->sender_id, $request->gender),
+            storage_path('app/public/' . $filePath)
+        );
+
+        return back()->with('message', 'Data imported and saved to database.');
     }
 
-    Excel::import(
-        new SmsImport($request->message, $request->sender_id),
-        storage_path('app/public/' . $filePath)
-    );
+    public function sendSmsStore(Request $request)
+    {
+        $request->validate([
+            'sender_id' => 'required|string',
+            'name' => 'required|string',
+            'gender' => 'required|string',
+            'message' => 'required|string',
+            'number' => [
+                'required',
+                'regex:/^01[3-9][0-9]{8}$/', // Valid BD format
+                function ($attribute, $value, $fail) {
+                    $allowedPrefixes = ['013', '017', '014', '018']; // Example: GP + Robi
+                    $prefix = substr($value, 0, 3);
+                    if (!in_array($prefix, $allowedPrefixes)) {
+                        $fail("The $attribute must be from an allowed mobile operator.");
+                    }
+                }
+            ],
+        ]);
+        SmsFile::create([
+            'sender_id' => $request->sender_id,
+            'name' => $request->name,
+            'number' => $request->number,
+            'gender' => $request->gender,
+            'message' => $request->message
+        ]);
 
-    return back()->with('message', 'Data imported and saved to database.');
-}
+        return back()->with('message', 'Sms Sent Successfully!');
+    }
 
 
     public function senderId()
@@ -67,6 +99,7 @@ class UserDashboardController extends Controller
     }
     public function smsLogs()
     {
-        return Inertia::render('user_dashboard/SmsLogs');
+        $smsLogs = SmsFile::all();
+        return Inertia::render('user_dashboard/SmsLogs',compact('smsLogs'));
     }
 }

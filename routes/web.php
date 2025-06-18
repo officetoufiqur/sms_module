@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::post('/contact/store', [HomeController::class, 'contactStore'])->name('contact.store');
 
 Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('/dashboard', [UserDashboardController::class, 'dashboard'])->name('dashboard');
@@ -24,11 +25,16 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::delete('/group/delete/{id}', [GroupController::class, 'groupDelete'])->name('group.delete');
     Route::delete('/group/contact/delete/{id}', [GroupController::class, 'groupContactDelete'])->name('group.contact.delete');
 
-
+    // SMS related routes
     Route::get('/send-sms', [UserDashboardController::class, 'sendSms'])->name('send-sms');
     Route::get('/send-sms-file', [UserDashboardController::class, 'sendSmsFile'])->name('send-sms-file');
     Route::post('/send-sms-file', [UserDashboardController::class, 'import']);
+    Route::post('/send-sms-store', [UserDashboardController::class, 'sendSmsStore'])->name('send-sms-store');
+
+
     Route::get('/sender_id', [UserDashboardController::class, 'senderId'])->name('sender_id');
+
+    // SMS Logs
     Route::get('/sms_logs', [UserDashboardController::class, 'smsLogs'])->name('sms_logs');
 });                                                                                                                                        
 

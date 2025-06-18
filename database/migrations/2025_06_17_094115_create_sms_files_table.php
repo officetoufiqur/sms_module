@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('number');
             $table->text('message')->nullable();
             $table->string('sender_id')->nullable();
+            $table->string('gender')->nullable();
+            $table->enum('status', ['delivered', 'pending', 'failed'])->default('pending');
             $table->timestamps();
         });
     }

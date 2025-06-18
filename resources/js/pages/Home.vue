@@ -8,9 +8,10 @@ import Blog from '@/components/home/Blog.vue';
 import About from '@/components/home/About.vue';
 import Contact from '@/components/home/Contact.vue';
 import Footer from '@/components/home/Footer.vue';
+import FlashMessage from '@/components/my-components/FlashMessage.vue';
 
 
-defineProps<{
+const props =defineProps<{
     banner: {
         id: number;
         title: string;
@@ -50,6 +51,10 @@ defineProps<{
         description: string;
         image: string;
     }[];
+
+    flash: {
+        message?: string;
+    }
 }>();
 </script>
 
@@ -60,6 +65,7 @@ defineProps<{
         <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
     </Head>
 
+    <FlashMessage :message="props.flash.message" />
     <NavBar />
 
     <main>

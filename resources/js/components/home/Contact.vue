@@ -1,3 +1,20 @@
+<script setup lang="ts">
+import { useForm } from '@inertiajs/vue3';
+import Input from '../ui/input/Input.vue';
+import TextArea from '../my-components/textarea/TextArea.vue';
+
+const form = useForm({
+    name: '',
+    email: '',
+    subject: '',
+    message: ''
+})
+
+function submit() {
+    form.post(route('contact.store'))
+}
+</script>
+
 <template>
     <section id="contact" class="max-w-7xl lg:mx-16 xl:mx-auto mt-20 mx-10">
         <h1 class="text-4xl font-bold mb-4 text-center text-[#0f79bc]">Have Question? Get in touch!</h1>
@@ -50,27 +67,36 @@
                 </div>
 
                 <div class="bg-white border border-gray-200 p-6 rounded-lg">
-                   <form class="mt-8 space-y-4">
-                        <input type='text' placeholder='Name'
-                            class="w-full rounded-lg py-3 px-4 text-slate-900 text-sm outline-0 bg-gray-50 border" />
-                        <input type='email' placeholder='Email'
-                            class="w-full rounded-lg py-3 px-4 text-slate-900 text-sm outline-0 bg-gray-50 border" />
-                        <input type='text' placeholder='Subject'
-                            class="w-full rounded-lg py-3 px-4 text-slate-900 text-sm outline-0 bg-gray-50 border" />
-                        <textarea placeholder='Message' rows="6"
-                            class="w-full rounded-lg px-4 text-slate-900 text-sm pt-3 outline-0 bg-gray-50 border"></textarea>
+                   <form @submit.prevent="submit" class="mt-8 space-y-4">
+                    <div class="grid gap-2">
+                        <Input id="name" name="name" type="text" v-model="form.name" class="mt-1 block w-full"
+                            placeholder="Enter name" />
+                        <div class="text-red-500 text-sm" v-if="form.errors.name">{{ form.errors.name }}</div>
+                    </div>
+                    <div class="grid gap-2">
+                        <Input id="email" name="email" type="email" v-model="form.email" class="mt-1 block w-full"
+                            placeholder="Enter email" />
+                        <div class="text-red-500 text-sm" v-if="form.errors.email">{{ form.errors.email }}</div>
+                    </div>
+                    <div class="grid gap-2">
+                        <Input id="subject" name="subject" type="text" v-model="form.subject" class="mt-1 block w-full"
+                            placeholder="Enter subject" />
+                        <div class="text-red-500 text-sm" v-if="form.errors.subject">{{ form.errors.subject }}</div>
+                    </div>
+                    <div class="grid gap-2">
+                        <TextArea id="message" name="message" type="text" class="mt-1 block w-full"
+                            v-model="form.message" placeholder="Enter message" />
+                        <div class="text-red-500 text-sm" v-if="form.errors.message">{{ form.errors.message }}</div>
+                    </div>
 
-                        <button type='button'
-                            class="text-white bg-[#0f79bc] hover:bg-[#0f79bc] tracking-wide rounded-lg text-sm font-medium px-4 py-4 flex items-center justify-center w-full cursor-pointer !mt-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" fill='#fff' class="mr-2"
-                                viewBox="0 0 548.244 548.244">
-                                <path fill-rule="evenodd"
-                                    d="M392.19 156.054 211.268 281.667 22.032 218.58C8.823 214.168-.076 201.775 0 187.852c.077-13.923 9.078-26.24 22.338-30.498L506.15 1.549c11.5-3.697 24.123-.663 32.666 7.88 8.542 8.543 11.577 21.165 7.879 32.666L390.89 525.906c-4.258 13.26-16.575 22.261-30.498 22.338-13.923.076-26.316-8.823-30.728-22.032l-63.393-190.153z"
-                                    clip-rule="evenodd" data-original="#000000" />
-                            </svg>
-                            Send Message
-                        </button>
-                    </form>
+                    <div class="flex items-center gap-4">
+                        <Button class="bg-[#0f79bc] hover:bg-[#4a4745] cursor-pointer text-white px-5 py-2 rounded-md">Update</Button>
+
+                        <Transition enter-active-class="transition ease-in-out" enter-from-class="opacity-0"
+                            leave-active-class="transition ease-in-out" leave-to-class="opacity-0">
+                        </Transition>
+                    </div>
+                </form>
                 </div>
             </div>
         </div>

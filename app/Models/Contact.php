@@ -6,16 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class SmsFile extends Model
+class Contact extends Model
 {
     use HasFactory, Notifiable;
 
     protected $fillable = [
         'name',
-        'number',
+        'email',
+        'subject',
         'message',
-        'sender_id',
-        'gender',
-        'status',
     ];
 }
