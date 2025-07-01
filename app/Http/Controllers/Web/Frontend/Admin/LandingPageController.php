@@ -317,9 +317,21 @@ class LandingPageController extends Controller
         return Inertia::render('admin/dashboard/LandingPage/Contact', compact('contacts'));
     }
 
+     public function contactDelete($id)
+    {
+        $contact = Contact::findOrFail($id);
+        $contact->delete();
+        return redirect()->route('admin.contact')->with('message', 'contact deleted successfully.');
+    }
+    
     // client says section
     public function clientSays()
     {
         return Inertia::render('admin/dashboard/LandingPage/ClientSay');
+    }
+
+     public function document()
+    {
+        return Inertia::render('document/Document');
     }
 }

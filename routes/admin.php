@@ -16,7 +16,7 @@ Route::group(['middleware' => ['auth']], function () {
    })->name('admin.dashboard');
 
    Route::get('/admin/pending/kyc', [CustomerController::class, 'pendingKYC'])->name('pending.kyc');
-   Route::get('/admin/create/customer', [CustomerController::class, 'create'])->name('create.customer');
+   Route::get('/admin/customers/create', [CustomerController::class, 'createCustomer'])->name('create.customer');
    Route::get('/admin/manage/customers', [CustomerController::class, 'manageCustomer'])->name('manage.customers');
    Route::get('/customers/about', [CustomerController::class, 'about'])->name('customer.about');
    Route::get('/customers/rate/plan', [CustomerController::class, 'ratePlan'])->name('customer.rate.plan');
@@ -55,9 +55,11 @@ Route::group(['middleware' => ['auth']], function () {
    Route::get('/admin/blog/edit/{id}', [LandingPageController::class, 'blogEdit'])->name('admin.blog.edit');
    Route::post('/admin/blog/update/{id}', [LandingPageController::class, 'blogUpdate'])->name('admin.blog.update');
    Route::delete('/admin/blog/delete/{id}', [LandingPageController::class, 'blogDelete'])->name('admin.blog.delete');
-
+   
    // Landing Page Contact
    Route::get('/admin/contact', [LandingPageController::class, 'contact'])->name('admin.contact');
+   Route::delete('/admin/blog/contact/{id}', [LandingPageController::class, 'contactDelete'])->name('admin.contact.delete');
    // Landing Page Client Says
    Route::get('/admin/client-says', [LandingPageController::class, 'clientSays'])->name('admin.client-says');
+   Route::get('/document', [LandingPageController::class, 'document'])->name('document');
 });

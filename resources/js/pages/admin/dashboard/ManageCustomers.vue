@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Head } from '@inertiajs/vue3';
+import { Head, Link } from '@inertiajs/vue3';
 
 import AdminAppLayout from '@/layouts/AdminAppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
@@ -51,8 +51,18 @@ const data = [
 
         <Head title="Manage Customers" />
 
-        <div class="mt-20 mx-14">
-            <FilterTable :plans="data" :columns="columns" :title="'Manage Customers'">
+        <div class="mt-16 mx-14 relative">
+
+            <!-- Create Button -->
+            <div class="absolute right-0">
+                <Link href="/admin/customers/create"
+                    class="text-white bg-blue-500 hover:bg-blue-600 font-medium rounded-lg text-sm px-5 py-2.5 text-center cursor-pointer">
+                    Create Customer
+                </Link>
+            </div>
+
+            <div class="mt-5">
+                <FilterTable :plans="data" :columns="columns" :title="'Manage Customers'">
                 <template #action="{ }">
                     <div class="space-x-2.5">
                         <button
@@ -66,6 +76,7 @@ const data = [
                     </div>
                 </template>
             </FilterTable>
+            </div>
         </div>
     </AdminAppLayout>
 </template>

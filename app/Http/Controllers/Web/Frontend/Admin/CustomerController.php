@@ -12,7 +12,7 @@ class CustomerController extends Controller
     {
         return Inertia::render('admin/dashboard/PendingKYC');
     }
-    public function create()
+    public function createCustomer()
     {
         return Inertia::render('admin/dashboard/CreateCustomer');
     }

@@ -89,7 +89,7 @@ function submit() {
                     </div>
 
                     <div class="flex items-center gap-4">
-                        <Button class="bg-[#0f79bc] hover:bg-[#4a4745] cursor-pointer">Update</Button>
+                        <Button class="bg-[#0f79bc] hover:bg-[#4a4745] cursor-pointer">Create</Button>
 
                         <Transition
                             enter-active-class="transition ease-in-out"
