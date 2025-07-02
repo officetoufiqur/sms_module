@@ -1,110 +1,123 @@
 <script setup lang="ts">
-import { ref, onMounted, nextTick, type Ref } from 'vue';
+import { ref, onMounted, nextTick, watch } from 'vue';
+import { CopyIcon, CheckIcon } from 'lucide-vue-next';
 import Prism from 'prismjs';
 import 'prismjs/themes/prism-tomorrow.css';
-import 'prismjs/plugins/toolbar/prism-toolbar.css';
-import 'prismjs/plugins/toolbar/prism-toolbar';
 import 'prismjs/components/prism-json';
 import 'prismjs/components/prism-bash';
-import { CopyIcon, CheckIcon, XIcon } from 'lucide-vue-next';
 
 const props = defineProps<{
-  code: string;
-  language: 'bash' | 'json' | string;
-  title?: string;
+  title: string;
+  subtitle?: string;
+  language?: string;
+  rawCode: string;
+  codeTitle?: string;
+  headerBtn?: boolean;
 }>();
 
-// ✅ FIXED typing
-const codeRef: Ref<HTMLElement | null> = ref(null);
-const modalRef: Ref<HTMLElement | null> = ref(null);
+const codeRef = ref<HTMLElement | null>(null);
 const copied = ref(false);
-const isModalOpen = ref(false);
 
 const copyToClipboard = async () => {
   try {
-    await navigator.clipboard.writeText(props.code.trim());
+    await navigator.clipboard.writeText(props.rawCode);
     copied.value = true;
     setTimeout(() => (copied.value = false), 2000);
   } catch {
-    alert('Copy failed!');
+    alert('Failed to copy!');
   }
 };
 
-const openModal = () => {
-  isModalOpen.value = true;
-  nextTick(() => {
-    if (modalRef.value) {
-      modalRef.value.textContent = props.code.trim();
-      Prism.highlightElement(modalRef.value);
-    }
-  });
-};
+const headers = [
+  { key: 'Date', value: 'Mon, 18 Oct 2021 06:59:10 GMT' },
+  { key: 'Server', value: 'Apache' },
+  { key: 'X-XSS-Protection', value: '1; mode=block' },
+  { key: 'Content-Length', value: '332' },
+  { key: 'Keep-Alive', value: 'timeout=5, max=100' },
+  { key: 'Connection', value: 'Keep-Alive' },
+  { key: 'Content-Type', value: 'application/json; charset=utf-8' }
+];
 
-const closeModal = () => {
-  isModalOpen.value = false;
-};
+const activeTab = ref<'body' | 'headers'>('body');
 
-onMounted(() => {
+const highlight = async () => {
+  await nextTick();
   if (codeRef.value) {
-    codeRef.value.textContent = props.code.trim();
+    codeRef.value.textContent = props.rawCode;
     Prism.highlightElement(codeRef.value);
   }
+};
+
+onMounted(highlight);
+
+// 👇 Watch for tab change and re-highlight
+watch(activeTab, (newTab) => {
+  if (newTab === 'body') highlight();
 });
 </script>
 
+
 <template>
-  <div class="w-full bg-gray-800 text-white flex flex-col">
+  <div class="bg-[#272822] text-white">
+    <!-- Header -->
     <div class="flex items-center justify-between p-4 border-b border-gray-700">
-      <h3 class="font-medium">{{ title || 'Code Example' }}</h3>
+      <h3 class="font-medium">{{ title }}</h3>
+      <div class="flex items-center gap-2" v-if="subtitle">
+        <span class="text-sm text-gray-400">{{ subtitle }}</span>
+      </div>
     </div>
 
-    <div class="p-4 relative">
-      <div class="flex items-center justify-between mb-4">
-        <span class="text-sm text-gray-400">{{ language }}</span>
-        <button class="p-1 hover:bg-gray-700 rounded" @click="copyToClipboard">
-          <component :is="copied ? CheckIcon : CopyIcon" class="w-4 h-4" :class="{ 'text-green-400': copied }" />
+    <!-- Tabs -->
+    <div v-if="headerBtn" class="text-white p-4 rounded-md w-full max-w-lg">
+      <div class="flex gap-4 text-sm">
+        <button @click="activeTab = 'body'" class="cursor-pointer" :class="[
+          'pb-1',
+          activeTab === 'body'
+            ? 'text-white border-b-2 border-orange-400 font-medium'
+            : 'text-gray-400 hover:text-white'
+        ]">
+          Body
+        </button>
+        <button @click="activeTab = 'headers'" class="cursor-pointer" :class="[
+          'pb-1',
+          activeTab === 'headers'
+            ? 'text-white border-b-2 border-orange-400 font-medium'
+            : 'text-gray-400 hover:text-white'
+        ]">
+          Headers ({{ headers.length }})
         </button>
       </div>
-      <pre :class="`language-${language} text-sm overflow-auto max-h-96`">
-        <code :ref="codeRef" :class="`language-${language}`"></code>
-      </pre>
-      <button class="absolute bottom-4 right-4 text-blue-400 hover:text-blue-300 text-sm" @click="openModal">
-        View More
-      </button>
-    </div>
 
-    <transition name="fade">
-      <div
-        v-if="isModalOpen"
-        class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60"
-        @click.self="closeModal"
-      >
-        <div class="bg-gray-900 rounded-md max-w-3xl w-full max-h-[80vh] overflow-auto p-6 relative">
-          <button @click="closeModal" class="absolute top-4 right-4 text-gray-400 hover:text-white">
-            <XIcon class="w-6 h-6" />
-          </button>
-          <div class="flex items-center justify-between mb-4">
-            <h3 class="text-lg font-semibold text-white">Full Code</h3>
-            <button @click="copyToClipboard" class="p-1 hover:bg-gray-700 rounded">
-              <component :is="copied ? CheckIcon : CopyIcon" class="w-5 h-5 text-white" />
-            </button>
-          </div>
-          <pre :class="`language-${language} text-sm`">
-            <code :ref="modalRef" :class="`language-${language}`"></code>
-          </pre>
+      <!-- Header View -->
+      <div v-if="activeTab === 'headers'" class="space-y-4 text-sm mt-5">
+        <div v-for="(header, index) in headers" :key="index" class="flex justify-between">
+          <span class="text-gray-300">{{ header.key }}</span>
+          <span>{{ header.value }}</span>
         </div>
       </div>
-    </transition>
+    </div>
+
+    <!-- Code Area -->
+    <div v-if="activeTab === 'body'" class="px-4 relative">
+      <div class="language-bash text-sm rounded shadow-lg relative">
+        <div class="flex justify-between items-center mt-2">
+          <span
+          class="text-sm text-gray-400 bg-[#2D2D2D] px-3 py-1 rounded font-medium"
+        >
+          {{ codeTitle || 'bash' }}
+        </span>
+          <button class="p-1 hover:bg-gray-700 rounded" @click="copyToClipboard">
+            <component
+              :is="copied ? CheckIcon : CopyIcon"
+              class="w-4 h-4 cursor-pointer"
+              :class="copied ? 'text-green-400' : ''"
+            />
+          </button>
+        </div>
+        <pre class="pl-10">
+          <code ref="codeRef" :class="'language-' + (language || 'bash')"></code>
+        </pre>
+      </div>
+    </div>
   </div>
 </template>
-
-<style scoped>
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.3s ease;
-}
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
-</style>
