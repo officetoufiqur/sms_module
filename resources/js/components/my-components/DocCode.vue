@@ -7,12 +7,13 @@ import 'prismjs/components/prism-json';
 import 'prismjs/components/prism-bash';
 
 const props = defineProps<{
-  title: string;
+  title?: string;
   subtitle?: string;
   language?: string;
   rawCode: string;
   codeTitle?: string;
   headerBtn?: boolean;
+  borderStyle?: string;
 }>();
 
 const codeRef = ref<HTMLElement | null>(null);
@@ -58,10 +59,10 @@ watch(activeTab, (newTab) => {
 
 
 <template>
-  <div class="bg-[#272822] text-white">
+  <div class="text-white">
     <!-- Header -->
-    <div class="flex items-center justify-between p-4 border-b border-gray-700">
-      <h3 class="font-medium">{{ title }}</h3>
+    <div class="flex items-center justify-between p-4" :class="borderStyle">
+      <h3 v-if="title" class="font-medium">{{ title }}</h3>
       <div class="flex items-center gap-2" v-if="subtitle">
         <span class="text-sm text-gray-400">{{ subtitle }}</span>
       </div>
@@ -101,12 +102,12 @@ watch(activeTab, (newTab) => {
     <div v-if="activeTab === 'body'" class="px-4 relative">
       <div class="language-bash text-sm rounded shadow-lg relative">
         <div class="flex justify-between items-center mt-2">
-          <span
+          <span v-if="codeTitle"
           class="text-sm text-gray-400 bg-[#2D2D2D] px-3 py-1 rounded font-medium"
         >
           {{ codeTitle || 'bash' }}
         </span>
-          <button class="p-1 hover:bg-gray-700 rounded" @click="copyToClipboard">
+          <button class="p-1 bg-gray-700 rounded absolute top-12 right-3" @click="copyToClipboard">
             <component
               :is="copied ? CheckIcon : CopyIcon"
               class="w-4 h-4 cursor-pointer"
@@ -114,7 +115,7 @@ watch(activeTab, (newTab) => {
             />
           </button>
         </div>
-        <pre class="pl-10">
+        <pre class="max-h-80">
           <code ref="codeRef" :class="'language-' + (language || 'bash')"></code>
         </pre>
       </div>

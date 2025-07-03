@@ -13,17 +13,10 @@ export interface BreadcrumbItem {
 
 export interface NavItem {
     title: string;
-    href: string;
+    href?: string;
     icon?: LucideIcon;
     isActive?: boolean;
-    subItems?: NavItem[
-        {
-            title: string;
-            href: string;
-            icon?: LucideIcon;
-            isActive?: boolean;
-        }
-    ];
+    subMenu?: NavItem[];
 }
 
 export interface SharedData extends PageProps {

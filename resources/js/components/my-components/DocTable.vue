@@ -23,8 +23,8 @@ defineProps<{
 
 <template>
     <div class="">
-        <div class="overflow-x-auto">
-        <table class="min-w-full bg-white border relative">
+        <div class="overflow-x-auto h-100">
+        <table class="min-w-full bg-[#f9f9f9] border relative">
             <thead class="bg-gray-100 text-sm text-gray-700">
                 <tr>
                     <th v-for="col in columns" :key="col.key" class="px-4 py-2 text-left">
