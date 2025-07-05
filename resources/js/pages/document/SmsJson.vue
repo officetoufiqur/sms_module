@@ -334,6 +334,16 @@ const smsAdvanceBody = `
     }
 }`;
 
+const headers = [
+  { key: 'Date', value: 'Mon, 18 Oct 2021 06:59:10 GMT' },
+  { key: 'Server', value: 'Apache' },
+  { key: 'X-XSS-Protection', value: '1; mode=block' },
+  { key: 'Content-Length', value: '332' },
+  { key: 'Keep-Alive', value: 'timeout=5, max=100' },
+  { key: 'Connection', value: 'Keep-Alive' },
+  { key: 'Content-Type', value: 'application/json; charset=utf-8' }
+];
+
 const link = `https://mesergo.co.il/`;
 
 const advanceExample = `https://capi.mesergo.co.il/api/v2/SMS/SendSms`;
@@ -344,7 +354,7 @@ const advanceExample = `https://capi.mesergo.co.il/api/v2/SMS/SendSms`;
 
     <Head title="SMS Document" />
 
-    <div class="mt-20 xl:ml-14 mx-10 lg:mx-0">
+    <div class="mt-20 xl:ml-14 mx-10 lg:mx-0  max-w-[94.3rem]">
       <!-- symple example -->
       <div class="border-b border-gray-300 pb-10">
         <div class="xl:flex">
@@ -467,7 +477,7 @@ const advanceExample = `https://capi.mesergo.co.il/api/v2/SMS/SendSms`;
           <!-- Right Panel -->
           <div class="xl:w-[50%] mt-10 bg-[#272822] h-auto rounded-md">
             <DocCode title="Example Request" subtitle="simple version" language="json" codeTitle="curl"
-              borderStyle="border-b border-gray-700" :rawCode="curlExampleRaw" :headerBtn="true" />
+              borderStyle="border-b border-gray-700" :rawCode="curlExampleRaw" :headerBtn="true" :headers="headers" />
             <DocCode class="mt-[-.5rem]" title="Example Response" subtitle="simple version" language="json"
               borderStyle="border-b border-gray-700" codeTitle="json" :rawCode="response" />
           </div>

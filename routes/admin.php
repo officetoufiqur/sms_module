@@ -61,5 +61,4 @@ Route::group(['middleware' => ['auth']], function () {
    Route::delete('/admin/blog/contact/{id}', [LandingPageController::class, 'contactDelete'])->name('admin.contact.delete');
    // Landing Page Client Says
    Route::get('/admin/client-says', [LandingPageController::class, 'clientSays'])->name('admin.client-says');
-   Route::get('/send/sms/using/json', [LandingPageController::class, 'sendSmsUsingJson'])->name('send.sms.using.json');
 });

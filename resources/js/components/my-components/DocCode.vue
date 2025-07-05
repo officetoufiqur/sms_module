@@ -14,6 +14,7 @@ const props = defineProps<{
   codeTitle?: string;
   headerBtn?: boolean;
   borderStyle?: string;
+  headers?: { key: string; value: string }[];
 }>();
 
 const codeRef = ref<HTMLElement | null>(null);
@@ -29,17 +30,8 @@ const copyToClipboard = async () => {
   }
 };
 
-const headers = [
-  { key: 'Date', value: 'Mon, 18 Oct 2021 06:59:10 GMT' },
-  { key: 'Server', value: 'Apache' },
-  { key: 'X-XSS-Protection', value: '1; mode=block' },
-  { key: 'Content-Length', value: '332' },
-  { key: 'Keep-Alive', value: 'timeout=5, max=100' },
-  { key: 'Connection', value: 'Keep-Alive' },
-  { key: 'Content-Type', value: 'application/json; charset=utf-8' }
-];
-
 const activeTab = ref<'body' | 'headers'>('body');
+const headers = ref(props.headers ?? []);
 
 const highlight = async () => {
   await nextTick();
@@ -51,15 +43,13 @@ const highlight = async () => {
 
 onMounted(highlight);
 
-// 👇 Watch for tab change and re-highlight
 watch(activeTab, (newTab) => {
   if (newTab === 'body') highlight();
 });
 </script>
 
-
 <template>
-  <div class="text-white">
+  <div class="text-white pt-5">
     <!-- Header -->
     <div class="flex items-center justify-between p-4" :class="borderStyle">
       <h3 v-if="title" class="font-medium">{{ title }}</h3>
@@ -71,19 +61,19 @@ watch(activeTab, (newTab) => {
     <!-- Tabs -->
     <div v-if="headerBtn" class="text-white p-4 rounded-md w-full max-w-lg">
       <div class="flex gap-4 text-sm">
-        <button @click="activeTab = 'body'" class="cursor-pointer" :class="[
+        <button @click="activeTab = 'body'" class="cursor-pointer" :class="[ 
           'pb-1',
-          activeTab === 'body'
-            ? 'text-white border-b-2 border-orange-400 font-medium'
-            : 'text-gray-400 hover:text-white'
+          activeTab === 'body' 
+            ? 'text-white border-b-2 border-orange-400 font-medium' 
+            : 'text-gray-400 hover:text-white' 
         ]">
           Body
         </button>
-        <button @click="activeTab = 'headers'" class="cursor-pointer" :class="[
+        <button @click="activeTab = 'headers'" class="cursor-pointer" :class="[ 
           'pb-1',
-          activeTab === 'headers'
-            ? 'text-white border-b-2 border-orange-400 font-medium'
-            : 'text-gray-400 hover:text-white'
+          activeTab === 'headers' 
+            ? 'text-white border-b-2 border-orange-400 font-medium' 
+            : 'text-gray-400 hover:text-white' 
         ]">
           Headers ({{ headers.length }})
         </button>
@@ -103,11 +93,10 @@ watch(activeTab, (newTab) => {
       <div class="language-bash text-sm rounded shadow-lg relative">
         <div class="flex justify-between items-center mt-2">
           <span v-if="codeTitle"
-          class="text-sm text-gray-400 bg-[#2D2D2D] px-3 py-1 rounded font-medium"
-        >
-          {{ codeTitle || 'bash' }}
-        </span>
-          <button class="p-1 bg-gray-700 rounded absolute top-12 right-3" @click="copyToClipboard">
+            class="text-sm text-gray-400 bg-[#2D2D2D] px-3 py-1 rounded font-medium">
+            {{ codeTitle || 'bash' }}
+          </span>
+          <button class="p-1 bg-gray-700 rounded absolute top-10 right-4" @click="copyToClipboard">
             <component
               :is="copied ? CheckIcon : CopyIcon"
               class="w-4 h-4 cursor-pointer"

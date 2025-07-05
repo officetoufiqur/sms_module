@@ -35,9 +35,8 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div>
-    <!-- Code Area -->
-    <div class="relative">
+   <!-- Code Area -->
+    <div class="relative overflow-hidden">
       <!-- <pre class="rounded-md">
         <code ref="codeRef" :class="'language-' + (language || 'bash')"></code>
       </pre> -->
@@ -45,7 +44,7 @@ onMounted(async () => {
       <div class="mt-5 bg-[#F9F9F9] p-8 rounded-md">
         <h1>{{ rawCode }}</h1>
       </div>
-      <div class="absolute top-2 right-3 flex items-center gap-2">
+      <div class="absolute top-7 right-3 flex items-center gap-2">
         <button class="p-1 hover:bg-gray-700 rounded" @click="copyToClipboard">
           <component
             :is="copied ? CheckIcon : CopyIcon"
@@ -55,6 +54,5 @@ onMounted(async () => {
         </button>
       </div>
     </div>
-  </div>
 </template>
 

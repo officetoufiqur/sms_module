@@ -24,11 +24,19 @@ const mainNavItems: NavItem[] = [
                         href: '/send/sms/using/json',
                     },
                     {
-                        title: 'User Logs',
-                        href: '/users/logs',
-                    }
+                        title: 'Send SMS using xml',
+                        href: '/send/sms/using/xml',
+                    },
+                    {
+                        title: 'Utilities',
+                        href: '/utilities',
+                    },
                 ]
             },
+            {
+                title: 'General',
+                href: '/doc/general',
+            }
         ]
     },
     {

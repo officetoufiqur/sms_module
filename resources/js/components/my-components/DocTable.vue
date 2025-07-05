@@ -23,7 +23,7 @@ defineProps<{
 
 <template>
     <div class="">
-        <div class="overflow-x-auto h-100">
+        <div class="overflow-x-auto max-h-100">
         <table class="min-w-full bg-[#f9f9f9] border relative">
             <thead class="bg-gray-100 text-sm text-gray-700">
                 <tr>

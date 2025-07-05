@@ -330,8 +330,4 @@ class LandingPageController extends Controller
         return Inertia::render('admin/dashboard/LandingPage/ClientSay');
     }
 
-     public function sendSmsUsingJson()
-    {
-        return Inertia::render('document/Document');
-    }
 }

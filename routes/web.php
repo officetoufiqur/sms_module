@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Web\Backend\User\GroupController;
 use App\Http\Controllers\Web\Backend\User\UserDashboardController;
+use App\Http\Controllers\Web\Frontend\DocumentController;
 use App\Http\Controllers\Web\Frontend\HomeController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -42,8 +43,14 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('/block/user/create', [UserDashboardController::class, 'blockUserCreate'])->name('block.user.create');
     Route::post('/block/user/store', [UserDashboardController::class, 'blockUserStore'])->name('block.user.store');
     Route::delete('/block/user/update/{id}', [UserDashboardController::class, 'blockUserUpdate'])->name('block.user.update');
-});                                                                                                                                        
 
-require __DIR__.'/settings.php';
-require __DIR__.'/auth.php';
-require __DIR__.'/admin.php';
+    // document
+    Route::get('/send/sms/using/json', [DocumentController::class, 'sendSmsUsingJson'])->name('send.sms.using.json');
+    Route::get('/send/sms/using/xml', [DocumentController::class, 'sendSmsUsingXml'])->name('send.sms.using.xml');
+    Route::get('/utilities', [DocumentController::class, 'utilities'])->name('utilities');
+    Route::get('/doc/general', [DocumentController::class, 'docGeneral'])->name('doc.general');
+});
+
+require __DIR__ . '/settings.php';
+require __DIR__ . '/auth.php';
+require __DIR__ . '/admin.php';
