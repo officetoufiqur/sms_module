@@ -49,6 +49,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('/send/sms/using/xml', [DocumentController::class, 'sendSmsUsingXml'])->name('send.sms.using.xml');
     Route::get('/utilities', [DocumentController::class, 'utilities'])->name('utilities');
     Route::get('/doc/general', [DocumentController::class, 'docGeneral'])->name('doc.general');
+    Route::get('//doc/contacts/interface', [DocumentController::class, 'contactsInterface'])->name('contacts.interface');
 });
 
 require __DIR__ . '/settings.php';

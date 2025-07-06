@@ -27,4 +27,9 @@ class DocumentController extends Controller
     {
         return Inertia::render('document/DocGeneral');
     }
+
+    public function contactsInterface()
+    {
+        return Inertia::render('document/ContactsInterface');
+    }
 }

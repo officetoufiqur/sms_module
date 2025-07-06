@@ -36,6 +36,10 @@ const mainNavItems: NavItem[] = [
             {
                 title: 'General',
                 href: '/doc/general',
+            },
+            {
+                title: 'Contacts Interface',
+                href: '/doc/contacts/interface',
             }
         ]
     },

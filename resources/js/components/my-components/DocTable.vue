@@ -35,7 +35,7 @@ defineProps<{
             </thead>
             <tbody>
                 <tr v-for="item in plans" :key="item.id">
-                    <td v-for="col in columns" :key="col.key" class="border border-gray-200 px-4 py-2">
+                    <td v-for="col in columns" :key="col.key" class="border text-sm border-gray-200 px-4 py-2">
                         <slot :name="col.key" :item="item">
                             {{ item[col.key] }}
                         </slot>
