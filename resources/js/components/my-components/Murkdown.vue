@@ -41,7 +41,7 @@ onMounted(async () => {
         <code ref="codeRef" :class="'language-' + (language || 'bash')"></code>
       </pre> -->
 
-      <div class="mt-5 bg-[#F9F9F9] p-8 rounded-md">
+      <div class="mt-5 bg-[#F9F9F9] p-8 rounded-md text-sm">
         <h1>{{ rawCode }}</h1>
       </div>
       <div class="absolute top-7 right-3 flex items-center gap-2">

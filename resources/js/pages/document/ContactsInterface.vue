@@ -12,6 +12,14 @@ import GetContactList from '@/components/my-components/GetContactList.vue';
 import CreateUpdateGroup from '@/components/my-components/CreateUpdateGroup.vue';
 import DeleteGroup from '@/components/my-components/DeleteGroup.vue';
 import GetGroup from '@/components/my-components/GetGroup.vue';
+import GetGroupList from '@/components/my-components/GetGroupList.vue';
+import Unsubscribe from '@/components/my-components/Unsubscribe.vue';
+import ReactivateUnsubscribe from '@/components/my-components/ReactivateUnsubscribe.vue';
+import GetUnsubscribeList from '@/components/my-components/GetUnsubscribeList.vue';
+import GetUnsubscribeHistory from '@/components/my-components/GetUnsubscribeHistory.vue';
+import GetUnsubscribeHistoryList from '@/components/my-components/GetUnsubscribeHistoryList.vue';
+import CheckifUnsubscribed from '@/components/my-components/CheckifUnsubscribed.vue';
+import GetFields from '@/components/my-components/GetFields.vue';
 
 const breadcrumbs: BreadcrumbItem[] = [
   { title: 'SMS Document', href: '/rate-plan' },
@@ -128,27 +136,23 @@ const data = [
 
       </div>
 
-      <CreateContact />
-      <div class="mt-5">
+      <div class="space-y-5">
+        <CreateContact />
         <CheckStatusToken />
-      </div>
-      <div class="mt-5">
         <DeleteContact />
-      </div>
-      <div class="mt-5">
         <GetContact />
-      </div>
-      <div class="mt-5">
         <GetContactList />
-      </div>
-      <div class="mt-5">
         <CreateUpdateGroup />
-      </div>
-      <div class="mt-5">
         <DeleteGroup />
-      </div>
-      <div class="mt-5">
         <GetGroup />
+        <GetGroupList />
+        <Unsubscribe />
+        <ReactivateUnsubscribe />
+        <GetUnsubscribeList />
+        <GetUnsubscribeHistory />
+        <GetUnsubscribeHistoryList />
+        <CheckifUnsubscribed />
+        <GetFields />
       </div>
 
     </div>
