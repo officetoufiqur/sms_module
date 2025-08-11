@@ -10,7 +10,7 @@ use Inertia\Inertia;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::post('/contact/store', [HomeController::class, 'contactStore'])->name('contact.store');
 
-Route::group(['middleware' => ['auth', 'verified']], function () {
+Route::group(['middleware' => ['auth', 'verified', 'kyc']], function () {
     Route::get('/dashboard', [UserDashboardController::class, 'dashboard'])->name('dashboard');
     Route::get('/recharge', [UserDashboardController::class, 'recharge'])->name('recharge');
     Route::get('/transections', [UserDashboardController::class, 'transections'])->name('transections');
@@ -50,7 +50,10 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('/utilities', [DocumentController::class, 'utilities'])->name('utilities');
     Route::get('/doc/general', [DocumentController::class, 'docGeneral'])->name('doc.general');
     Route::get('//doc/contacts/interface', [DocumentController::class, 'contactsInterface'])->name('contacts.interface');
+
+    // kyc verification
 });
+Route::get('/kyc', [UserDashboardController::class, 'kyc'])->name('kyc')->middleware(['auth', 'verified']);
 
 require __DIR__ . '/settings.php';
 require __DIR__ . '/auth.php';

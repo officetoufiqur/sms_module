@@ -10,7 +10,7 @@ use Inertia\Inertia;
 Route::get('admin/login', [AdminAuthController::class, 'login'])->name('adminlogin');
 Route::post('admin/login', [AdminAuthController::class, 'adminLogin'])->name('admin.login');
 
-Route::group(['middleware' => ['auth']], function () {
+Route::group(['middleware' => ['auth', 'admin']], function () {
    Route::get('admin/dashboard', function () {
       return Inertia::render('admin/dashboard/AdminDashboard');
    })->name('admin.dashboard');

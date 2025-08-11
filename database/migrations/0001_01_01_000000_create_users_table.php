@@ -19,6 +19,14 @@ return new class extends Migration
             $table->string('password');
             $table->string('avatar')->nullable();
             $table->boolean('role')->default(0);
+            $table->string('otp')->nullable();
+            $table->boolean('is_verified')->default(0);
+            $table->boolean('kyc_verified')->default(0);
+            $table->string('company_name')->nullable();
+            $table->string('company_number')->nullable();
+            $table->string('company_type')->nullable();
+            $table->text('address')->nullable();
+            $table->string('mobile')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

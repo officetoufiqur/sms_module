@@ -11,6 +11,11 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class UserDashboardController extends Controller
 {
+    public function kyc()
+    {
+        return Inertia::render('user_dashboard/Kyc');
+    }
+    
     public function dashboard()
     {
         return Inertia::render('Dashboard');

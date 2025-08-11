@@ -23,6 +23,13 @@ class User extends Authenticatable
         'password',
         'avatar',
         'role',
+        'otp',
+        'is_verified',
+        'company_name',
+        'company_number',
+        'company_type',
+        'address',
+        'mobile',
     ];
 
     /**

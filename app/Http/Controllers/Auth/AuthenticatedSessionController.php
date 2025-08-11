@@ -32,11 +32,16 @@ class AuthenticatedSessionController extends Controller
     {
         $email = $request->email;
         $user = User::where('email', $email)->where('role', 0)->first();
+        $verified = $user->is_verified;
 
-        if ($user) {
+        if (!$verified) {
+            return redirect('otp')->with(['message' => 'Please verify your email first.']);
+        }
+
+        if ($verified) {
             $request->authenticate();
             $request->session()->regenerate();
-            return redirect()->intended(route('dashboard', absolute: false))->with('message', 'User Login successful');
+            return redirect()->intended(route('kyc', absolute: false))->with('message', 'User Login successful');
         }
 
         return redirect()->back();
