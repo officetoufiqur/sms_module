@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Web\Backend\User;
 
 use Inertia\Inertia;
+use App\Models\SmsFile;
 use App\Imports\SmsImport;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\SmsFile;
+use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 
 class UserDashboardController extends Controller
@@ -14,6 +15,38 @@ class UserDashboardController extends Controller
     public function kyc()
     {
         return Inertia::render('user_dashboard/Kyc');
+    }
+
+    public function kycStore(Request $request)
+    {
+        $request->validate([
+            'company_name' => 'required|string',
+            'company_number' => 'required|string',
+            'company_type' => 'required|string',
+            'address' => 'required|string',
+            'mobile' => 'required|string',
+            'file_type' => 'required|string',
+            'file' => 'required|file|mimes:jpg,png,jpeg,pdf,doc,docx',
+        ]);
+
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $extension = $file->getClientOriginalExtension();
+            $filename = time() . '.' . $extension;
+            $filePath = $file->storeAs('uploads/kyc', $filename, 'public');
+        }
+
+        $user = Auth::user();
+        $user->company_name = $request->company_name;
+        $user->company_number = $request->company_number;
+        $user->company_type = $request->company_type;
+        $user->address = $request->address;
+        $user->mobile = $request->mobile;
+        $user->file_type = $request->file_type;
+        $user->file = '/storage/' . $filePath;
+        $user->save();
+
+        return redirect()->route('kyc')->with('message', 'KYC Submitted successfully.');
     }
     
     public function dashboard()

@@ -53,7 +53,11 @@ Route::group(['middleware' => ['auth', 'verified', 'kyc']], function () {
 
     // kyc verification
 });
-Route::get('/kyc', [UserDashboardController::class, 'kyc'])->name('kyc')->middleware(['auth', 'verified']);
+
+Route::group(['middleware' => ['auth', 'verified']], function () {
+    Route::get('/kyc', [UserDashboardController::class, 'kyc'])->name('kyc');
+    Route::post('/kyc/store', [UserDashboardController::class, 'kycStore'])->name('kyc.store');
+});
 
 require __DIR__ . '/settings.php';
 require __DIR__ . '/auth.php';

@@ -1,58 +1,126 @@
 <script setup lang="ts">
-import Heading from '@/components/Heading.vue';
-import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
-import { type NavItem } from '@/types';
-import { Link, usePage } from '@inertiajs/vue3';
+import { Head, Link, usePage } from '@inertiajs/vue3';
 
-const sidebarNavItems: NavItem[] = [
+import HeadingSmall from '@/components/HeadingSmall.vue';
+import AdminAppLayout from '@/layouts/AdminAppLayout.vue';
+import { type BreadcrumbItem } from '@/types';
+
+const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'About',
+        title: 'Customer About',
         href: '/customers/about',
-    },
-    {
-        title: 'Rate Plan',
-        href: '/customers/rate/plan',
-    },
-    {
-        title: 'TNX',
-        href: '/customers/tnx',
     },
 ];
 
+const props = defineProps<{
+    flash: {
+        message?: string;
+    };
+    user: {
+        id: number;
+        name: string;
+        email: string;
+        avatar: string;
+        company_name: string;
+        company_number: string;
+        company_type: string;
+        address: string;
+        mobile: string;
+        file_type: string;
+        file: string;
+        musking: string;
+        non_musking: string;
+    };
+}>();
+
 const page = usePage();
 
-const currentPath = page.props.ziggy?.location ? new URL(page.props.ziggy.location).pathname : '';
+const currentPath = page.props.ziggy?.location ? new URL(page.props.ziggy.location).pathname : window.location.pathname;
+
 </script>
 
 <template>
-    <div class="px-16 py-16">
-        <Heading title="User Profile" />
+    <AdminAppLayout :breadcrumbs="breadcrumbs">
 
-        <div class="flex flex-col space-y-8 md:space-y-0 lg:flex-row lg:space-x-12 lg:space-y-0">
-            <aside class="w-full max-w-xl lg:w-48">
-                <nav class="flex flex-col space-x-0 space-y-1">
-                    <Button
-                        v-for="item in sidebarNavItems"
-                        :key="item.href"
-                        variant="ghost"
-                        :class="['w-full justify-start', { 'bg-muted': currentPath === item.href }]"
-                        as-child
-                    >
-                        <Link :href="item.href">
-                            {{ item.title }}
-                        </Link>
-                    </Button>
-                </nav>
-            </aside>
+        <Head title="Customer About" />
 
-            <Separator class="my-6 md:hidden" />
+        <div class="p-20">
+            <div class="flex gap-10">
+                <aside class="w-1/6 space-y-3">
+                    <Link :href="route('customer.view', props.user.id)" :class="[
+                        'block hover:bg-gray-100 duration-300 py-2 pl-4 w-[90%] rounded cursor-pointer font-medium text-sm',
+                        currentPath === `/view/customer/${props.user.id}` ? 'bg-gray-100' : ''
+                    ]">
+                    About
+                    </Link>
+                    <Link :href="route('customer.rate.plan', props.user.id)" :class="[
+                        'block hover:bg-gray-100 duration-300 py-2 pl-4 w-[90%] rounded cursor-pointer font-medium text-sm',
+                        currentPath === `/customers/rate/plan/${props.user.id}` ? 'bg-gray-100' : ''
+                    ]">
+                    Rate Plan
+                    </Link>
+                </aside>
 
-            <div class="flex-1 w-full">
-                <section class="max-w-6xl space-y-12">
-                    <slot />
-                </section>
+                <div class="flex flex-col space-y-6 w-5/6">
+                    <HeadingSmall title="User information" />
+
+                    <div class="gap-10 border border-gray-300 rounded-lg p-10">
+
+                        <div class="w-full lg:grid lg:grid-cols-2">
+                            <div class="flex items-center gap-4 border-b pb-4 border-gray-200">
+                                <h2 class="font-medium text-gray-500">Name:</h2>
+                                <h3>{{ props.user.name }}</h3>
+                            </div>
+                            <div class="flex items-center gap-4 border-b py-4 border-gray-200">
+                                <h2 class="font-medium text-gray-500">Email:</h2>
+                                <h3>{{ props.user.email }}</h3>
+                            </div>
+                            <div class="flex items-center gap-4 border-b py-4 border-gray-200">
+                                <h2 class="font-medium text-gray-500">Company Name:</h2>
+                                <h3>{{ props.user.company_name }}</h3>
+                            </div>
+                            <div class="flex items-center gap-4 border-b py-4 border-gray-200">
+                                <h2 class="font-medium text-gray-500">Company Number:</h2>
+                                <h3>{{ props.user.company_number }}</h3>
+                            </div>
+                            <div class="flex items-center gap-4 border-b py-4 border-gray-200">
+                                <h2 class="font-medium text-gray-500">Company Type:</h2>
+                                <h3>{{ props.user.company_type }}</h3>
+                            </div>
+                            <div class="flex items-center gap-4 border-b py-4 border-gray-200">
+                                <h2 class="font-medium text-gray-500">Address:</h2>
+                                <h3>{{ props.user.address }}</h3>
+                            </div>
+                            <div class="flex items-center gap-4 border-b py-4 border-gray-200">
+                                <h2 class="font-medium text-gray-500">Mobile:</h2>
+                                <h3>{{ props.user.mobile }}</h3>
+                            </div>
+                            <div class="flex items-center gap-4 border-b py-4 border-gray-200">
+                                <h2 class="font-medium text-gray-500">File Type:</h2>
+                                <h3>{{ props.user.file_type }}</h3>
+                            </div>
+                            <div class="flex items-center gap-4 border-b py-4 border-gray-200">
+                                <h2 class="font-medium text-gray-500">Musking Rate:</h2>
+                                <h3>{{ props.user.musking }}</h3>
+                            </div>
+                            <div class="flex items-center gap-4 border-b py-4 border-gray-200">
+                                <h2 class="font-medium text-gray-500">Non Musking Rate:</h2>
+                                <h3>{{ props.user.non_musking }}</h3>
+                            </div>
+                        </div>
+                        <div class="w-full mt-5">
+                            <div>
+                                <h3 class="text-lg font-semibold mb-2">Document Image</h3>
+                                <img :src="props.user.file" alt="User File"
+                                    class="w-[50%] rounded-lg border border-gray-200" />
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
             </div>
         </div>
-    </div>
+    </AdminAppLayout>
 </template>

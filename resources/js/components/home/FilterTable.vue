@@ -66,25 +66,32 @@ watch([search, entriesPerPage], () => {
         </div>
 
         <div class="overflow-x-auto">
-        <table class="min-w-full bg-white border relative">
-            <thead class="bg-gray-100 text-sm text-gray-700">
-                <tr>
-                    <th v-for="col in columns" :key="col.key" class="px-4 py-2 text-left">
-                        {{ col.label }}
-                        <component :is="col.icon" v-if="col.icon" class="inline w-4 h-4 ml-1" />
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="item in paginatedData" :key="item.id">
-                    <td v-for="col in columns" :key="col.key" class="border border-gray-200 px-4 py-2">
-                        <slot :name="col.key" :item="item">
-                            {{ item[col.key] }}
-                        </slot>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+            <table class="min-w-full bg-white border relative">
+                <thead class="bg-gray-100 text-sm text-gray-700">
+                    <tr>
+                        <th v-for="col in columns" :key="col.key" class="px-4 py-2 text-left">
+                            {{ col.label }}
+                            <component :is="col.icon" v-if="col.icon" class="inline w-4 h-4 ml-1" />
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr v-if="paginatedData.length === 0">
+                        <td :colspan="columns.length" class="text-center py-6 text-gray-500">
+                            No data found
+                        </td>
+                    </tr>
+                    <tr v-for="item in paginatedData" :key="item.id">
+                        <td v-for="col in columns" :key="col.key" class="border border-gray-200 px-4 py-2">
+                            <slot :name="col.key" :item="item">
+                                {{ item[col.key] }}
+                            </slot>
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
         </div>
 
         <div class="flex items-center justify-between mt-4 text-sm text-gray-600">

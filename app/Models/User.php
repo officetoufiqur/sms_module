@@ -30,6 +30,10 @@ class User extends Authenticatable
         'company_type',
         'address',
         'mobile',
+        'file_type',
+        'file',
+        'musking',
+        'non_musking'
     ];
 
     /**

@@ -27,6 +27,10 @@ return new class extends Migration
             $table->string('company_type')->nullable();
             $table->text('address')->nullable();
             $table->string('mobile')->nullable();
+            $table->string('file_type')->nullable();
+            $table->string('file')->nullable();
+            $table->string('musking')->default('1');
+            $table->string('non_musking')->default('1');
             $table->rememberToken();
             $table->timestamps();
         });

@@ -6,11 +6,6 @@ import { type BreadcrumbItem } from '@/types';
 import FilterTable from '@/components/home/FilterTable.vue';
 import { EyeIcon, LockIcon } from 'lucide-vue-next';
 
-import { router } from '@inertiajs/vue3';
-
-function viewCustomer() {
-    router.visit(`/customers/about`);
-}
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -19,30 +14,34 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
+const props = defineProps<{
+    users: {
+        id: number;
+        name: string;
+        email: string;
+        avatar: string;
+        company_name: string;
+        company_number: string;
+        company_type: string;
+        address: string;
+        mobile: string;
+        file_type: string;
+        file: string;
+        musking: string;
+        non_musking: string;
+    }[];
+}>();
+
 const columns = [
     { key: 'id', label: 'ID' },
     { key: 'name', label: 'Name' },
+    { key: 'email', label: 'Email.' },
+    { key: 'company_name', label: 'Company Name' },
+    { key: 'file_type', label: 'File Type' },
     { key: 'mobile', label: 'Mobile' },
     { key: 'action', label: 'Action' },
 ];
 
-const data = [
-    {
-        id: 1,
-        name: 'John Doe',
-        mobile: '01712345678'
-    },
-    {
-        id: 2,
-        name: 'Sarah Smith',
-        mobile: '01712345678'
-    },
-    {
-        id: 3,
-        name: 'Michael Johnson',
-        mobile: '01712345678'
-    }
-]
 
 </script>
 
@@ -54,28 +53,30 @@ const data = [
         <div class="mt-16 mx-14 relative">
 
             <!-- Create Button -->
-            <div class="absolute right-0">
+            <!-- <div class="absolute right-0">
                 <Link href="/admin/customers/create"
                     class="text-white bg-blue-500 hover:bg-blue-600 font-medium rounded-lg text-sm px-5 py-2.5 text-center cursor-pointer">
-                    Create Customer
+                Create Customer
                 </Link>
-            </div>
+            </div> -->
 
             <div class="mt-5">
-                <FilterTable :plans="data" :columns="columns" :title="'Manage Customers'">
-                <template #action="{ }">
-                    <div class="space-x-2.5">
-                        <button
-                            class="text-white bg-cyan-500 hover:cyan-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center cursor-pointer">
-                            <LockIcon class="w-5 h-5" />
-                        </button>
-                        <button @click="viewCustomer()"
-                            class="text-white bg-blue-500 hover:bg-blue-600 font-medium rounded-lg text-sm px-5 py-2.5 text-center cursor-pointer">
-                            <EyeIcon class="w-5 h-5" />
-                        </button>
-                    </div>
-                </template>
-            </FilterTable>
+                <FilterTable :plans="props.users" :columns="columns" :title="'Manage Customers'">
+                    <template #action="{ item }">
+                        <div class="space-x-2.5 flex">
+                            <button
+                                class="text-white bg-cyan-500 hover:cyan-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center cursor-pointer">
+                                <LockIcon class="w-5 h-5" />
+                            </button>
+                            <Link :href="route('customer.view', item.id)">
+                            <div
+                                class="text-white  bg-blue-500 hover:bg-blue-600 font-medium rounded-lg text-sm px-5 py-2.5 text-center cursor-pointer">
+                                <EyeIcon class="w-5 h-5" />
+                            </div>
+                            </Link>
+                        </div>
+                    </template>
+                </FilterTable>
             </div>
         </div>
     </AdminAppLayout>

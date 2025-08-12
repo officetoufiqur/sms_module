@@ -16,10 +16,12 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
    })->name('admin.dashboard');
 
    Route::get('/admin/pending/kyc', [CustomerController::class, 'pendingKYC'])->name('pending.kyc');
+   Route::get('/view/kyc/{id}', [CustomerController::class, 'viewKYC'])->name('view.kyc');
+   Route::post('/admin/approve/kyc/{id}', [CustomerController::class, 'approveKYC'])->name('approve.kyc');
    Route::get('/admin/customers/create', [CustomerController::class, 'createCustomer'])->name('create.customer');
    Route::get('/admin/manage/customers', [CustomerController::class, 'manageCustomer'])->name('manage.customers');
-   Route::get('/customers/about', [CustomerController::class, 'about'])->name('customer.about');
-   Route::get('/customers/rate/plan', [CustomerController::class, 'ratePlan'])->name('customer.rate.plan');
+   Route::get('/view/customer/{id}', [CustomerController::class, 'about'])->name('customer.view');
+   Route::get('/customers/rate/plan/{id}', [CustomerController::class, 'ratePlan'])->name('customer.rate.plan');
    Route::get('/customers/tnx', [CustomerController::class, 'tnx'])->name('customer.tnx');
 
    // Landing Page Banner

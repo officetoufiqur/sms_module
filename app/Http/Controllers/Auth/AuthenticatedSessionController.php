@@ -41,7 +41,12 @@ class AuthenticatedSessionController extends Controller
         if ($verified) {
             $request->authenticate();
             $request->session()->regenerate();
-            return redirect()->intended(route('kyc', absolute: false))->with('message', 'User Login successful');
+
+            if ($user->kyc_verified == 0) {
+                return redirect()->route('kyc')->with('message', 'User Login successful');
+            }
+
+            return redirect()->intended(route('dashboard', absolute: false))->with('message', 'User Login successful');
         }
 
         return redirect()->back();
