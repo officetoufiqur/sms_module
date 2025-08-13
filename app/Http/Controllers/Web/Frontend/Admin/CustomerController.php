@@ -43,6 +43,44 @@ class CustomerController extends Controller
         return Inertia::render('admin/dashboard/CreateCustomer');
     }
 
+    public function userStore(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
+            'company_name' => 'required|string|max:255',
+            'company_number' => 'required|string|max:255',
+            'company_type' => 'required|string|max:255',
+            'address' => 'required|string|max:255',
+            'mobile' => 'required|string|max:255',
+            'file_type' => 'required|string|max:255',
+            'file' => 'required|file|max:2048|mimetypes:image/jpeg,image/png,image/gif',
+        ]);
+
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $extension = $file->getClientOriginalExtension();
+            $filename = time() . '.' . $extension;
+            $filePath = $file->storeAs('uploads/kyc', $filename, 'public');
+        }
+
+        User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+            'company_name' => $request->company_name,
+            'company_number' => $request->company_number,
+            'company_type' => $request->company_type,
+            'address' => $request->address,
+            'mobile' => $request->mobile,
+            'file_type' => $request->file_type,
+            'file' => '/storage/' . $filePath,
+        ]);
+
+        return redirect()->route('manage.customers')->with('message', 'Customer created successfully.');
+    }
+
     public function manageCustomer()
     {
         $users = User::where('role', '0')->get();
@@ -55,14 +93,14 @@ class CustomerController extends Controller
         return Inertia::render('admin/dashboard/customer/About', compact('user'));
     }
 
-    public function ratePlan($id)
+    public function updateRate(Request $request, $id)
     {
         $user = User::find($id);
-        return Inertia::render('admin/dashboard/customer/RatePlan', compact('user'));
-    }
 
-    public function tnx()
-    {
-        return Inertia::render('admin/dashboard/customer/Transaction');
+        $user->musking = $request->input('musking');
+        $user->non_musking = $request->input('non_musking');
+
+        $user->save();
+        return redirect()->back()->with('message', 'Rate updated successfully.');
     }
 }

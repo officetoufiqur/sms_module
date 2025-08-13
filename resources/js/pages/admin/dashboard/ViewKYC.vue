@@ -47,7 +47,7 @@ const submit = () => {
 
         <Head title="View Pending KYC" />
 
-        <div class="mt-20 mx-14 space-y-6">
+        <div class="mt-10 mx-14 space-y-6">
             <!-- Header -->
             <div class="flex justify-between items-center">
                 <h1 class="text-xl font-semibold text-slate-700">View User Information</h1>
@@ -59,31 +59,31 @@ const submit = () => {
                 <div class="flex gap-10">
 
                     <div class="w-full">
-                        <div class="flex items-center gap-4 border-b pb-4 border-gray-200">
+                        <div class="flex items-center gap-4 border-b py-4 border-gray-200">
                             <h2 class="font-medium text-gray-500">Name:</h2>
                             <h3>{{ props.user.name }}</h3>
                         </div>
-                        <div class="flex items-center gap-4 border-b pb-4 border-gray-200">
+                        <div class="flex items-center gap-4 border-b py-4 border-gray-200">
                             <h2 class="font-medium text-gray-500">Email:</h2>
                             <h3>{{ props.user.email }}</h3>
                         </div>
-                        <div class="flex items-center gap-4 border-b pb-4 border-gray-200">
+                        <div class="flex items-center gap-4 border-b py-4 border-gray-200">
                             <h2 class="font-medium text-gray-500">Company Name:</h2>
                             <h3>{{ props.user.company_name }}</h3>
                         </div>
-                        <div class="flex items-center gap-4 border-b pb-4 border-gray-200">
+                        <div class="flex items-center gap-4 border-b py-4 border-gray-200">
                             <h2 class="font-medium text-gray-500">Company Number:</h2>
                             <h3>{{ props.user.company_number }}</h3>
                         </div>
-                        <div class="flex items-center gap-4 border-b pb-4 border-gray-200">
+                        <div class="flex items-center gap-4 border-b py-4 border-gray-200">
                             <h2 class="font-medium text-gray-500">Company Type:</h2>
                             <h3>{{ props.user.company_type }}</h3>
                         </div>
-                        <div class="flex items-center gap-4 border-b pb-4 border-gray-200">
+                        <div class="flex items-center gap-4 border-b py-4 border-gray-200">
                             <h2 class="font-medium text-gray-500">Address:</h2>
                             <h3>{{ props.user.address }}</h3>
                         </div>
-                        <div class="flex items-center gap-4 border-b pb-4 border-gray-200">
+                        <div class="flex items-center gap-4 border-b py-4 border-gray-200">
                             <h2 class="font-medium text-gray-500">Mobile:</h2>
                             <h3>{{ props.user.mobile }}</h3>
                         </div>

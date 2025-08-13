@@ -19,10 +19,10 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
    Route::get('/view/kyc/{id}', [CustomerController::class, 'viewKYC'])->name('view.kyc');
    Route::post('/admin/approve/kyc/{id}', [CustomerController::class, 'approveKYC'])->name('approve.kyc');
    Route::get('/admin/customers/create', [CustomerController::class, 'createCustomer'])->name('create.customer');
+   Route::post('/admin/user/store', [CustomerController::class, 'userStore'])->name('admin.user.store');
    Route::get('/admin/manage/customers', [CustomerController::class, 'manageCustomer'])->name('manage.customers');
    Route::get('/view/customer/{id}', [CustomerController::class, 'about'])->name('customer.view');
-   Route::get('/customers/rate/plan/{id}', [CustomerController::class, 'ratePlan'])->name('customer.rate.plan');
-   Route::get('/customers/tnx', [CustomerController::class, 'tnx'])->name('customer.tnx');
+   Route::post('/update/rate/{id}', [CustomerController::class, 'updateRate'])->name('update.rate');
 
    // Landing Page Banner
    Route::get('/admin/banner', [LandingPageController::class, 'banner'])->name('admin.banner');

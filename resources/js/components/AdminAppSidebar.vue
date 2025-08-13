@@ -3,7 +3,7 @@ import NavMain from '@/components/NavMain.vue';
 import { Sidebar, SidebarContent, } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/vue3';
-import { Contact2Icon, FilePenLine, FlagTriangleRight, InfoIcon, LayoutGrid, ListTodo, MessageCircleQuestion, SendIcon, User2, Users2 } from 'lucide-vue-next';
+import { Contact2Icon, FilePenLine, FlagTriangleRight, InfoIcon, LayoutGrid, ListTodo, MessageCircleQuestion, SendIcon, Users2 } from 'lucide-vue-next';
 
 
 const mainNavItems: NavItem[] = [
@@ -11,11 +11,6 @@ const mainNavItems: NavItem[] = [
         title: 'Dashboard',
         href: '/admin/dashboard',
         icon: LayoutGrid,
-    },
-    {
-        title: 'Create Customer',
-        href: '/admin/create/customer',
-        icon: User2,
     },
     {
         title: 'Manage Customers',
