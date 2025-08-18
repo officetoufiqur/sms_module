@@ -119,7 +119,6 @@ class LandingPageController extends Controller
         $validated = $request->validate([
             'plan_name' => 'required|string|max:255',
             'amount' => 'required|integer',
-            'sms_limit' => 'required|integer',
             'plan_feature' => 'required|array',
             'plan_feature.*' => 'required|string',
         ]);
@@ -128,7 +127,6 @@ class LandingPageController extends Controller
         $plan = new Plan();
         $plan->plan_name = $request->input('plan_name');
         $plan->amount = $request->input('amount');
-        $plan->sms_limit = $request->input('sms_limit');
         $plan->plan_feature = json_encode($request->input('plan_feature'));
         $plan->save();
 

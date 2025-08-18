@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, watch, defineProps } from 'vue';
+import { Link } from '@inertiajs/vue3';
 
 interface TableData {
     [key: string]: any;
@@ -16,6 +17,9 @@ const props = defineProps<{
     plans: TableData[];
     columns: TableColumn[];
     title?: string;
+    createText?: string;
+    createUrl?: string;
+    createBtn?: boolean;
 }>();
 
 
@@ -48,7 +52,10 @@ watch([search, entriesPerPage], () => {
 
 <template>
     <div class="">
-        <h2 class="text-2xl font-semibold mb-4">{{ title }}</h2>
+        <div class="flex items-center justify-between mb-3">
+            <h2 class="text-2xl font-semibold mb-4">{{ title }}</h2>
+            <Link v-if="createBtn" :href="createUrl || '#'" class="bg-[#0f79bc] hover:bg-[#4a4745] px-6 py-2 text-white rounded-md">{{ createText }}</Link>
+        </div>
 
         <div class="flex items-center justify-between mb-3">
             <div class="flex items-center gap-2">
@@ -66,10 +73,10 @@ watch([search, entriesPerPage], () => {
         </div>
 
         <div class="overflow-x-auto">
-            <table class="min-w-full bg-white border relative">
+            <table class="min-w-full bg-white border relative ">
                 <thead class="bg-gray-100 text-sm text-gray-700">
                     <tr>
-                        <th v-for="col in columns" :key="col.key" class="px-4 py-2 text-left">
+                        <th v-for="col in columns" :key="col.key" class="px-4 py-4 text-left">
                             {{ col.label }}
                             <component :is="col.icon" v-if="col.icon" class="inline w-4 h-4 ml-1" />
                         </th>
@@ -83,7 +90,7 @@ watch([search, entriesPerPage], () => {
                         </td>
                     </tr>
                     <tr v-for="item in paginatedData" :key="item.id">
-                        <td v-for="col in columns" :key="col.key" class="border border-gray-200 px-4 py-2">
+                        <td v-for="col in columns" :key="col.key" class="border border-gray-200 px-4 py-4">
                             <slot :name="col.key" :item="item">
                                 {{ item[col.key] }}
                             </slot>

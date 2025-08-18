@@ -13,11 +13,9 @@ return new class extends Migration
     {
         Schema::create('sms_files', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->nullable();
-            $table->string('number');
+            $table->json('number');
             $table->text('message')->nullable();
             $table->string('sender_id')->nullable();
-            $table->string('gender')->nullable();
             $table->string('age')->nullable();
             $table->enum('status', ['delivered', 'pending', 'failed'])->default('pending');
             $table->boolean('block')->default(0);

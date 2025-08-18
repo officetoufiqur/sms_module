@@ -27,6 +27,8 @@ return new class extends Migration
             $table->string('company_type')->nullable();
             $table->text('address')->nullable();
             $table->string('mobile')->nullable();
+            $table->string('mobile_otp')->nullable();
+            $table->boolean('mobile_is_verified')->default(0);
             $table->string('file_type')->nullable();
             $table->string('file')->nullable();
             $table->string('musking')->default('1');

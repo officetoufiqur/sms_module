@@ -75,7 +75,7 @@ function submit() {
                         />
                         <div class="text-red-500 text-sm" v-if="from.errors.amount">{{ from.errors.amount }}</div>
                     </div>
-                    <div class="grid gap-2">
+                    <!-- <div class="grid gap-2">
                         <Label for="sms_limit">SMS Limit</Label>
                         <Input
                             id="sms_limit"
@@ -86,7 +86,7 @@ function submit() {
                             placeholder="Enter sms limit"
                         />
                         <div class="text-red-500 text-sm" v-if="from.errors.sms_limit">{{ from.errors.sms_limit }}</div>
-                    </div>
+                    </div> -->
 
                     <hr class="my-4 border-t border-gray-300" />
                     <div class="flex items-center justify-between mb-4">

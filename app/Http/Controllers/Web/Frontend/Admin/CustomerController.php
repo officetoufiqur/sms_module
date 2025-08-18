@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Web\Frontend\Admin;
 
+use App\Models\User;
 use Inertia\Inertia;
+use App\Models\Sender;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Notifications\ApprovedNotification;
+use Illuminate\Support\Facades\Auth;
 
 class CustomerController extends Controller
 {
@@ -102,5 +105,45 @@ class CustomerController extends Controller
 
         $user->save();
         return redirect()->back()->with('message', 'Rate updated successfully.');
+    }
+
+    public function sender()
+    {
+        $senders = Sender::all();
+
+        return Inertia::render('admin/dashboard/SenderId/Index', compact('senders'));
+    }
+
+    public function senderEdit($id)
+    {
+        $sender = Sender::find($id);
+
+        return Inertia::render('admin/dashboard/SenderId/Edit', compact('sender'));
+    }
+
+    public function senderUpdate(Request $request, $id)
+    {
+        $sender = Sender::find($id);
+
+        $sender->sender_id = $request->input('sender_id');
+        $sender->type = $request->input('type');
+        $sender->status = $request->input('status');
+
+        $sender->save();
+
+        // send notification
+        $user = User::find($sender->user_id);
+        $status = $request->input('status');
+        $message = 'Sender Id Approved';
+        $user->notify(new ApprovedNotification($message, $status));
+
+        return redirect()->route('admin.sender')->with('message', 'Sender ID updated successfully.');
+    }
+
+    public function markAsRead()
+    {
+        Auth::user()->unreadNotifications->markAsRead();
+
+        return redirect()->route('sender_id');
     }
 }

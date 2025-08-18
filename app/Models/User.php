@@ -30,6 +30,8 @@ class User extends Authenticatable
         'company_type',
         'address',
         'mobile',
+        'mobile_otp',
+        'mobile_is_verified',
         'file_type',
         'file',
         'musking',

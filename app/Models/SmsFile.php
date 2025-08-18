@@ -11,13 +11,15 @@ class SmsFile extends Model
     use HasFactory, Notifiable;
 
     protected $fillable = [
-        'name',
         'number',
         'message',
         'sender_id',
-        'gender',
         'status',
         'block',
         'age'
+    ];
+
+    protected $casts = [
+        'number' => 'array',
     ];
 }

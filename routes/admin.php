@@ -24,6 +24,12 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
    Route::get('/view/customer/{id}', [CustomerController::class, 'about'])->name('customer.view');
    Route::post('/update/rate/{id}', [CustomerController::class, 'updateRate'])->name('update.rate');
 
+   // sender
+   Route::get('/admin/sender', [CustomerController::class, 'sender'])->name('admin.sender');
+   Route::get('/admin/sender/edit/{id}', [CustomerController::class, 'senderEdit'])->name('admin.sender.edit');
+   Route::post('/admin/sender/update/{id}', [CustomerController::class, 'senderUpdate'])->name('admin.sender.update');
+  
+
    // Landing Page Banner
    Route::get('/admin/banner', [LandingPageController::class, 'banner'])->name('admin.banner');
    Route::get('/admin/banner/edit/{id}', [LandingPageController::class, 'bannerEdit'])->name('admin.banner.edit');

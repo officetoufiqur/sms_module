@@ -1,11 +1,12 @@
 <?php
 
-use App\Http\Controllers\Web\Backend\User\GroupController;
-use App\Http\Controllers\Web\Backend\User\UserDashboardController;
-use App\Http\Controllers\Web\Frontend\DocumentController;
-use App\Http\Controllers\Web\Frontend\HomeController;
-use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Web\Frontend\HomeController;
+use App\Http\Controllers\Web\Frontend\DocumentController;
+use App\Http\Controllers\Web\Backend\User\GroupController;
+use App\Http\Controllers\Web\Frontend\Admin\CustomerController;
+use App\Http\Controllers\Web\Backend\User\UserDashboardController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::post('/contact/store', [HomeController::class, 'contactStore'])->name('contact.store');
@@ -33,7 +34,13 @@ Route::group(['middleware' => ['auth', 'verified', 'kyc']], function () {
     Route::post('/send-sms-store', [UserDashboardController::class, 'sendSmsStore'])->name('send-sms-store');
 
 
-    Route::get('/sender_id', [UserDashboardController::class, 'senderId'])->name('sender_id');
+    Route::get('/sender-id', [UserDashboardController::class, 'senderId'])->name('sender_id');
+    Route::get('/create/sender-id', [UserDashboardController::class, 'createSenderId'])->name('create.sender.id');
+    Route::post('/store/sender-id', [UserDashboardController::class, 'storeSenderId'])->name('store.sender.id');
+     Route::get('/mark-as-read', [CustomerController::class, 'markAsRead'])->name('mark.as.read');
+    // Route::get('/sender-id/edit/{id}', [UserDashboardController::class, 'editSenderId'])->name('edit.sender.id');
+    // Route::post('/sender-id/update/{id}', [UserDashboardController::class, 'updateSenderId'])->name('update.sender.id');
+    // Route::delete('/sender-id/destroy/{id}', [UserDashboardController::class, 'destroySenderId'])->name('destroy.sender.id');
 
     // SMS Logs
     Route::get('/sms_logs', [UserDashboardController::class, 'smsLogs'])->name('sms_logs');
@@ -51,12 +58,14 @@ Route::group(['middleware' => ['auth', 'verified', 'kyc']], function () {
     Route::get('/doc/general', [DocumentController::class, 'docGeneral'])->name('doc.general');
     Route::get('//doc/contacts/interface', [DocumentController::class, 'contactsInterface'])->name('contacts.interface');
 
-    // kyc verification
 });
 
-Route::group(['middleware' => ['auth', 'verified']], function () {
+Route::group(['middleware' => ['auth', 'verified', 'web']], function () {
+    // kyc verification
     Route::get('/kyc', [UserDashboardController::class, 'kyc'])->name('kyc');
     Route::post('/kyc/store', [UserDashboardController::class, 'kycStore'])->name('kyc.store');
+    Route::get('/kyc/mobile/otp', [UserDashboardController::class, 'mobileOtp'])->name('mobile.otp');
+    Route::post('/kyc/mobile/otp/store', [UserDashboardController::class, 'mobileOtpStore'])->name('mobile.otp.store');
 });
 
 require __DIR__ . '/settings.php';

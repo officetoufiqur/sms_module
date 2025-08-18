@@ -45,6 +45,9 @@ class HandleInertiaRequests extends Middleware
             'quote' => ['message' => trim($message), 'author' => trim($author)],
             'auth' => [
                 'user' => $request->user(),
+                 'notifications' => $request->user()
+                ? $request->user()->unreadNotifications // or ->notifications
+                : [],
             ],
             'ziggy' => [
                 ...(new Ziggy)->toArray(),

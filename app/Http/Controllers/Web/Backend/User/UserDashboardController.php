@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Web\Backend\User;
 
+use App\Models\User;
 use Inertia\Inertia;
+use App\Models\Sender;
 use App\Models\SmsFile;
 use App\Imports\SmsImport;
+use App\Services\SmsService;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -14,7 +17,8 @@ class UserDashboardController extends Controller
 {
     public function kyc()
     {
-        return Inertia::render('user_dashboard/Kyc');
+        $user = Auth::user();
+        return Inertia::render('user_dashboard/Kyc', compact('user'));
     }
 
     public function kycStore(Request $request)
@@ -36,19 +40,60 @@ class UserDashboardController extends Controller
             $filePath = $file->storeAs('uploads/kyc', $filename, 'public');
         }
 
+        $otp = random_int(100000, 999999);
+
         $user = Auth::user();
         $user->company_name = $request->company_name;
         $user->company_number = $request->company_number;
         $user->company_type = $request->company_type;
         $user->address = $request->address;
         $user->mobile = $request->mobile;
+        $user->mobile_otp = $otp;
+        $user->mobile_is_verified = false;
         $user->file_type = $request->file_type;
         $user->file = '/storage/' . $filePath;
         $user->save();
 
-        return redirect()->route('kyc')->with('message', 'KYC Submitted successfully.');
+        $sms = new SmsService();
+        $sms->sendSms($user->mobile, 'Your KYC OTP is ' . $otp);
+
+        session(['email' => $user->email]);
+
+        return redirect()->route('mobile.otp')->with('message', 'KYC Mobile OTP has been sent.');
     }
-    
+
+    public function mobileOtp()
+    {
+        $email = session('email');
+        return Inertia::render('user_dashboard/MobileOtp', compact('email'));
+    }
+
+    public function mobileOtpStore(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'mobile_otp' => 'required',
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user) {
+            return to_route('login')->withErrors(['email' => 'User not found.']);
+        }
+
+        if ($user->mobile_otp === $request->mobile_otp) {
+            $user->mobile_is_verified = true;
+            $user->mobile_otp = null;
+            $user->save();
+
+            Auth::login($user);
+
+            return to_route('kyc')->with('message', 'OTP verified successfully.');
+        }
+
+        return redirect()->back()->withErrors(['otp' => 'Invalid OTP or Email does not match.']);
+    }
+
     public function dashboard()
     {
         return Inertia::render('Dashboard');
@@ -69,7 +114,8 @@ class UserDashboardController extends Controller
 
     public function sendSms()
     {
-        return Inertia::render('user_dashboard/SendSms');
+        $senderId = Sender::where('user_id', Auth::user()->id)->get();
+        return Inertia::render('user_dashboard/SendSms', compact('senderId'));
     }
     public function sendSmsFile()
     {
@@ -105,15 +151,14 @@ class UserDashboardController extends Controller
     {
         $request->validate([
             'sender_id' => 'required|string',
-            'name' => 'nullable|string',
-            'gender' => 'nullable|string',
             'age' => 'nullable|string',
             'message' => 'required|string',
-            'number' => [
+            'number' => 'required',
+            'number.*' => [
                 'required',
-                'regex:/^01[3-9][0-9]{8}$/', // Valid BD format
+                'regex:/^01[3-9][0-9]{8}$/',
                 function ($attribute, $value, $fail) {
-                    $allowedPrefixes = ['013', '017', '014', '018']; // Example: GP + Robi
+                    $allowedPrefixes = ['013', '017', '014', '018'];
                     $prefix = substr($value, 0, 3);
                     if (!in_array($prefix, $allowedPrefixes)) {
                         $fail("The $attribute must be from an allowed mobile operator.");
@@ -121,11 +166,11 @@ class UserDashboardController extends Controller
                 }
             ],
         ]);
+
+
         SmsFile::create([
             'sender_id' => $request->sender_id,
-            'name' => $request->name,
             'number' => $request->number,
-            'gender' => $request->gender,
             'age' => $request->age,
             'message' => $request->message
         ]);
@@ -136,18 +181,67 @@ class UserDashboardController extends Controller
 
     public function senderId()
     {
-        return Inertia::render('user_dashboard/SendId');
+        $user = Auth::user();
+        $senders = Sender::where('user_id', $user->id)->get();
+        return Inertia::render('user_dashboard/SendId/Index', compact('senders'));
     }
+
+    public function storeSenderId(Request $request)
+    {
+        $request->validate([
+            'sender_id' => 'required|string',
+            'type' => 'required|string',
+        ]);
+
+        Sender::create([
+            'user_id' => Auth::user()->id,
+            'sender_id' => $request->sender_id,
+            'type' => $request->type
+        ]);
+
+        return redirect()->route('sender_id')->with('message', 'Sender Id Created Successfully!');
+    }
+
+    // public function editSenderId($id)
+    // {
+    //     $sender = Sender::find($id);
+    //     return Inertia::render('user_dashboard/SendId/Edit', compact('sender'));
+    // }
+
+    // public function updateSenderId(Request $request, $id)
+    // {
+    //     $sender = Sender::find($id);
+
+    //     $sender->update([
+    //         'sender_id' => $request->sender_id,
+    //         'type' => $request->type
+    //     ]);
+
+    //     return redirect()->route('sender_id')->with('message', 'Sender Id Updated Successfully!');
+    // }
+
+    // public function destroySenderId($id)
+    // {
+    //     $sender = Sender::find($id);
+    //     $sender->delete();
+    //     return redirect()->route('sender_id')->with('message', 'Sender Id Deleted Successfully!');
+    // }
+
+    public function createSenderId()
+    {
+        return Inertia::render('user_dashboard/SendId/Create');
+    }
+
     public function smsLogs()
     {
         $smsLogs = SmsFile::all();
-        return Inertia::render('user_dashboard/SmsLogs',compact('smsLogs'));
+        return Inertia::render('user_dashboard/SmsLogs', compact('smsLogs'));
     }
 
     public function blockUser()
     {
         $blockUser = SmsFile::where('block', 1)->get();
-        return Inertia::render('user_dashboard/BlockUser',compact('blockUser'));
+        return Inertia::render('user_dashboard/BlockUser', compact('blockUser'));
     }
 
     public function blockUserCreate()

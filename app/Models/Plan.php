@@ -13,7 +13,6 @@ class Plan extends Model
     protected $fillable = [
         'plan_name',
         'amount',
-        'sms_limit',
         'plan_feature',
     ];
     protected $casts = [

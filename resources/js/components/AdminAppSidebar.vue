@@ -3,7 +3,7 @@ import NavMain from '@/components/NavMain.vue';
 import { Sidebar, SidebarContent, } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/vue3';
-import { Contact2Icon, FilePenLine, FlagTriangleRight, InfoIcon, LayoutGrid, ListTodo, MessageCircleQuestion, SendIcon, Users2 } from 'lucide-vue-next';
+import { Contact2Icon, FilePenLine, FlagTriangleRight, InfoIcon, LayoutGrid, ListTodo, MessageCircleQuestion, PhoneCallIcon, SendIcon, Users2 } from 'lucide-vue-next';
 
 
 const mainNavItems: NavItem[] = [
@@ -21,6 +21,11 @@ const mainNavItems: NavItem[] = [
         title: 'Pending KYC',
         href: '/admin/pending/kyc',
         icon: ListTodo,
+    },
+    {
+        title: 'Sender Id',
+        href: '/admin/sender',
+        icon: PhoneCallIcon,
     },
     {
         title: 'Banner',

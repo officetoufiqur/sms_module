@@ -89,7 +89,7 @@ const mainNavItems: NavItem[] = [
     
     {
         title: 'Sender Id',
-        href: '/sender_id',
+        href: '/sender-id',
         icon: Phone,
     },
 ];

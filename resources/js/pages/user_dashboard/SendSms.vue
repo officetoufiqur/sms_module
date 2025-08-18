@@ -18,13 +18,15 @@ const props = defineProps<{
     flash: {
         message?: string;
     };
+    senderId: {
+        id: number;
+        sender_id: string;
+    }[];
 }>();
 
 const form = useForm({
     sender_id: '',
     message: '',
-    gender: '',
-    name: '',
     number: '',
 });
 
@@ -55,34 +57,23 @@ const submit = () => {
                             <Label for="sender_id">Sender Id</Label>
                             <select name="sender_id" v-model="form.sender_id" id="sender_id"
                                 class="bg-white mt-2 border cursor-pointer w-full border-gray-200 text-gray-900 text-sm rounded-lg block p-3">
-                                <option value="">Select an group</option>
-                                <option value="1234567890">1234567890</option>
+                                <option value="">Select a group</option>
+                                <option v-for="item in senderId" :key="item.id" :value="item.sender_id">
+                                    {{ item.sender_id }}
+                                </option>
                             </select>
+
                             <div class="text-red-500 text-sm" v-if="form.errors.sender_id">{{ form.errors.sender_id }}
                             </div>
                         </div>
                         <div>
-                            <Label for="name">Name</Label>
-                            <input type="text" name="name" v-model="form.name" id="name" class="bg-white mt-2 border w-full border-gray-200 text-gray-900 text-sm rounded-lg block p-3">
-                            <div class="text-red-500 text-sm" v-if="form.errors.name">{{ form.errors.name }}
-                            </div>
-                        </div>
-                        <div>
                             <Label for="number">Mobile Number <span><span class="text-red-600">*</span></span></Label>
-                             <input type="text" name="number" v-model="form.number" id="number" class="bg-white mt-2 border w-full border-gray-200 text-gray-900 text-sm rounded-lg block p-3">
+                            <textarea name="number" v-model="form.number" id="number"
+                                class="bg-white mt-2 border w-full border-gray-200 text-gray-900 text-sm rounded-lg block px-3 pt-2 h-20"
+                                placeholder="Enter mobile number"></textarea>
                             <div class="text-red-500 text-sm" v-if="form.errors.number">{{ form.errors.number }}
                             </div>
-                        </div>
-                        <div>
-                            <Label for="gender">Gender</Label>
-                            <select name="gender" v-model="form.gender" id="gender"
-                                class="bg-white mt-2 border cursor-pointer w-full border-gray-200 text-gray-900 text-sm rounded-lg block p-3">
-                                <option value="">Select an Gender</option>
-                                <option value="male">Male</option>
-                                <option value="female">Female</option>
-                                <option value="other">Other</option>
-                            </select>
-                            <div class="text-red-500 text-sm" v-if="form.errors.gender">{{ form.errors.gender }}</div>
+                            <p class="text-gray-400 mt-2">Use comma (,) to separate multiple numbers</p>
                         </div>
                         <div>
                             <Label for="message" class="mb-2">Body</Label>

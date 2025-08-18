@@ -2,8 +2,8 @@
 import AppContent from '@/components/AppContent.vue';
 import AppShell from '@/components/AppShell.vue';
 import AdminAppSidebar from '@/components/AdminAppSidebar.vue';
-import AppSidebarHeader from '@/components/AppSidebarHeader.vue';
 import type { BreadcrumbItemType } from '@/types';
+import AdminAppSidebarHeaderCopy from '@/components/AdminAppSidebarHeader copy.vue';
 
 interface Props {
     breadcrumbs?: BreadcrumbItemType[];
@@ -18,7 +18,7 @@ withDefaults(defineProps<Props>(), {
     <AppShell variant="sidebar">
         <AdminAppSidebar />
         <AppContent variant="sidebar">
-            <AppSidebarHeader :breadcrumbs="breadcrumbs" />
+            <AdminAppSidebarHeaderCopy :breadcrumbs="breadcrumbs" />
             <slot />
         </AppContent>
     </AppShell>

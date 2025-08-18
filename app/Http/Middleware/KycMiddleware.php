@@ -21,7 +21,7 @@ class KycMiddleware
         }
 
         if (Auth::user()->kyc_verified != 1) {
-            return redirect('/kyc')->with('message', 'Please verify your KYC first.'); // unverified users go to KYC page
+            return redirect('/kyc')->with('message', 'Your KYC Under Review'); // unverified users go to KYC page
         }
 
         return $next($request);

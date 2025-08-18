@@ -22,7 +22,6 @@ const props = defineProps<{
         id: number;
         plan_name: string;
         amount: string;
-        sms_limit: string;
     }[];
     flash: {
         message?: string;
@@ -33,7 +32,6 @@ const columns = [
     { key: 'id', label: 'ID' },
     { key: 'plan_name', label: 'Plan Name' },
     { key: 'amount', label: 'Amount' },
-    { key: 'sms_limit', label: 'SMS Limit' },
     { key: 'action', label: 'Action' },
 ];
 
