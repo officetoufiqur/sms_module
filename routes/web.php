@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Web\Backend\PaymentController;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Web\Frontend\HomeController;
@@ -16,6 +17,7 @@ Route::group(['middleware' => ['auth', 'verified', 'kyc']], function () {
     Route::get('/recharge', [UserDashboardController::class, 'recharge'])->name('recharge');
     Route::get('/transections', [UserDashboardController::class, 'transections'])->name('transections');
     Route::get('/rate-plan', [UserDashboardController::class, 'ratePlan'])->name('rate-plan');
+    Route::post('/buy-now/{id}', [PaymentController::class, 'buyNow'])->name('buy.now');
 
     // Group related routes
     Route::get('/group', [GroupController::class, 'group'])->name('group');

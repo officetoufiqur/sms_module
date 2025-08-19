@@ -6,6 +6,7 @@ import { type BreadcrumbItem } from '@/types';
 import { Label } from '@/components/ui/label';
 import TextArea from '@/components/my-components/textarea/TextArea.vue';
 import FlashMessage from '@/components/my-components/FlashMessage.vue';
+import FlashErrorMessage from '@/components/my-components/FlashErrorMessage.vue';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -17,11 +18,13 @@ const breadcrumbs: BreadcrumbItem[] = [
 const props = defineProps<{
     flash: {
         message?: string;
+        error?: string;
     };
     senderId: {
         id: number;
         sender_id: string;
     }[];
+    balence: number;
 }>();
 
 const form = useForm({
@@ -47,6 +50,8 @@ const submit = () => {
         <Head title="Send Sms" />
 
         <FlashMessage :message="props.flash.message" />
+        <FlashErrorMessage :error="props.flash.error" />
+
         <div class="mt-[5rem] lg:mx-[5rem] mx-[3rem]">
             <h1 class="text-2xl font-semibold text-gray-700">Send Sms</h1>
 
@@ -89,7 +94,7 @@ const submit = () => {
                 <div class="lg:w-1/3 space-y-5">
                     <h1
                         class="bg-gray-50 p-10 rounded-lg border border-gray-200 text-center text-xl font-semibold text-gray-700">
-                        Blance: $200</h1>
+                        Blance: <strong class="text-[#0f79bc] pl-2">{{ props.balence }}</strong></h1>
 
                     <div class="bg-gray-50 rounded-lg border border-gray-200">
                         <h1

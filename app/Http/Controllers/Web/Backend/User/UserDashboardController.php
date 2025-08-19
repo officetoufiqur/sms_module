@@ -2,13 +2,19 @@
 
 namespace App\Http\Controllers\Web\Backend\User;
 
+use App\Models\Plan;
 use App\Models\User;
 use Inertia\Inertia;
 use App\Models\Sender;
+use App\Models\Payment;
 use App\Models\SmsFile;
+use App\Services\SendSms;
 use App\Imports\SmsImport;
+use App\Rules\ValidNumbers;
 use App\Services\SmsService;
 use Illuminate\Http\Request;
+use App\Helpers\CharacterCount;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
@@ -96,30 +102,56 @@ class UserDashboardController extends Controller
 
     public function dashboard()
     {
-        return Inertia::render('Dashboard');
+        $amount = Payment::where('user_id', Auth::user()->id)->sum('amount');
+        $payment = [
+            'amount' => $amount,
+        ];
+        return Inertia::render('Dashboard', compact('payment'));
     }
 
     public function recharge()
     {
-        return Inertia::render('user_dashboard/Recharge');
+        $plans = Plan::all();
+
+        $plans->each(function ($plan) {
+            $plan->plan_feature = json_decode($plan->plan_feature, true);
+        });
+
+        return Inertia::render('user_dashboard/Recharge', compact('plans'));
     }
+
     public function transections()
     {
-        return Inertia::render('user_dashboard/Transections');
+        $transection = Payment::with('plan')
+            ->where('user_id', Auth::user()->id)
+            ->get()
+            ->map(fn($item) => [
+                'id' => $item->id,
+                'plan_name' => $item->plan->plan_name,
+                'amount' => $item->amount,
+            ]);
+
+        return Inertia::render('user_dashboard/Transections', compact('transection'));
     }
+
     public function ratePlan()
     {
-        return Inertia::render('user_dashboard/RatePlan');
+        $ratePlan = User::where('id', Auth::user()->id)->select('musking', 'non_musking')->first();
+
+        return Inertia::render('user_dashboard/RatePlan', compact('ratePlan'));
     }
 
     public function sendSms()
     {
         $senderId = Sender::where('user_id', Auth::user()->id)->get();
-        return Inertia::render('user_dashboard/SendSms', compact('senderId'));
+        $balence = Auth::user()->amount;
+
+        return Inertia::render('user_dashboard/SendSms', compact('senderId', 'balence'));
     }
     public function sendSmsFile()
     {
-        return Inertia::render('user_dashboard/SendSmsFile');
+        $senderId = Sender::where('user_id', Auth::user()->id)->get();
+        return Inertia::render('user_dashboard/SendSmsFile', compact('senderId'));
     }
 
     public function import(Request $request)
@@ -140,43 +172,86 @@ class UserDashboardController extends Controller
         }
 
         Excel::import(
-            new SmsImport($request->message, $request->sender_id, $request->gender, $request->age),
+            new SmsImport($request->message, $request->sender_id, $request->age),
             storage_path('app/public/' . $filePath)
         );
 
         return back()->with('message', 'Data imported and saved to database.');
     }
 
+
+
     public function sendSmsStore(Request $request)
     {
         $request->validate([
-            'sender_id' => 'required|string',
-            'age' => 'nullable|string',
-            'message' => 'required|string',
-            'number' => 'required',
-            'number.*' => [
-                'required',
-                'regex:/^01[3-9][0-9]{8}$/',
-                function ($attribute, $value, $fail) {
-                    $allowedPrefixes = ['013', '017', '014', '018'];
-                    $prefix = substr($value, 0, 3);
-                    if (!in_array($prefix, $allowedPrefixes)) {
-                        $fail("The $attribute must be from an allowed mobile operator.");
-                    }
+            'sender_id' => 'required|string|exists:senders,sender_id',
+            'message'   => 'required|string',
+            'number'    => ['required', 'string', new ValidNumbers],
+        ]);
+
+        try {
+            $sender = Sender::where('sender_id', $request->sender_id)
+                ->with('user:id,musking,non_musking')
+                ->firstOrFail();
+
+            $rate = $sender->type === 'musking'
+                ? $sender->user->musking
+                : $sender->user->non_musking;
+
+            $cc = new CharacterCount();
+            $segments = $cc->getNumberOfSMSsegments($request->message);
+            $numbers = array_map('trim', explode(',', $request->number));
+
+            $count = count($numbers);
+            $totalCost = $rate * $count * $segments;
+
+            $user = Auth::user();
+
+            if ($totalCost > $user->amount) {
+                return back()->with('error', 'Insufficient amount');
+            }
+
+            if ($count <= 5) {
+                $sms = new SendSms();
+                $sms->messageSend($request->number, $request->message);
+
+                $user->decrement('amount', $totalCost);
+
+                foreach ($numbers as $num) {
+                    SmsFile::create([
+                        'sender_id' => $request->sender_id,
+                        'number'    => $num,
+                        'message'   => $request->message,
+                        'count'     => $segments,
+                        'cost'      => $rate * $segments,
+                        'status'    => 'delivered',
+                    ]);
                 }
-            ],
-        ]);
+            } else {
+                foreach ($numbers as $num) {
+                    SmsFile::create([
+                        'sender_id' => $request->sender_id,
+                        'number'    => $num,
+                        'message'   => $request->message,
+                        'count'     => $segments,
+                        'cost'      => $rate * $segments,
+                        'status'    => 'pending', 
+                    ]);
+                }
+
+                $user->decrement('amount', $totalCost);
+            }
 
 
-        SmsFile::create([
-            'sender_id' => $request->sender_id,
-            'number' => $request->number,
-            'age' => $request->age,
-            'message' => $request->message
-        ]);
-
-        return back()->with('message', 'Sms Sent Successfully!');
+            DB::commit();
+            return back()->with('message', 'Sms Sent Successfully!');
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            return back()->with('error', 'Something went wrong, please try again.');
+        }
     }
+
+
 
 
     public function senderId()

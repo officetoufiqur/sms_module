@@ -6,22 +6,23 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Plan extends Model
+class Payment extends Model
 {
     use HasFactory, Notifiable;
 
     protected $fillable = [
-        'plan_name',
+        'user_id',
+        'plan_id',
         'amount',
-        'plan_feature',
     ];
 
-    protected $casts = [
-        'plan_feature' => 'array',
-    ];
-
-    public function payments()
+    public function plan()
     {
-        return $this->hasMany(Payment::class);
+        return $this->belongsTo(Plan::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

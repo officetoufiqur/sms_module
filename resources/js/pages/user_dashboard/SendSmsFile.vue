@@ -13,14 +13,16 @@ const props = defineProps<{
     flash: {
         message?: string;
     };
+    senderId: {
+        id: number;
+        sender_id: string;
+    }[];
 }>();
 
 const form = useForm({
     sender_id: '',
     file: '',
     message: '',
-    gender: '',
-    age:'',
 });
 
 const submit = () => {
@@ -48,24 +50,26 @@ const submit = () => {
                             <Label for="sender_id">Sender Id</Label>
                             <select name="sender_id" v-model="form.sender_id" id="sender_id"
                                 class="bg-white mt-2 border cursor-pointer w-full border-gray-200 text-gray-900 text-sm rounded-lg block p-3">
-                                <option value="">Select an group</option>
-                                <option value="1234567890">1234567890</option>
+                                <option value="">Select a group</option>
+                                <option v-for="item in senderId" :key="item.id" :value="item.sender_id">
+                                    {{ item.sender_id }}
+                                </option>
                             </select>
                             <div class="text-red-500 text-sm" v-if="form.errors.sender_id">{{ form.errors.sender_id }}
                             </div>
                         </div>
-                        <div>
+                        <!-- <div>
                             <Label for="age">age</Label>
                             <Input id="age" type="text" name="age" class="block mt-2 w-full cursor-pointer" />
                             <div class="text-red-500 text-sm" v-if="form.errors.age">{{ form.errors.age }}</div>
-                        </div>
+                        </div> -->
                         <div>
                             <Label for="file">File</Label>
                             <Input id="file" type="file" name="file" @input="form.file = $event.target.files[0]"
                                 class="block mt-2 w-full cursor-pointer" />
                             <div class="text-red-500 text-sm" v-if="form.errors.file">{{ form.errors.file }}</div>
                         </div>
-                        <div>
+                        <!-- <div>
                             <Label for="gender">Gender</Label>
                             <select name="gender" v-model="form.gender" id="gender"
                                 class="bg-white mt-2 border cursor-pointer w-full border-gray-200 text-gray-900 text-sm rounded-lg block p-3">
@@ -75,7 +79,7 @@ const submit = () => {
                                 <option value="other">Other</option>
                             </select>
                             <div class="text-red-500 text-sm" v-if="form.errors.gender">{{ form.errors.gender }}</div>
-                        </div>
+                        </div> -->
                         <div>
                             <Label for="message" class="mb-2">Body</Label>
                             <TextArea v-model="form.message" placeholder="Write your SMS body..." />

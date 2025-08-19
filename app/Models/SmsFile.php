@@ -16,10 +16,7 @@ class SmsFile extends Model
         'sender_id',
         'status',
         'block',
-        'age'
-    ];
-
-    protected $casts = [
-        'number' => 'array',
+        'count',
+        'cost',
     ];
 }

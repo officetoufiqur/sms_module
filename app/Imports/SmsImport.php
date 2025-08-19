@@ -10,14 +10,12 @@ class SmsImport implements ToCollection
 {
     protected $message;
     protected $senderId;
-    protected $gender;
     protected $age;
 
-    public function __construct($message, $senderId, $gender, $age)
+    public function __construct($message, $senderId, $age)
     {
         $this->message = $message;
         $this->senderId = $senderId;
-        $this->gender = $gender;
         $this->age = $age;
     }
 
@@ -27,18 +25,15 @@ class SmsImport implements ToCollection
             // Skip header row
             if ($index === 0 && is_string($row[0])) continue;
 
-            $name = trim($row[0] ?? '');
             $number = trim($row[1] ?? '');
 
             // Skip empty number
             if (empty($number)) continue;
 
             SmsFile::create([
-                'name' => $name,
                 'number' => $number,
                 'message' => $this->message,
                 'sender_id' => $this->senderId,
-                'gender' => $this->gender,
                 'age' => $this->age
             ]);
 

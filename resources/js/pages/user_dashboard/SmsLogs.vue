@@ -28,7 +28,6 @@ const props = defineProps<{
 
 const columns = [
     { key: 'id', label: '#' },
-    { key: 'name', label: 'Name' },
     { key: 'number', label: 'Number' },
     { key: 'sender_id', label: 'Sender ID' },
     { key: 'message', label: 'Message' },
