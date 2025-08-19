@@ -68,8 +68,7 @@ const submit = () => {
                                 </option>
                             </select>
 
-                            <div class="text-red-500 text-sm" v-if="form.errors.sender_id">{{ form.errors.sender_id }}
-                            </div>
+                            <div class="text-red-500 text-sm" v-if="form.errors.sender_id">{{ form.errors.sender_id }}</div>
                         </div>
                         <div>
                             <Label for="number">Mobile Number <span><span class="text-red-600">*</span></span></Label>

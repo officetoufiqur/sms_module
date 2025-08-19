@@ -1,9 +1,10 @@
 <?php
 
-use App\Http\Controllers\Web\Backend\PaymentController;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Web\Frontend\HomeController;
+use App\Http\Controllers\Web\Backend\PaymentController;
+use App\Http\Controllers\Web\Backend\QueueJobController;
 use App\Http\Controllers\Web\Frontend\DocumentController;
 use App\Http\Controllers\Web\Backend\User\GroupController;
 use App\Http\Controllers\Web\Frontend\Admin\CustomerController;
@@ -69,6 +70,9 @@ Route::group(['middleware' => ['auth', 'verified', 'web']], function () {
     Route::get('/kyc/mobile/otp', [UserDashboardController::class, 'mobileOtp'])->name('mobile.otp');
     Route::post('/kyc/mobile/otp/store', [UserDashboardController::class, 'mobileOtpStore'])->name('mobile.otp.store');
 });
+
+Route::get('/run-queue-job', [QueueJobController::class, 'runQueueJob'])->name('run.queue.job');
+
 
 require __DIR__ . '/settings.php';
 require __DIR__ . '/auth.php';

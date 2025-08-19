@@ -11,6 +11,7 @@ use App\Models\SmsFile;
 use App\Services\SendSms;
 use App\Imports\SmsImport;
 use App\Rules\ValidNumbers;
+use App\Jobs\SendMessageJob;
 use App\Services\SmsService;
 use Illuminate\Http\Request;
 use App\Helpers\CharacterCount;
@@ -239,6 +240,8 @@ class UserDashboardController extends Controller
                     ]);
                 }
 
+                SendMessageJob::dispatch($num, $request->message, $request->sender_id, $segments, $rate * $segments);
+                
                 $user->decrement('amount', $totalCost);
             }
 
