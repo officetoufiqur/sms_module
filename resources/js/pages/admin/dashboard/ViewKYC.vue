@@ -103,7 +103,7 @@ const submit = () => {
                                 <label for="musking">Musking Rate</label>
                                 <input
                                     id="musking"
-                                    type="number"
+                                    type="text"
                                     v-model="form.musking"
                                     name="musking"
                                     class="border w-full border-gray-300 px-5 py-2.5 mt-2 rounded-lg"
@@ -113,7 +113,7 @@ const submit = () => {
                                 <label for="non_musking">Non Musking Rate</label>
                                 <input
                                     id="non_musking"
-                                    type="number"
+                                    type="text"
                                     v-model="form.non_musking"
                                     name="non_musking"
                                     class="border w-full border-gray-300 px-5 mt-2 py-2.5 rounded-lg"

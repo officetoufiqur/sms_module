@@ -9,6 +9,16 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
+
+    //  $table->string('transaction_id')->unique();
+    //     $table->string('payer_name')->nullable();
+    //     $table->string('payer_email')->nullable();
+    //     $table->string('currency')->default('USD');
+    //     $table->decimal('amount', 10, 2);
+    //     $table->string('status');
+
+    
+
     public function up(): void
     {
         Schema::create('payments', function (Blueprint $table) {

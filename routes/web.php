@@ -20,6 +20,11 @@ Route::group(['middleware' => ['auth', 'verified', 'kyc']], function () {
     Route::get('/rate-plan', [UserDashboardController::class, 'ratePlan'])->name('rate-plan');
     Route::post('/buy-now/{id}', [PaymentController::class, 'buyNow'])->name('buy.now');
 
+    // paypal payment
+    Route::get('paypal/payment', [PaymentController::class, 'payment'])->name('paypal.payment');
+    Route::get('paypal/payment/success', [PaymentController::class, 'paymentSuccess'])->name('paypal.payment.success');
+    Route::get('paypal/payment/cancel', [PaymentController::class, 'paymentCancel'])->name('paypal.payment.cancel');
+
     // Group related routes
     Route::get('/group', [GroupController::class, 'group'])->name('group');
     Route::post('/group/store', [GroupController::class, 'groupStore'])->name('group.store');
@@ -40,7 +45,7 @@ Route::group(['middleware' => ['auth', 'verified', 'kyc']], function () {
     Route::get('/sender-id', [UserDashboardController::class, 'senderId'])->name('sender_id');
     Route::get('/create/sender-id', [UserDashboardController::class, 'createSenderId'])->name('create.sender.id');
     Route::post('/store/sender-id', [UserDashboardController::class, 'storeSenderId'])->name('store.sender.id');
-     Route::get('/mark-as-read', [CustomerController::class, 'markAsRead'])->name('mark.as.read');
+    Route::get('/mark-as-read', [CustomerController::class, 'markAsRead'])->name('mark.as.read');
     // Route::get('/sender-id/edit/{id}', [UserDashboardController::class, 'editSenderId'])->name('edit.sender.id');
     // Route::post('/sender-id/update/{id}', [UserDashboardController::class, 'updateSenderId'])->name('update.sender.id');
     // Route::delete('/sender-id/destroy/{id}', [UserDashboardController::class, 'destroySenderId'])->name('destroy.sender.id');
@@ -60,7 +65,6 @@ Route::group(['middleware' => ['auth', 'verified', 'kyc']], function () {
     Route::get('/utilities', [DocumentController::class, 'utilities'])->name('utilities');
     Route::get('/doc/general', [DocumentController::class, 'docGeneral'])->name('doc.general');
     Route::get('//doc/contacts/interface', [DocumentController::class, 'contactsInterface'])->name('contacts.interface');
-
 });
 
 Route::group(['middleware' => ['auth', 'verified', 'web']], function () {

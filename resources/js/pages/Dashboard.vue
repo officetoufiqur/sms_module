@@ -35,7 +35,7 @@ const props = defineProps<{
         <FlashMessage :message="props.flash.message" />
         <div class="flex gap-8 h-screen flex-1 flex-col rounded-xl p-10">
             <div class="grid auto-rows-min gap-8 md:grid-cols-3">
-                <Card :title="'Recharge Now'" :value="props.payment.amount">
+                <Card :title="'Total Amount'" :value="props.payment.amount">
                     <template #icon>
                         <BadgeDollarSign />
                     </template>

@@ -76,7 +76,12 @@ const submit = () => {
             </div>
 
             <div v-else>
-                <form  @submit.prevent="submit" class="flex flex-col gap-6">
+                <div v-if="props.user.mobile_otp" class="flex items-center gap-1">
+                    <p>Alrady have a KYC? Please Verify your mobile number</p>
+                    <Link href="/kyc/mobile/otp" class=" text-[#0f79bc] underline fonr-medium">Verify Mobile Number
+                    </Link>
+                </div>
+                <form v-else @submit.prevent="submit" class="flex flex-col gap-6">
                     <div class="grid grid-cols-2 gap-6">
                         <div class="grid gap-2">
                             <Label for="company_name" class="text-md">Company Name</Label>
@@ -147,11 +152,6 @@ const submit = () => {
                     </Button>
 
                 </form>
-                <div  class="flex items-center gap-1">
-                    <p>Alrady have a KYC? Please Verify your mobile number</p>
-                    <Link href="/kyc/mobile/otp" class=" text-[#0f79bc] underline fonr-medium">Verify Mobile Number
-                    </Link>
-                </div>
             </div>
         </div>
 

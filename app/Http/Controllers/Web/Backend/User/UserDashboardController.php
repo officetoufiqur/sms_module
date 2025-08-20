@@ -25,6 +25,11 @@ class UserDashboardController extends Controller
     public function kyc()
     {
         $user = Auth::user();
+
+        if ($user->kyc_verified == 1) {
+            return redirect()->route('dashboard');
+        }
+
         return Inertia::render('user_dashboard/Kyc', compact('user'));
     }
 

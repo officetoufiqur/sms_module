@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Notifications\ApprovedNotification;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class CustomerController extends Controller
 {
@@ -31,6 +32,9 @@ class CustomerController extends Controller
         if (!$user) {
             return redirect()->route('pending.kyc')->with('error', 'User not found.');
         }
+
+        $randomNumber = mt_rand(100000, 999999);
+        $user->user_key= hash('sha256', $user->email . $randomNumber);
 
         $user->kyc_verified = 1;
         $user->musking = $request->input('musking');
