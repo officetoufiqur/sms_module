@@ -5,11 +5,12 @@ namespace App\Http\Controllers\Web\Frontend\Admin;
 use App\Models\User;
 use Inertia\Inertia;
 use App\Models\Sender;
+use App\Models\Payment;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Notifications\ApprovedNotification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Notifications\ApprovedNotification;
 
 class CustomerController extends Controller
 {
@@ -97,7 +98,17 @@ class CustomerController extends Controller
     public function about($id)
     {
         $user = User::find($id);
-        return Inertia::render('admin/dashboard/customer/About', compact('user'));
+
+        $transection = Payment::with('plan')
+            ->where('user_id', $id)
+            ->get()
+            ->map(fn($item) => [
+                'id' => $item->id,
+                'plan_name' => $item->plan->plan_name,
+                'amount' => $item->amount,
+            ]);
+            
+        return Inertia::render('admin/dashboard/customer/About', compact('user', 'transection'));
     }
 
     public function updateRate(Request $request, $id)

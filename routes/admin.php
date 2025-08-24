@@ -1,19 +1,18 @@
 <?php
 
+use Inertia\Inertia;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Web\Backend\Admin\AdminAuthController;
+use App\Http\Controllers\Web\Backend\Admin\DashboardController;
 use App\Http\Controllers\Web\Frontend\Admin\CustomerController;
 use App\Http\Controllers\Web\Frontend\Admin\LandingPageController;
-use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 
 Route::get('admin/login', [AdminAuthController::class, 'login'])->name('adminlogin');
 Route::post('admin/login', [AdminAuthController::class, 'adminLogin'])->name('admin.login');
 
 Route::group(['middleware' => ['auth', 'admin']], function () {
-   Route::get('admin/dashboard', function () {
-      return Inertia::render('admin/dashboard/AdminDashboard');
-   })->name('admin.dashboard');
+   Route::get('admin/dashboard', [DashboardController::class, 'dashboard'])->name('admin.dashboard');
 
    Route::get('/admin/pending/kyc', [CustomerController::class, 'pendingKYC'])->name('pending.kyc');
    Route::get('/view/kyc/{id}', [CustomerController::class, 'viewKYC'])->name('view.kyc');

@@ -37,6 +37,11 @@ const props = defineProps<{
         musking: string;
         non_musking: string;
     };
+    transection:{
+        id: number;
+        plan_name: string;
+        amount: string;
+    }[];
 }>();
 
 interface Rate {
@@ -63,22 +68,11 @@ const dataRate = ref<Rate[]>([
 
 
 
-const columnsTr = [
+const columnsTr =  [
     { key: 'id', label: 'ID' },
-    { key: 'date', label: 'Date' },
+    { key: 'plan_name', label: 'Plan Name' },
     { key: 'amount', label: 'Amount' },
-    { key: 'status', label: 'Status' },
-    { key: 'action', label: 'Action' },
 ];
-
-const dataTr = [
-    {
-        id: 1,
-        date: "2023-10-01",
-        amount: 100,
-        status: "Completed",
-    }
-]
 
 function viewCustomer(id: number) {
     router.visit(`/admin/manage/customer/${id}`);
@@ -239,7 +233,7 @@ const submit = () => {
                     <div v-if="currentStep === 'transition'">
                         <!-- Rate Plans Table -->
                         <div>
-                            <FilterTable :plans="dataTr" :columns="columnsTr" :title="'Customer Transaction'">
+                            <FilterTable :plans="props.transection" :columns="columnsTr" :title="'Customer Transaction'">
                                 <template #action="{ }">
                                     <div class="space-x-2.5">
                                         <button @click="viewCustomer(1)"

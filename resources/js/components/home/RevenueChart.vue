@@ -18,7 +18,7 @@ const data = {
     labels: labels,
     datasets: [
         {
-            label: 'Monthly Total Sended Message',
+            label: 'Monthly Total Revenue',
             backgroundColor: '#0f79bc',
             borderColor: '#0f79bc',
             data: props.values,
@@ -34,15 +34,22 @@ const config = {
         maintainAspectRatio: false,
         scales: {
             y: {
-                min: 0,
-                max: 15,
+                beginAtZero: true,
+                max: 30000,
                 ticks: {
-                    stepSize: 5,
-                },
-            },
+                    callback: function (value: number | string) {
+                        if (typeof value === 'number') {
+                            return '$' + value / 1000 + 'k';
+                        }
+                        return value;
+                    },
+                    stepSize: 1000
+                }
+            }, 
         },
     },
 };
+
 
 onMounted(() => {
     if (chart.value) {

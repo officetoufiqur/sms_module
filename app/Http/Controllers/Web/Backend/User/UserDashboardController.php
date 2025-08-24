@@ -14,6 +14,7 @@ use App\Rules\ValidNumbers;
 use App\Jobs\SendMessageJob;
 use App\Services\SmsService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use App\Helpers\CharacterCount;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -108,11 +109,48 @@ class UserDashboardController extends Controller
 
     public function dashboard()
     {
-        $amount = Payment::where('user_id', Auth::user()->id)->sum('amount');
-        $payment = [
-            'amount' => $amount,
-        ];
-        return Inertia::render('Dashboard', compact('payment'));
+        $amount = User::where('id', Auth::user()->id)->sum('amount');
+
+        $sender = Sender::where('user_id', Auth::user()->id)->select('sender_id')->first();
+
+        $totalMessage = SmsFile::where('sender_id', $sender->sender_id)->count();
+
+        $pendingMesssage = SmsFile::where('sender_id', $sender->sender_id)->where('status', 'pending')->count();
+
+        $data = SmsFile::select(
+            DB::raw('MONTHNAME(created_at) as month'),
+            DB::raw('COUNT(*) as total')
+        )
+            ->groupBy('month')
+            ->orderBy(DB::raw('MONTH(created_at)'), 'asc')
+            ->get();
+
+        $weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+        $getDataByStatus = function ($status) use ($sender, $weekdays) {
+            $data = SmsFile::where('sender_id', $sender->sender_id)
+                ->where('status', $status)
+                ->select(
+                    DB::raw('DAYNAME(created_at) as day_name'),
+                    DB::raw('count(*) as total')
+                )
+                ->groupBy('day_name')
+                ->get()
+                ->keyBy('day_name');
+
+            return collect($weekdays)->map(fn($day) => $data[$day]->total ?? 0);
+        };
+
+        $successDataArray = $getDataByStatus('delivered');
+        $pendingDataArray = $getDataByStatus('pending');
+        $failedDataArray  = $getDataByStatus('failed');
+
+
+        $payment = ['amount' => $amount];
+        $totalMessage = ['message' => $totalMessage];
+        $pendingMessage = ['pendingMessage' => $pendingMesssage];
+
+        return Inertia::render('Dashboard', compact('payment', 'totalMessage', 'pendingMessage', 'data', 'successDataArray', 'pendingDataArray', 'failedDataArray'));
     }
 
     public function recharge()
@@ -157,7 +195,8 @@ class UserDashboardController extends Controller
     public function sendSmsFile()
     {
         $senderId = Sender::where('user_id', Auth::user()->id)->get();
-        return Inertia::render('user_dashboard/SendSmsFile', compact('senderId'));
+        $balence = Auth::user()->amount;
+        return Inertia::render('user_dashboard/SendSmsFile', compact('senderId', 'balence'));
     }
 
     public function import(Request $request)
@@ -241,12 +280,12 @@ class UserDashboardController extends Controller
                         'message'   => $request->message,
                         'count'     => $segments,
                         'cost'      => $rate * $segments,
-                        'status'    => 'pending', 
+                        'status'    => 'pending',
                     ]);
                 }
 
                 SendMessageJob::dispatch($num, $request->message, $request->sender_id, $segments, $rate * $segments);
-                
+
                 $user->decrement('amount', $totalCost);
             }
 

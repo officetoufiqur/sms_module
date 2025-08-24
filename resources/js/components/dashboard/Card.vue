@@ -8,7 +8,7 @@ const props = defineProps<{
 <template>
   <div class="relative rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
     <div class="flex h-[10rem] w-full items-center justify-center gap-5">
-      <div class="icon bg-blue-400 px-5 py-5 text-white rounded-md">
+      <div class="icon bg-blue-400 px-4 py-4 text-white rounded-md">
         <slot name="icon" />
       </div>
       <div>
