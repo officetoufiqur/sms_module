@@ -8,6 +8,16 @@ use App\Http\Controllers\Controller;
 
 class DocumentController extends Controller
 {
+    public function sendSmsDocument()
+    {
+        return Inertia::render('document/SmsDocument');
+    }
+
+    public function checkBalance()
+    {
+        return Inertia::render('document/CheckBalance');
+    }
+
     public function sendSmsUsingJson()
     {
         return Inertia::render('document/SmsJson');

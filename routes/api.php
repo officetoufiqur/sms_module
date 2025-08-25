@@ -9,3 +9,6 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::post('/send-sms', [ApiController::class, 'sendSmsStore'])->name('send.sms.store');
+Route::get('/send-sms', [ApiController::class, 'getSendSmsStore']);
+Route::get('/check-balance', [ApiController::class, 'checkBalance']);
+Route::post('/check-balance', [ApiController::class, 'getCheckBalance']);

@@ -60,11 +60,14 @@ Route::group(['middleware' => ['auth', 'verified', 'kyc']], function () {
     Route::delete('/block/user/update/{id}', [UserDashboardController::class, 'blockUserUpdate'])->name('block.user.update');
 
     // document
+    Route::get('/send/sms/document', [DocumentController::class, 'sendSmsDocument'])->name('send.sms.document');
+    Route::get('/check/balance', [DocumentController::class, 'checkBalance'])->name('check.balance');
+
     Route::get('/send/sms/using/json', [DocumentController::class, 'sendSmsUsingJson'])->name('send.sms.using.json');
     Route::get('/send/sms/using/xml', [DocumentController::class, 'sendSmsUsingXml'])->name('send.sms.using.xml');
     Route::get('/utilities', [DocumentController::class, 'utilities'])->name('utilities');
     Route::get('/doc/general', [DocumentController::class, 'docGeneral'])->name('doc.general');
-    Route::get('//doc/contacts/interface', [DocumentController::class, 'contactsInterface'])->name('contacts.interface');
+    Route::get('/doc/contacts/interface', [DocumentController::class, 'contactsInterface'])->name('contacts.interface');
 });
 
 Route::group(['middleware' => ['auth', 'verified', 'web']], function () {

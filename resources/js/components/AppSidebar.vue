@@ -17,6 +17,19 @@ const mainNavItems: NavItem[] = [
         icon: FolderClosedIcon,
         subMenu: [
             {
+                title: 'Developers',
+                subMenu: [
+                    {
+                        title: 'API Documentation',
+                        href: '/send/sms/document',
+                    },
+                    {
+                        title: 'Check Balance',
+                        href: '/check/balance',
+                    }
+                ]
+            },
+            {
                 title: 'Send SMS',
                 subMenu: [
                     {
@@ -86,7 +99,7 @@ const mainNavItems: NavItem[] = [
         href: '/group',
         icon: GroupIcon,
     },
-    
+
     {
         title: 'Sender Id',
         href: '/sender-id',
